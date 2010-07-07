@@ -1,0 +1,11 @@
+@charset "utf-8";
+/* CSS Document */
+
+body, html {
+	background-color: #ffffff;
+	margin:0px;
+	padding:0px;
+}
+.Hide {
+	display: none;
+}
