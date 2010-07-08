@@ -43,7 +43,7 @@ class MockSoap extends Soap {
         return null;
     }
     
-    public static $pubId = 1
+    public static $pubId = 1;
     
     private function mockPublication($id) {
         if($id == 0) {
