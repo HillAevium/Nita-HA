@@ -10,18 +10,18 @@ require_once APPPATH.'libraries/filter/filterset.php';
  */
 class Publication extends Model {
     
-    private $authors         = array();
-    private $description     = '';
-    private $edition         = '';
-    private $id              = 0;
-    private $image           = '';
-    private $name            = '';
-    private $pages           = 0;
-    private $price           = 0.0;
-    private $relatedProducts = array();
-    private $tableOfContents = array(); // maybe need something more elaborate for this?
-    private $type            = '';
-    private $year            = 0;
+    public $authors         = array();
+    public $description     = '';
+    public $edition         = '';
+    public $id              = 0;
+    public $image           = '';
+    public $name            = '';
+    public $pages           = 0;
+    public $price           = 0.0;
+    public $relatedProducts = array();
+    public $tableOfContents = array(); // maybe need something more elaborate for this?
+    public $type            = '';
+    public $year            = 0;
     
     public function Publication() {
         parent::Model();

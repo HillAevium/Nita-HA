@@ -11,14 +11,14 @@ require_once APPPATH.'libraries/filter/filterset.php';
  */
 class Program extends Model {
     
-    private $date         = null;    // Date
-    private $description  = "";
-    private $discounts    = array(); // may require an object
-    private $id           = 0;
-    private $location     = null;    // Location
-    private $name         = "";
-    private $price        = 0.0;
-    private $programDates = array();
+    public $date         = null;    // Date
+    public $description  = "";
+    public $discounts    = array(); // may require an object
+    public $id           = 0;
+    public $location     = null;    // Location
+    public $name         = "";
+    public $price        = 0.0;
+    public $programDates = array();
     
     /*TODO - Parameters
      * Director(s) / speaker(s) - provide links to bios
