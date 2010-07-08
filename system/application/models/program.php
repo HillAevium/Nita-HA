@@ -1,7 +1,8 @@
 <?php
 
-require_once '../libraries/location.php';
-require_once '../libraries/filter/filterset.php';
+require_once BASEPATH.'libraries/Model.php';
+require_once APPPATH.'libraries/location.php';
+require_once APPPATH.'libraries/filter/filterset.php';
 
 /**
  * A model for a Program.

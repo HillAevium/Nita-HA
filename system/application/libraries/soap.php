@@ -15,8 +15,8 @@ class Soap {
      *
      * @param string $url location for the Soap client to connect to.
      */
-    public function Soap($url) {
-        Soap::$soapClient = new SoapClient($url);
+    public function Soap() {
+        //Soap::$soapClient = new SoapClient($url);
     }
     
     public function getAllPrograms() {

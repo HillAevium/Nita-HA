@@ -80,7 +80,7 @@ $autoload['plugin'] = array();
 |
 */
 
-$autoload['config'] = array('soap');
+$autoload['config'] = array('');
 
 
 /*

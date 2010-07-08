@@ -27,8 +27,8 @@ class Location {
         $this->zipCode = $zipCode;
     }
     
-    public function getStreet() {
-        return $this->street;
+    public function getState() {
+        return $this->state;
     }
     
     public function getCity() {
