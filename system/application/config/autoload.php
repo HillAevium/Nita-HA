@@ -39,8 +39,9 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('soap');
-
+$autoload['libraries'] = array('mocksoap');
+// TODO change to the one below when going live
+//$autoload['libraries'] = array('soak');
 
 /*
 | -------------------------------------------------------------------

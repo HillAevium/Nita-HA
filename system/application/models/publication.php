@@ -15,7 +15,7 @@ class Publication extends Model {
     private $id              = 0;
     private $image           = '';
     private $name            = '';
-    private $numberOfPages   = 0;
+    private $pages           = 0;
     private $price           = 0.0;
     private $relatedProducts = array();
     private $tableOfContents = array(); // maybe need something more elaborate for this?
@@ -24,6 +24,8 @@ class Publication extends Model {
     
     public function Publication() {
         parent::Model();
+        // TODO - Remove this once the soap API goes live
+        $this->soap =& $this->mocksoap;
     }
     
     /**
@@ -32,7 +34,7 @@ class Publication extends Model {
      * @return an array of Publications
      */
     public function getAllPublications() {
-        $publications = $this->soap->getAllPublications;
+        $publications = $this->soap->getAllPublications();
         
         return $publications;
     }

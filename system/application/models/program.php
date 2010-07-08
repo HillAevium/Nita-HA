@@ -31,6 +31,8 @@ class Program extends Model {
     
     public function Program() {
         parent::Model();
+        // TODO - Remove this once the soap API goes live
+        $this->soap =& $this->mocksoap;
     }
     
     /**
@@ -39,7 +41,6 @@ class Program extends Model {
      * @return an array of Programs
      */
     public function getAllPrograms() {
-        // Returns an array of Program objects
         $programs = $this->soap->getAllPrograms();
         
         return $programs;
