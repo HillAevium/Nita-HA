@@ -11,7 +11,7 @@ class MockSoap extends Soap {
     public function getAllPrograms() {
         $programs = array();
         for($i = 0; $i < self::$numberOfItems; $i++) {
-            $programs[] = $this->mockProgram(-1);
+            $programs[] = $this->mockProgram();
         }
         return $programs;
     }
@@ -19,7 +19,7 @@ class MockSoap extends Soap {
     public function getAllPublications() {
         $publications = array();
         for($i = 0; $i < self::$numberOfItems; $i++) {
-            $programs[] = $this->mockPublication(-1);
+            $publications[] = $this->mockPublication();
         }
         return $publications;
     }
@@ -40,20 +40,26 @@ class MockSoap extends Soap {
         throw new RuntimeException("Not Implemented");
     }
     
-    private function mockProgram($id = 0) {
+    private function mockProgram($id = '') {
         return ProgramProducer::getProgram($id);
     }
     
-    private function mockPublication($id = 0) {
+    private function mockPublication($id = '') {
         return PublicationProducer::getPublictaion($id);
     }
 }
 
 class ProgramProducer {
     private static $choice = 0;
-    private static $idMap = array();
+    private static $idMap = array(
+        'BLDA610' => 0,
+        'NATL710' => 1,
+        'NCTR910' => 2,
+        'BODP910' => 3,
+        'NYTT610' => 4
+    );
     
-    private static function getProgram($id) {
+    public static function getProgram($id = '') {
         $choice = 0;
         if($id !== '') {
             $choice = self::$idMap[$id];
@@ -135,6 +141,7 @@ class ProgramProducer {
                 $program->type = 'Teacher Training';
             break;
         }
+        return $program;
     }
 }
 
@@ -142,29 +149,29 @@ class PublicationProducer {
     
     private static $choice = 0;
     private static $idMap = array (
-            9781556817793 => 0,
-            9781422479094 => 1,
-            9781556817496 => 2,
-            9781601560384 => 3,
-            9781556819506 => 4
+            '9781556817793' => 0,
+            '9781422479094' => 1,
+            '9781556817496' => 2,
+            '9781601560384' => 3,
+            '9781556819506' => 4
         );
     
-    public static function getPublictaion($id = 0) {
+    public static function getPublictaion($id = '') {
         $choice = 0;
-        if($id > 0) {
+        if($id !== '') {
             $choice = self::$idMap[$id];
         } else {
             $choice = self::$choice++;
         }
         
         $publication = new Publication();
-
+        
         switch($choice % 5) {
             case 0 :
                 $publication->authors[] = "David Ball";
                 $publication->description = "This practical step-by-step guide will transform you into a seasoned performer, with guidance for voir dire, openings and closings, testimony, and focus groups. Did law school teach you how to act in a courtroom? This book will.";
                 $publication->edition = "1st Edition";
-                $publication->id = 9781556817793;
+                $publication->id = '9781556817793';
                 $publication->pages = 478;
                 $publication->image = "?";
                 $publication->name = "Theater Tips & Strategies";
@@ -178,7 +185,7 @@ class PublicationProducer {
                 $publication->authors[] = "Unknown";
                 $publication->description = "This DVD set uses recorded trial clips, live demonstrations, audience participation and Frank Rothschild's own remarkable lecture style to create a most enjoyable and memorable learning experience.";
                 $publication->edition = "2nd Edition";
-                $publication->id = 9781422479094;
+                $publication->id = '9781422479094';
                 $publication->pages = 5;
                 $publication->image = "?";
                 $publication->name = "31 Ways to Winning Advocacy";
@@ -193,7 +200,7 @@ class PublicationProducer {
                 $publication->authors[] = "Abraham Ordover";
                 $publication->description = "Alternatives to Litigation explores key concepts and terms in ADR practice, and addresses practical how-to issues that all attorneys need to recognize and master regardless of their field of expertise.";
                 $publication->edition = "2nd Edition";
-                $publication->id = 9781556817496;
+                $publication->id = '9781556817496';
                 $publication->pages = 119;
                 $publication->image = "?";
                 $publication->name = "Alternatives to Litigation";
@@ -207,7 +214,7 @@ class PublicationProducer {
                 $publication->authors[] = "Unknown";
                 $publication->description = "Now in its Fourth Fdition, A Practical Guide to Texas Evidence: Objections, Responses, Rules, and Practice Commentary, provides information on the appropriate way to offer and oppose evidence during pretrial and trial.";
                 $publication->edition = "4th Edition";
-                $publication->id = 9781601560384;
+                $publication->id = '9781601560384';
                 $publication->pages = 317;
                 $publication->image = "?";
                 $publication->name = "A Practical Guide to Texas Evidence";
@@ -222,7 +229,7 @@ class PublicationProducer {
                 $publication->authors[] = "Paul J. Zwier";
                 $publication->description = "Providing a systematic, strategic and integrated approach to negotiation, authors Thomas F. Guernsey and Paul J. Zwier explain adversarial and problem-solving strategies, how to help clients make better strategic use of negotiation, counseling techniques and organizational tools for successful negotiations.";
                 $publication->edition = "1st Edition";
-                $publication->id = 9781556819506;
+                $publication->id = '9781556819506';
                 $publication->pages = 518;
                 $publication->image = "?";
                 $publication->name = "Advanced Negotiation and Mediation Theory and Practice";

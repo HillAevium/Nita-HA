@@ -13,7 +13,7 @@ class Publication extends Model {
     public $authors         = array();
     public $description     = '';
     public $edition         = '';
-    public $id              = 0;
+    public $id              = '';
     public $image           = '';
     public $name            = '';
     public $pages           = 0;
