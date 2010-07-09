@@ -11,13 +11,22 @@ require_once APPPATH.'libraries/filter/filterset.php';
  */
 class Program extends Model {
     
+    /* Variable definitions
+     * $director - Contains an array of arrays. Each array has two keys,
+     *             one for the director's name and one for a link to their
+     *             bio. They are called 'name' and 'bio' respectively.
+     */
+    
+    public $city         = '';
+    public $cleCredits   = 0;
     public $date         = null;    // Date
     public $description  = "";
+    public $director     = array();
     public $discounts    = array(); // may require an object
     public $id           = 0;
-    public $location     = null;    // Location
-    public $name         = "";
-    public $price        = 0.0;
+    public $location     = '';
+    public $name         = '';
+    public $price        = 0;
     public $programDates = array();
     
     /*TODO - Parameters
