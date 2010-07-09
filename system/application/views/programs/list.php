@@ -1,4 +1,5 @@
 <div id="content_main">
+  <div class="pagination"><?php echo $pagination; ?></div>
   <table class="product_list">
     <thead>
       <tr>
@@ -10,41 +11,17 @@
       </tr>
     </thead>
     <tbody>
+<?php foreach($programs as $program): ?>
       <tr>
-        <td>Robert F. Hanley Advanced Advocacy Skills</td>
-        <td>6/27/2010 - 7/1/2010</td>
-        <td>NITA Education Center<br />Louisville, CO</td>
-        <td>$2500</td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
+        <td>
+          <?php echo "<a href='/main/program/{$program->id}'>{$program->name}</a>"?>
+        </td>
+        <td><?php echo $program->programDates?></td>
+        <td><?php echo $program->location . '<br/>' . $program->city; ?></td>
+        <td><?php echo $program->price; ?></td>
       </tr>
-      <tr>
-        <td>Robert F. Hanley Advanced Advocacy Skills</td>
-        <td>6/27/2010 - 7/1/2010</td>
-        <td>NITA Education Center<br />Louisville, CO</td>
-        <td>$2500</td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
-      </tr>
-      <tr>
-        <td>Robert F. Hanley Advanced Advocacy Skills</td>
-        <td>6/27/2010 - 7/1/2010</td>
-        <td>NITA Education Center<br />Louisville, CO</td>
-        <td>$2500</td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
-      </tr>
-      <tr>
-        <td>Robert F. Hanley Advanced Advocacy Skills</td>
-        <td>6/27/2010 - 7/1/2010</td>
-        <td>NITA Education Center<br />Louisville, CO</td>
-        <td>$2500</td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
-      </tr>
-      <tr>
-        <td>Robert F. Hanley Advanced Advocacy Skills</td>
-        <td>6/27/2010 - 7/1/2010</td>
-        <td>NITA Education Center<br />Louisville, CO</td>
-        <td>$2500</td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
-      </tr>
+<?php endforeach; ?>
     </tbody>
   </table>
+  <div class="pagination"><?php echo $pagination; ?></div>
 </div> <!-- #content_main -->
