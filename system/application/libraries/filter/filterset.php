@@ -38,7 +38,7 @@ class FilterSet {
             // which may be the case for some filter types,
             // then we push the elements onto our existing
             // array. Otherwise add it directly.
-            if($is_array($soapVar)) {
+            if(is_array($soapVar)) {
                 array_merge($soapVars, $soapVar);
             } else {
                 $soapVars[] = $soapVar;
