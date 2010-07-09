@@ -17,7 +17,7 @@ class MockSoap extends Soap {
     public function getAllPublications() {
         $publications = array();
         for($i = 0; $i < 5; $i++) {
-            $programs[] = $this->mockPublication(0);
+            $publications[] = $this->mockPublication(0);
         }
         return $publications;
     }
