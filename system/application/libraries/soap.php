@@ -35,7 +35,7 @@ class Soap {
         // TODO
     }
     
-    public function getPublication($Id) {
+    public function getPublication($id) {
         // TODO
     }
     

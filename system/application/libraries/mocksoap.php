@@ -16,7 +16,7 @@ class MockSoap extends Soap {
     
     public function getAllPublications() {
         $publications = array();
-        for($i = 0; $i < 5; $i++) {
+        for($i = 0; $i < 65; $i++) {
             $publications[] = $this->mockPublication(0);
         }
         return $publications;
@@ -30,7 +30,7 @@ class MockSoap extends Soap {
         throw new RuntimeException("Not Implemented");
     }
     
-    public function getPublication($Id) {
+    public function getPublication($id) {
         return $this->mockPublication($id);
     }
     
@@ -55,7 +55,7 @@ class MockSoap extends Soap {
         $publication->edition = "1st Edition";
         $publication->id = $id;
         $publication->image = "?";
-        $publication->name = "Using Google App Engine";
+        $publication->name = "Using Google App Engine " . $id;
         $publication->pages = 272;
         $publication->price = 19.79;
         $publication->relatedProducts = null;
