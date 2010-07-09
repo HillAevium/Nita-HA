@@ -19,6 +19,7 @@
         <td><?php echo $program->programDates?></td>
         <td><?php echo $program->location . '<br/>' . $program->city; ?></td>
         <td><?php echo $program->price; ?></td>
+        <td valign="middle"><a class="add_to_cart" href=""></a></td>
       </tr>
 <?php endforeach; ?>
     </tbody>

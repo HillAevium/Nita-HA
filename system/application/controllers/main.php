@@ -174,10 +174,9 @@ class Main extends Controller {
         $this->load->library('pagination');
         
         // Move this to config/pagination.php ?
-        $config = array();
         $config['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . '/main/' . $function;
         $config['total_rows'] = $totalRows;
-        $config['per_page'] = 10;
+        $config['per_page'] = 8;
         
         $this->pagination->initialize($config);
         
