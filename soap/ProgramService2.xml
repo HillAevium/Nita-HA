@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/NitaWebService.Models" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.datacontract.org/2004/07/NitaWebService.Models">
+  <xs:complexType name="ProgramModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" name="NITA_Description" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_Descriptor" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_Duration" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_EndDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityAddr1" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityAddr2" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityAddr3" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityAddr4" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityCity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityName" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityState" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacilityZip" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacultyDinnerDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_FacultyDinnerLocation" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_MaxCapacity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_MinCapacity" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_ProgramId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_RegistrationBeginDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_RegistrationEndDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_StartDate" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_Title" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_TuitionPriceStandard" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="NITA_name" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nita_50MinuteCredits" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nita_60MinuteCredits" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nita_CalculateCLECredits" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nita_PeriodId" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="Nita_PriceConfirmed" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nita_accountid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nita_programcategoryid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nita_programmaterialtemplateid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nita_programtypeid" nillable="true" type="xs:string" />
+      <xs:element minOccurs="0" name="nita_regionid" nillable="true" type="xs:string" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ProgramModel" nillable="true" type="tns:ProgramModel" />
+  <xs:complexType name="ArrayOfProgramModel">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="ProgramModel" nillable="true" type="tns:ProgramModel" />
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfProgramModel" nillable="true" type="tns:ArrayOfProgramModel" />
+</xs:schema>
