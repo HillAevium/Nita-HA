@@ -18,6 +18,26 @@ class Main extends Controller {
         $this->loadViews($views);
     }
     
+    public function program() {
+        // Load the model and get some data
+        $this->load->model('program');
+        
+        // program id
+        $id = $this->uri->segment(3);
+        
+        $program = $this->program->getProgram($id);
+        
+        $views = array(
+            array('name' => 'main_nav', 'args' => null),
+            array('name' => 'programs/detail', 'args' => array(
+              'program'  => $program)
+            )
+        );
+        
+        $this->loadViews($views);
+        
+    }
+    
     public function programs() {
         $this->title = 'Nita - Our Programs';
         
@@ -31,10 +51,30 @@ class Main extends Controller {
         
         $views = array(
             array('name' => 'main_nav', 'args' => null),
-            array('name' => 'programs/list', 'args' => $programs)
+            array('name' => 'programs/list', 'args' => array('programs' => $programs))
         );
         
         $this->loadViews($views);
+    }
+
+    public function publication() {
+        // Load the model and get some data
+        $this->load->model('publication');
+        
+        // publication id
+        $id = $this->uri->segment(3);
+        
+        $publication = $this->publication->getPublication($id);
+        
+        $views = array(
+            array('name' => 'main_nav', 'args' => null),
+            array('name' => 'publications/detail', 'args' => array(
+              'publication'  => $publication)
+            )
+        );
+        
+        $this->loadViews($views);
+        
     }
     
     public function publications() {
@@ -46,9 +86,30 @@ class Main extends Controller {
         // Gives an array of Publication objects
         $publications = $this->publication->getAllPublications();
         
+        $this->load->library('pagination');
+
+        // Set the pagination configuration
+        // NOTE: These pagination routines should probably
+        //       be moved elsewhere, into a helper or something.
+        $paginationConfig = array();
+        $paginationConfig['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . '/main/' . __FUNCTION__ . '/';
+        $paginationConfig['total_rows'] = count($publications);
+
+        $this->pagination->initialize($paginationConfig);
+
+        $pagination = $this->pagination->create_links();
+        
+        // Slice the publications array to the range
+        // called for by the pagination
+        $offset = $this->uri->segment(3) ? $this->uri->segment(3) : 0;
+        $publications = array_slice($publications, $offset, $this->pagination->per_page);
+        
         $views = array(
             array('name' => 'main_nav', 'args' => null),
-            array('name' => 'publications/list', 'args' => $publications)
+            array('name' => 'publications/list', 'args' => array(
+              'pagination'    => $pagination,
+              'publications'  => $publications)
+            )
         );
         
         $this->loadViews($views);

@@ -54,7 +54,7 @@ class Program extends Model {
      * @return a Program matching the id
      */
     public function getProgram($id) {
-        $program = $this->soap->getProgram();
+        $program = $this->soap->getProgram($id);
         
         return $program;
     }
