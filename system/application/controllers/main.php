@@ -1,6 +1,6 @@
 <?php
 
-require_once 'AbstractController.php';
+require_once APPPATH.'/controllers/AbstractController.php';
 
 class Main extends AbstractController {
     

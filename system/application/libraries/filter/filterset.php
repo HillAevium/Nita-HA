@@ -1,6 +1,6 @@
 <?php
 
-require_once 'Filter.php';
+require_once APPPATH.'/libraries/filter/Filter.php';
 
 /**
  * A container for handling filters to be used by the Soap API.

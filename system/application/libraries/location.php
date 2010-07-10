@@ -43,3 +43,5 @@ class Location {
         return $this->street;
     }
 }
+
+/* End of file Location.php */

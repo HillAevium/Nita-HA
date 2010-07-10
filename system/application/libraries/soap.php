@@ -181,4 +181,4 @@ class SoapArguments {
         $this->addArgument($name, $value, XSD_DATETIME, "dateTime");
     }
 }
-/* End of file soap.php */
+/* End of file Soap.php */

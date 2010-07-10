@@ -1,8 +1,8 @@
 <?php
 
-require_once 'Soap.php';
-require_once APPPATH.'models/Program.php';
-require_once APPPATH.'models/Publication.php';
+require_once APPPATH.'/libraries/Soap.php';
+require_once APPPATH.'/models/Program.php';
+require_once APPPATH.'/models/Publication.php';
 
 class MockSoap extends Soap {
     
@@ -243,4 +243,4 @@ class PublicationProducer {
         return $publication;
     }
 }
-/* End of file mockswap.php */
+/* End of file MockSoap.php */

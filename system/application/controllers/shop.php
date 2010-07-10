@@ -1,6 +1,6 @@
 <?php
 
-require_once 'AbstractController.php';
+require_once APPPATH.'/controllers/AbstractController.php';
 
 class Shop extends AbstractController {
     
@@ -16,7 +16,7 @@ class Shop extends AbstractController {
      * specified and redirects to a default view.
      */
     public function index() {
-        // Redirect calls to /shop/ to /shop/programs/
+        // Redirect calls to /Shop/ to /Shop/programs/
         // TODO
         // There may be a way to make this configurable.
         // if not we should make it so.
@@ -160,3 +160,5 @@ class Shop extends AbstractController {
         $this->loadViews($views);
     }
 }
+
+/* End of file Shop.php */
