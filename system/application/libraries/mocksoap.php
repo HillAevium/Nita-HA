@@ -1,8 +1,8 @@
 <?php
 
-require_once 'soap.php';
-require_once APPPATH.'models/program.php';
-require_once APPPATH.'models/publication.php';
+require_once 'Soap.php';
+require_once APPPATH.'models/Program.php';
+require_once APPPATH.'models/Publication.php';
 
 class MockSoap extends Soap {
     

@@ -4,4 +4,4 @@ class UserProfile extends Model {
     
 }
 
-/* End of file userprofile.php */
+/* End of file UserProfile.php */

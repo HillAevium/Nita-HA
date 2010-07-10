@@ -1,12 +1,12 @@
 <?php
 
 /**
- * A filter is used by the Soap API to apply filtering
+ * A Filter is used by the Soap API to apply filtering
  * stratagies for program and publication queries.
  *
  * A Filter defines its own private set of constraints
  * that it encapsulates. Filters should define a single
- * type of filter, and may define multiple parameters
+ * type of Filter, and may define multiple parameters
  * based on that type of Filter.
  *
  * For example, a PriceFilter may have upper bounds or
@@ -27,4 +27,4 @@ interface Filter {
     function getFilter();
 }
 
-/* End of file filter.php */
+/* End of file Filter.php */

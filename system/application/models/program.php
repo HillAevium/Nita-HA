@@ -1,8 +1,7 @@
 <?php
 
 require_once BASEPATH.'libraries/Model.php';
-require_once APPPATH.'libraries/location.php';
-require_once APPPATH.'libraries/filter/filterset.php';
+require_once APPPATH.'libraries/filter/FilterSet.php';
 
 /**
  * A model for a Program.
@@ -75,7 +74,7 @@ class Program extends Model {
     }
     
     /**
-     * Get a specific program based on the item id
+     * Get a specific Program based on the item id
      *
      * @param int $id the id of a Program
      * @return a Program matching the id
@@ -99,4 +98,4 @@ class Program extends Model {
     }
 }
 
-/* End of file program.php */
+/* End of file Program.php */

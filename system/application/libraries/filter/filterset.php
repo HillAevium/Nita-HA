@@ -1,5 +1,7 @@
 <?php
 
+require_once 'Filter.php';
+
 /**
  * A container for handling filters to be used by the Soap API.
  *
@@ -49,4 +51,4 @@ class FilterSet {
     }
 }
 
-/* End of file filterset.php */
+/* End of file FilterSet.php */

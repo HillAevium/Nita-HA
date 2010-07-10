@@ -1,7 +1,7 @@
 <?php
 
 require_once BASEPATH.'libraries/Model.php';
-require_once APPPATH.'libraries/filter/filterset.php';
+require_once APPPATH.'libraries/filter/FilterSet.php';
 
 /**
  * A model for a Publication
@@ -65,4 +65,4 @@ class Publication extends Model {
     }
 }
 
-/* End of file publication.php */
+/* End of file Publication.php */
