@@ -12,22 +12,40 @@ require_once APPPATH.'libraries/filter/filterset.php';
 class Program extends Model {
     
     /* Variable definitions
+     * $address  - a colon separated list of 4 possible address fields
      * $director - Contains an array of arrays. Each array has two keys,
      *             one for the director's name and one for a link to their
      *             bio. They are called 'name' and 'bio' respectively.
      */
     
-    public $city         = '';
-    public $cleCredits   = 0;
-    public $date         = null;    // Date
-    public $description  = "";
-    public $director     = array();
-    public $discounts    = array(); // may require an object
-    public $id           = 0;
-    public $location     = '';
-    public $name         = '';
-    public $price        = 0;
-    public $programDates = array();
+    // TODO - Dealing with facility address
+    // It might be easier for the view if we combine the facility location
+    // elements into a single string, or at least an array of elements. At
+    // the moment i dont like the way it is, but we won't know the best format
+    // for the view until the view is actually using this info.
+    
+    public $address        = '';
+    public $capacityMax    = '';
+    public $capacityMin    = '';
+    public $city           = '';
+    public $cleCredits     = '';
+    public $description    = '';
+    public $descriptor     = '';
+    public $dinnerDate     = '';
+    public $dinnerLocation = '';
+    public $director       = array();
+    public $discounts      = array(); // may require an object
+    public $duration       = '';
+    public $endDate        = '';
+    public $id             = '';
+    public $location       = '';
+    public $name           = '';
+    public $price          = '';
+    public $registerEnd    = '';
+    public $registerStart  = '';
+    public $startDate      = '';
+    public $state          = '';
+    public $zip            = '';
     
     /*TODO - Parameters
      * Director(s) / speaker(s) - provide links to bios
