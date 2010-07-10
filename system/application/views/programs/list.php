@@ -14,7 +14,7 @@
 <?php foreach($programs as $program): ?>
       <tr>
         <td>
-          <?php echo "<a href='/main/program/{$program->id}'>{$program->name}</a>"?>
+          <?php echo "<a href='/shop/program/{$program->id}'>{$program->name}</a>"?>
         </td>
         <td><?php echo $program->programDates?></td>
         <td><?php echo $program->location . '<br/>' . $program->city; ?></td>
