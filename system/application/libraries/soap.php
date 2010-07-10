@@ -18,6 +18,7 @@ class Soap {
      * Construct a new Soap API object
      */
     public function Soap() {
+        global $soap;
         $this->soapUrl    = $soap['server'];
         $this->programUri = $soap['services']['programs'];
     }
