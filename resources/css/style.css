@@ -1,4 +1,4 @@
-html, body                    { margin:0; padding:0; font-family:'Lucida Grande', Arial; font-size:12pt; color:#666; }
+html, body                    { margin:0; padding:0; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#666; }
 
 #main_container               { width:977px; margin:0 auto; }
 #header                       { position:relative; width:100%; height:164px; }
@@ -19,7 +19,7 @@ a.search_bar_print            { left:281px; width:33px; background:url(../images
 #main_nav                     { width:100%; height:134px; background:#dadada; }
 #main_nav ul.menu             { list-style:none; }
 #main_nav ul.menu li          { display:inline; }
-#main_nav ul.menu li a        { display:block; width:131px; height:123px; margin:5px; line-height:123px; float:left; background:#efefef; text-align:center; text-decoration:none; vertical-align:bottom; }
+#main_nav ul.menu li a        { display:block; width:129px; height:123px; margin:5px; line-height:123px; float:left; background:#efefef; text-align:center; text-decoration:none; vertical-align:bottom; }
 #main_nav ul.menu li a:hover  { background:#ccc; }
 
 #body                         { width:100%; }
@@ -38,3 +38,6 @@ a.ordered_desc                { display:block; float:right; width:21px; height:1
 a.add_to_cart                 { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
 
 div.pagination                { margin:15px; }
+
+/* Color bar backgrounds */
+body.blue_short               { background:url(../images/color_bar_blue_short.png) 210px center repeat-x; }

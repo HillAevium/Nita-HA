@@ -76,7 +76,7 @@ class Account extends AbstractController {
     
     public function _remap($method) {
         // FIXME
-        throw new RuntimeException("Not Implemented");
+        //throw new RuntimeException("Not Implemented");
         
         $requestMethod = $_SERVER['REQUEST_METHOD'];
         
@@ -230,6 +230,18 @@ class Account extends AbstractController {
         
         // Show the registration page and embed the referal
         // page as a hidden field if there was one.
+        
+        // If user hasn't yet chosen their registration type,
+        // show them their choices
+        
+        // If usertype has not been chosen, show them the 
+        // registration funnel
+        $views = array(
+            array('name' => 'main_nav', 'args' => null),
+            array('name' => 'user/registration_funnel', 'args' => null)
+        );
+        $this->loadViews($views, 'blue_short');
+        
     }
     
     public function showUserProfile() {

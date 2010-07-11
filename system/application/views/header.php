@@ -1,4 +1,4 @@
-<body>
+<body <?php if (isset($bodyClass)) { echo "class=\"$bodyClass\""; } ?> >
 <div id="main_container">
 <div id="header">
   <a id="logo" href="/"></a>

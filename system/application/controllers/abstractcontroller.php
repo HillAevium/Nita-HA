@@ -26,9 +26,21 @@ abstract class AbstractController extends Controller {
         return $this->pagination->create_links();
     }
     
-    protected function loadViews(array $views) {
+    /**
+     * Loads persistent header and footer and any 
+     * optional views.
+     *
+     * @param array $views array of views to be loaded
+     *                     into the main content area
+     * @param string $bodyClass optional css class to be applied to the <body>
+     */
+    protected function loadViews(array $views, $bodyClass = '') {
         $this->load->view('http_header', array('title' => $this->title));
-        $this->load->view('header');
+        if($bodyClass != '') {
+            $this->load->view('header', array('bodyClass' => $bodyClass));
+        } else {
+            $this->load->view('header');
+        }
         foreach($views as $view) {
             $this->load->view($view['name'], $view['args']);
         }
