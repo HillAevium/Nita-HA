@@ -223,19 +223,16 @@ class Account extends AbstractController {
     }
     
     public function showRegistration() {
-        // If the user was directed here from some
-        // page that required registration before continuing
-        // e.g. clicking checkout, then we need to know
-        // where they came from.
-        
         // Show the registration page and embed the referal
         // page as a hidden field if there was one.
         
-        // If user hasn't yet chosen their registration type,
-        // show them their choices
-        
-        // If usertype has not been chosen, show them the 
-        // registration funnel
+    }
+    
+    /**
+     * Loads the funnel page which asks the user to
+     * choose individual or group registration.
+     */
+    public function showRegistrationFunnel() {
         $views = array(
             array('name' => 'main_nav', 'args' => null),
             array('name' => 'user/registration_funnel', 'args' => null)
