@@ -76,7 +76,7 @@ abstract class AbstractController extends Controller {
     }
     
     /**
-     * Loads persistent header and footer and any 
+     * Loads persistent header and footer and any
      * optional views.
      *
      * @param array $views array of views to be loaded
@@ -98,6 +98,7 @@ abstract class AbstractController extends Controller {
         
         // Load the content container and inject the
         // requested view into it.
+        $args['content'] = '';
         foreach($views as $view) {
             $args['content'] .= $this->load->view($view['name'], $view['args'], true);
         }
