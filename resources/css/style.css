@@ -1,7 +1,9 @@
-html, body                    { margin:0; padding:0; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#666; }
-
+html, body                    { margin:0; padding:0; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
 #main_container               { width:977px; margin:0 auto; }
-#header                       { position:relative; width:100%; height:164px; }
+
+/* Header */
+#header                       { width:100%; height:140px; }
+#header_inner                 { position:relative; width:100%; height:164px; }  
 #logo                         { position:absolute; top:33px; left:0; width:158px; height:36px; background:url(../images/logo.png); }
 #title                        { position:absolute; top:88px; left:0; }
 
@@ -16,28 +18,104 @@ a.search_bar_cart             { left:215px; width:32px; background:url(../images
 a.search_bar_account          { left:248px; width:32px; background:url(../images/search_bar_account.png) center center no-repeat; }
 a.search_bar_print            { left:281px; width:33px; background:url(../images/search_bar_print.png) center center no-repeat; }
 
-#main_nav                     { width:100%; height:134px; background:#dadada; }
-#main_nav ul.menu             { list-style:none; }
+/* Main Nav */
+#main_nav                     { position:absolute; height:134px; }
+#main_nav ul.menu             { position:relative; list-style:none; }
 #main_nav ul.menu li          { display:inline; }
-#main_nav ul.menu li a        { display:block; width:129px; height:123px; margin:5px; line-height:123px; float:left; background:#efefef; text-align:center; text-decoration:none; vertical-align:bottom; }
-#main_nav ul.menu li a:hover  { background:#ccc; }
+#main_nav ul.menu li a        { display:block; line-height:123px; float:left; text-align:center; text-decoration:none; vertical-align:bottom; }
+#main_nav ul.menu li a:hover  { opacity:0.85; }
+#main_nav a.programs          { position:absolute; top:5px; left:5px; width:114px; height:117px; background:url(../images/nav_programs.png); }
+#main_nav a.publications      { position:absolute; top:0; left:138px; width:128px; height:127px; background:url(../images/nav_publications_over.png); }
+#main_nav a.custom_programs   { position:absolute; top:0; left:284px; width:123px; height:122px; background:url(../images/nav_custom_programs.png); }
+#main_nav a.law_schools       { position:absolute; top:0; left:421px; width:113px; height:117px; background:url(../images/nav_law_schools.png); }
+#main_nav a.donate            { position:absolute; top:0; left:557px; width:121px; height:121px; background:url(../images/nav_donate.png); }
+#main_nav a.about             { position:absolute; top:0; left:704px; width:119px; height:124px; background:url(../images/nav_about.png); }
+#main_nav a.contact           { position:absolute; top:0; left:855px;width:116px; height:118px; background:url(../images/nav_contact.png); }
 
+/* Content Area */
 #body                         { width:100%; }
-#content_top                  { width:100%; height:240px; background:#eaeaea; }
-#content_main                 { width:100%; }
+#content_top                  { width:100%; height:399px; }
+#content_top_short            { width:100%; height:170px; }
+#content_main                 { width:945px; margin:0 auto; }
+#content_main_inner           { position:relative; width:100%; }
 
-#footer                       { width:100%; height:80px; padding-top:50px; }
-#footer_menu                  { margin-bottom:10px; }
-#footer_menu ul.menu          { list-style:none; }
-#footer_menu ul.menu li       { display:inline; }
+/* Footer */
+#footer                       { width:100%; height:87px; margin-top:50px; border-top:3px solid #d9d9d9; background:url(../images/footer_bg.png) repeat-x; }
+#footer_inner                 { position:relative; width:977px; margin:0 auto; height:87px; }
+#footer_menu1                 { position:absolute; top:10px; font-size:10pt;}
+#footer_menu1 ul.menu         { list-style:none; }
+#footer_menu1 ul.menu li      { display:inline; letter-spacing:1pt; }
+#footer_menu1 ul.menu li a    { text-decoration:none; padding:0 5px; }
+#footer_menu2                 { position:absolute; top:35px; left:3px; font-size:8pt; }
+#footer_menu2 ul.menu         { list-style:none; }
+#footer_menu2 ul.menu li      { display:inline; letter-spacing:0.5pt; }
+#footer_menu2 ul.menu li a    { color:#707070; text-decoration:none; padding:0 3px; }
+#copyright                    { position:absolute; bottom:0; left:0; width:432px; height:28px; line-height:28px; font-size:8pt; padding-left:8px; background:#fdfdfd; }
+#copyright_inner              { position:relative; }
+#copyright #facebook          { position:absolute; right:32px; top:4px; display:block; width:21px; height:21px; background:url(../images/icon_facebook.png); }
+#copyright #twitter           { position:absolute; right:5px; top:4px; display:block; width:21px; height:21px; background:url(../images/icon_twitter.png); }
+#design_credit                { position:absolute; right:0px; bottom:0; height:25px; padding:3px 7px 0 6px; font-size:7pt; color:#999; background:#fdfdfd; }
+#design_credit_inner          { width:auto; margin:0 auto; }
+#design_credit .ha            { color:#117dc5; }
+#design_credit .blue_square   { width:7px; height:7px; background:#117dc5; }
 
-table.product_list            { width:100%; }
-table.product_list td         { padding:15px 8px; border-bottom:1px solid #bbb; vertical-align:top; }
+/* Typography */
+h1.page_title                 { padding:50px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
+.small                        { font-size:8pt; }  
+span.blue                     { color:#0f4964; }
+a.orange                      { color:#f1a617; }
+a.red                         { color:#e95621; }
+a.purple                      { color:#736ea0; }
+a.dark_blue                   { color:#67818a; }
+a.green                       { color:#87ac28; }
+a.teal                        { color:#66ae98; }
+a.light_blue                  { color:#6897be; }
 
-a.ordered_desc                { display:block; float:right; width:21px; height:18px; margin-right:10px; background:url(../images/arrow_down.png); }
-a.add_to_cart                 { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+/* Forms */
+div.form                      { margin:10px 0 0 1px; }
+div.form table                { width:100%; }
+div.form table.header td      { height:28px; color:#fff; line-height:28px; }
+div.form table.header td.pad  { padding-left:8px; }
+div.form table thead td       { color:#fff; line-height:28px; }
 
-div.pagination                { margin:15px; }
+/* Labels */
+label                         { color:#575757; font-size:9pt; }
+label.light                   { color:#979797; }
+div.form table label          { line-height:24pt; }
+
+/* Inputs */                 
+input                         { font-size:11pt; }
+input.extra_small             { font-size:10pt; width:167px; height:23px; padding:3px 4px; border:none; background:url(../images/form_input_extra_small.png); }
+input.small                   { font-size:11pt; width:207px; height:33px; padding:0 4px; margin-bottom:3px; border:none; background:url(../images/form_input_small.png); }
+input.large                   { font-size:11pt; width:449px; height:33px; padding:0 4px; margin-bottom:3px; border:none; background:url(../images/form_input_large.png); }
+
+/* Buttons */
+div.button_add_account        { width:145px; height:35px; background:url(../images/button_add_account.png); }
+div.button_continue           { width:94px; height:35px; background:url(../images/button_continue.png); }
+div.button_browse             { width:63px; height:33px; background:url(../images/button_browse.png); }
+div.button_sign_in            { width:112px; height:35px; background:url(../images/button_sign_in.png); }
+div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
 
 /* Color bar backgrounds */
-body.blue_short               { background:url(../images/color_bar_blue_short.png) 210px center repeat-x; }
+body.blue_short               { background:url(../images/color_bar_blue_short.png) center 210px repeat-x; }
+body.orange                   { background:url(../images/color_bar_orange.png) center 210px repeat-x; }
+body.red                      { background:url(../images/color_bar_red.png) center 210px repeat-x; }
+
+/* Misc. design elements */
+div.gray_line                 { height:0px; border-top:1px solid #ddd; }
+div.header_bar_blue_full      { width:941px; height:28px; margin-bottom:3px; background:url(../images/header_bar_blue_full.png) no-repeat; }
+
+/* Page-specific styling */
+div#sign_in                   { margin:-10px 0 10px 0; }
+div.pagination                { padding:40px 0 0 10px; }
+table.reg_funnel              { width:100%; margin-top:44px; }
+table.program_list_header     { width:100%; margin-top:50px; font-size:11pt; }
+table.program_list_header td  { padding:8px; }
+table.program_list            { width:100%; margin-top:10px; font-size:9pt; }
+table.program_list td         { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
+a.ordered_desc                { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
+a.add_to_cart                 { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+
+/* Breadcrumbs */
+div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
+ 
