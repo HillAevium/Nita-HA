@@ -1,4 +1,4 @@
-<div id="content_main">
+<div id="detail_main">
 <ul>
   <li>Name: <?php echo $program->name; ?></li>
   <li>City: <?php echo $program->city; ?></li>
@@ -19,4 +19,4 @@
   </li>
 <?php endif; ?>
 </ul>
-</div> <!-- #content_main -->
+</div> <!-- #detail_main -->

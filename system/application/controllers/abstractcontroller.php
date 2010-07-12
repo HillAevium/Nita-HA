@@ -76,11 +76,74 @@ abstract class AbstractController extends Controller {
     }
     
     protected function loadViews(array $views) {
+        // If we're doing an ajax request just return
+        // the view container for insertion.
+        
+        /* Not going to be doing ajax page loads just yet
+        if($this->ajax) {
+            $this->load->view($view['name'], $view['args']);
+            return;
+        }
+        */
+        
+        // Otherwise load the whole page.
         $this->load->view('http_header', array('title' => $this->title));
         $this->load->view('header');
-        foreach($views as $view) {
-            $this->load->view($view['name'], $view['args']);
+        
+        // Only show the nav bar if its requested
+        if($this->showMainNav) {
+            $this->load->view('main_nav');
         }
+        
+        // Load the content container and inject the
+        // requested view into it.
+        foreach($views as $view) {
+            $args['content'] .= $this->load->view($view['name'], $view['args'], true);
+        }
+        $this->load->view('content_container', $args);
+        
+        // If debugging is turned on display the Debug Console
+        if($this->isDebugEnabled()) {
+            $args = array();
+            
+            // Session Debug
+            $session['userData'] = $this->session->all_userdata();
+            
+            if($session['userData'] !== false) {
+                $args['categories']['session'] = $session;
+                $args['categories']['session']['_title'] = 'Session Info';
+            }
+            
+            if(count($args['categories']) > 0) {
+                $this->load->view('debug', $args);
+            }
+        }
+        
+        // And voila!
         $this->load->view('footer');
+    }
+    
+    private function setDebug($on, $args) {
+        if(!$on) {
+            $this->debugOptions = DEBUG_NONE;
+            return;
+        }
+        
+        if(is_int($args)) {
+            $this->debugOptions = $args;
+        } else if(is_string($args)) {
+            $args = explode(',', $args);
+
+            foreach($args as $arg) {
+                switch($arg) {
+                    case 'session' :
+                        $this->debugOptions |= DEBUG_SESSION;
+                    break;
+                    default :
+                        log_message('debug', 'Unknown debug option: ' . $arg);
+                    break;
+                }
+            }
+        }
     }
 }

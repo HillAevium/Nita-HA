@@ -1,4 +1,4 @@
-<div id="content_main">
+<div id="list_panel">
   <div class="pagination"><?php echo $pagination; ?></div>
   <table class="product_list">
     <thead>
@@ -19,4 +19,4 @@
     </tbody>
   </table>
   <div class="pagination"><?php echo $pagination; ?></div>
-</div> <!-- #content_main -->
+</div> <!-- #list_panel -->

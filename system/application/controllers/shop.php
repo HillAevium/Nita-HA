@@ -90,7 +90,6 @@ class Shop extends AbstractController {
         // Setup the views
         $views = array(
             array('name' => 'tab_panel', 'args' => $args)
-            array('name' => 'main_nav', 'args' => null),
         );
         
         // ... and go
@@ -120,7 +119,6 @@ class Shop extends AbstractController {
         
         // Setup the views
         $views = array(
-            array('name' => 'main_nav', 'args' => null),
             array('name' => 'programs/list', 'args' => $args)
         );
         
@@ -159,7 +157,6 @@ class Shop extends AbstractController {
         
         // Setup the views
         $views = array(
-            array('name' => 'main_nav', 'args' => null),
             array('name' => 'publications/detail', 'args' => $args)
         );
         
@@ -194,7 +191,6 @@ class Shop extends AbstractController {
         
         // Setup the views
         $views = array(
-            array('name' => 'main_nav', 'args' => null),
             array('name' => 'publications/list', 'args' => $args)
         );
         
