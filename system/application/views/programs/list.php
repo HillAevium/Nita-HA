@@ -10,16 +10,16 @@
         <td width="5%"></td>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="items">
 <?php foreach($programs as $program): ?>
-      <tr>
+      <tr id='<?php echo $program->id; ?>'>
         <td>
-          <?php echo "<a href='/shop/program/{$program->id}'>{$program->name}</a>"?>
+            <?php echo $program->name; ?>
         </td>
         <td><?php echo $program->programDates?></td>
         <td><?php echo $program->location . '<br/>' . $program->city; ?></td>
         <td><?php echo $program->price; ?></td>
-        <td valign="middle"><a class="add_to_cart" href=""></a></td>
+        <td valign="middle"><div class="add_to_cart" id="cartItem"></div></td>
       </tr>
 <?php endforeach; ?>
     </tbody>
