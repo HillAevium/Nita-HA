@@ -39,6 +39,7 @@ class Program extends Model {
     public $id             = '';
     public $location       = '';
     public $name           = '';
+    public $type           = '';
     public $price          = '';
     public $registerEnd    = '';
     public $registerStart  = '';
