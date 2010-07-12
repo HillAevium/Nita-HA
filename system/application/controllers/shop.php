@@ -57,7 +57,7 @@ class Shop extends AbstractController {
         );
         
         // ... and go
-        $this->loadViews($views);
+        $this->loadViews($views, 'orange');
     }
     
     /**
@@ -87,7 +87,7 @@ class Shop extends AbstractController {
         );
         
         // ... and go
-        $this->loadViews($views);
+        $this->loadViews($views, 'orange');
     }
     
     /**
@@ -124,7 +124,7 @@ class Shop extends AbstractController {
         );
         
         // ... and go
-        $this->loadViews($views);
+        $this->loadViews($views, 'red');
     }
     
     /**
@@ -157,7 +157,7 @@ class Shop extends AbstractController {
         );
         
         // ... and go
-        $this->loadViews($views);
+        $this->loadViews($views, 'red');
     }
 }
 
