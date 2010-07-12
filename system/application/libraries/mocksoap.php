@@ -1,8 +1,6 @@
 <?php
 
 require_once APPPATH.'/libraries/soap.php';
-require_once APPPATH.'/models/program.php';
-require_once APPPATH.'/models/publication.php';
 
 class MockSoap extends Soap {
     
