@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div id="content_top"></div>
 <div id="content_main">
     <div id="content_main_inner">

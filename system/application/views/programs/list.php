@@ -12,11 +12,12 @@
                 <td width="15%">Price</td>
                 <td width="5%"></td>
             </tr>
-        <table class="program_list" style="border-top:1px solid #ddd;">
+	</table>
+        <table class="program_list" style="border-top:1px solid #ddd;" id="items">
             <?php foreach($programs as $program): ?>
-            <tr>
+            <tr id="<?php echo $program->id; ?>">
                 <td width="25%">
-                    <?php echo "<a href='/shop/program/{$program->id}'>{$program->name}</a>"?>
+		    <?php echo $program->name; ?>
                 </td>
                 <td width="18%"><?php echo $program->type; ?></td>
                 <td width="18%"><?php echo $program->programDates; ?></td>

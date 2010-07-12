@@ -113,9 +113,55 @@ table.program_list_header     { width:100%; margin-top:50px; font-size:11pt; }
 table.program_list_header td  { padding:8px; }
 table.program_list            { width:100%; margin-top:10px; font-size:9pt; }
 table.program_list td         { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
-a.ordered_desc                { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
-a.add_to_cart                 { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
 
 /* Breadcrumbs */
 div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
  
+.ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
+.add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+
+.item_hover             { background:#aaa; cursor:pointer; }
+
+div.tab_panel {
+	width:80%;
+	margin:auto;
+	padding-top:30px;
+}
+
+ul.tabs {
+	list-style:none;
+	margin:0 !important;
+	padding:0;
+	height:30px;
+}
+
+ul.tabs li {
+	float:left;
+	text-indent:0;
+	padding:0;
+	margin:0 !important;
+	list-style-image:none !important;
+}
+
+ul.tabs li {
+	padding-right:5px;
+}
+
+ul.tabs div {
+	background:#999;
+	font-size:11px;
+	display:block;
+	height:30px;
+	line-height:30px;
+	text-align:center;
+	text-decoration:none;
+	color:#000;
+	padding:0px 15px 0px 15px;
+	margin:0px;
+	position:relative;
+	top:0px;
+}
+
+div.panes {
+	border:9px solid orange;
+}
