@@ -220,11 +220,34 @@ class Account extends AbstractController {
         // We must also make sure that if the user
         // hits Register from this screen that the
         // referal page gets passed along.
+        
+        $views = array(
+                    array('name' => 'main_nav', 'args' => null),
+                    array('name' => 'user/login', 'args' => null)
+                );
+        $this->loadViews($views, 'blue_short');
     }
     
-    public function showRegistration() {
-        // Show the registration page and embed the referal
-        // page as a hidden field if there was one.
+    /**
+     * User registration pages
+     *
+     * @param string $step the step in the registration process
+     * @param string $accountType the user's account type, either 'group' or 'individual'
+     */
+    public function showRegistration() {  
+        // TODO
+        // Set referral page in session, or pass through 
+        // to next page. 
+        
+        // Check for registration type in uri,
+        // otherwise display funnel if not set
+        if(!$this->uri->segment(3)) {
+            $this->showRegistrationFunnel();
+            return;
+        } else {
+            $accountType = $this->uri->segment(3);
+            $this->showRegistrationForm($accountType);
+        }
         
     }
     
@@ -232,14 +255,46 @@ class Account extends AbstractController {
      * Loads the funnel page which asks the user to
      * choose individual or group registration.
      */
-    public function showRegistrationFunnel() {
+    private function showRegistrationFunnel() {
         $views = array(
             array('name' => 'main_nav', 'args' => null),
-            array('name' => 'user/registration_funnel', 'args' => null)
+            array('name' => 'user/reg_funnel', 'args' => null)
         );
         $this->loadViews($views, 'blue_short');
         
     }
+    
+    /**
+     * Display the user registration form
+     *
+     * @param string $accountType the user's account type, either 'group' or 'individual'
+     */
+    private function showRegistrationForm($accountType) {
+        switch($accountType) {
+            case 'group':
+                $views = array(
+                    array('name' => 'main_nav', 'args' => null),
+                    array('name' => 'user/reg_group', 'args' => null)
+                );
+                $this->loadViews($views, 'blue_short');
+                break;
+            case 'individual':
+                // get the form template for individuals
+                $args['form'] = $this->load->view('user/form_individual', '', true);
+                
+                $views = array(
+                    array('name' => 'main_nav', 'args' => null),
+                    array('name' => 'user/reg_individual', 'args' => $args)
+                );
+                $this->loadViews($views, 'blue_short');
+                break;
+            default:
+                // the uri is invalid, so send the user back to the funnel
+                $this->showRegistrationFunnel();
+                break;
+        }
+        
+    }  
     
     public function showUserProfile() {
         // Get the user ID (from a cookie?)
