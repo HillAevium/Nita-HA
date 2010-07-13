@@ -19,7 +19,7 @@ a.search_bar_account          { left:248px; width:32px; background:url(../images
 a.search_bar_print            { left:281px; width:33px; background:url(../images/search_bar_print.png) center center no-repeat; }
 
 /* Main Nav */
-#main_nav                     { position:absolute; height:134px; }
+#main_nav                     { position:absolute; top:150px; height:134px; }
 #main_nav ul.menu             { position:relative; list-style:none; }
 #main_nav ul.menu li          { display:inline; }
 #main_nav ul.menu li a        { display:block; line-height:123px; float:left; text-align:center; text-decoration:none; vertical-align:bottom; }
@@ -109,9 +109,8 @@ div.header_bar_blue_full      { width:941px; height:28px; margin-bottom:3px; bac
 div#sign_in                   { margin:-10px 0 10px 0; }
 div.pagination                { padding:40px 0 0 10px; }
 table.reg_funnel              { width:100%; margin-top:44px; }
-table.program_list_header     { width:100%; margin-top:50px; font-size:11pt; }
-table.program_list_header td  { padding:8px; }
-table.program_list            { width:100%; margin-top:10px; font-size:9pt; }
+table.program_list            { width:100%; margin-top:30px; font-size:9pt; }
+table.program_list thead td   { padding:10px; font-size:11pt; }
 table.program_list td         { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
 
 /* Breadcrumbs */

@@ -1,7 +1,4 @@
-<div id="content_top_short"></div>
-<div id="content_main">
     <div id="content_main_inner">
-        <div id="breadcrumb"></div>
         <h1 class="page_title">Sign In / Create Account</h1>
         <div class="gray_line"></div>
         <table width="100%">
@@ -31,4 +28,3 @@
         </table>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->
-</div> <!-- #content_main -->

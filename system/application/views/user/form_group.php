@@ -1,3 +1,4 @@
+<profilefields>
 <div class="header_bar_blue_full">
     <table class="header">
         <tr>
@@ -20,10 +21,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="firstName" class="small"/>
+                        <input name="firstName[]" class="small"/>
                     </td>
                     <td>
-                        <input name="lastName" class="small"/>
+                        <input name="lastName[]" class="small"/>
                     </td>
                 </tr>
                 <tr>
@@ -33,7 +34,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="address" class="large" />
+                        <input name="address[]" class="large" />
                     </td>
                 </tr>
                 <tr>
@@ -46,10 +47,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="city" class="small"/>
+                        <input name="city[]" class="small"/>
                     </td>
                     <td>
-                        <input name="state" class="small"/>
+                        <input name="state[]" class="small"/>
                     </td>
                 </tr>
                 <tr>
@@ -62,10 +63,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="phone" class="small"/>
+                        <input name="phone[]" class="small"/>
                     </td>
                     <td>
-                        <input name="email" class="small"/>
+                        <input name="email[]" class="small"/>
                     </td>
                 </tr>
             </table>
@@ -82,13 +83,14 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="username" class="small"/>
+                        <input name="username[]" class="small"/>
                     </td>
                     <td>
-                        <input name="password" type="password" class="small"/>
+                        <input name="password[]" type="password" class="small"/>
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
 </table>
+</profilefields>

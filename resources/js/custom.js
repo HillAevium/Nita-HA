@@ -28,6 +28,14 @@ function doPageLoad(uri, secure, useHistory) {
 }
 
 /**
+ * Click event handler for 'add account' button on registration page.
+ */
+function addAccount() {
+    var fields = $("profilefields");
+    $("form[name='regForm']").append(fields.html());
+}
+
+/**
  * Click event handler for 'add to shopping cart' button.
  */
 function handleCartItemClick(id) {
