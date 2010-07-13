@@ -23,6 +23,18 @@ class Soap {
         $this->programUri = $soap['services']['programs'];
     }
     
+    public function getContent($id) {
+        // TODO
+    }
+    
+    public function getContentByNavName($navName) {
+        // TODO
+    }
+    
+    public function getContentTree($id) {
+        // TODO
+    }
+    
     public function getAllPrograms() {
         return $this->doProgramServiceGetActivePrograms();
     }
@@ -156,6 +168,44 @@ class Soap {
         $programModel->startDate     = $this->formatDate($programModel->startDate);
         $programModel->registerEnd   = $this->formatDate($programModel->registerEnd);
         $programModel->registerStart = $this->formatDate($programModel->registerStart);
+        
+        return $programModel;
+    }
+    
+    /**
+     * Converts the model returned by the soap service into a
+     * CI model for Content objects.
+     *
+     * @param WebPageModel(WebPageService) $soapModel the model to convert
+     */
+    private function convertContentModel($soapModel) {
+        $contentModel = new Content();
+        
+        $contentModel->id       = $soapModel->Nita_webpageId;
+        $contentModel->parentId = $soapModel->Nita_ParentPageId;
+        $contentModel->navIsNav = $soapModel->Nita_nav_is_nav;
+        $contentModel->navLog   = $soapModel->Nita_nav_log;
+        $contentModel->navName  = $soapModel->Nita_nav_name;
+        $contentModel->navOrder = $soapModel->Nita_nav_order;
+        $contentModel->navUrl   = $soapModel->Nita_nav_url;
+        $contentModel->navUse   = $soapModel->Nita_nav_use;
+        $contentModel->date     = $soapModel->Nita_page_date;
+        $contentModel->desc     = $soapModel->Nita_page_desc;
+        $contentModel->header1  = $soapModel->Nita_page_header_1;
+        $contentModel->header2  = $soapModel->Nita_page_header_2;
+        $contentModel->image    = $soapModel->Nita_page_image;
+        $contentModel->keywords = $soapModel->Nita_page_keywords;
+        $contentModel->name     = $soapModel->Nita_page_name;
+        $contentModel->style    = $soapModel->Nita_page_style;
+        $contentModel->tag1     = $soapModel->Nita_page_tag_1;
+        $contentModel->tag2     = $soapModel->Nita_page_tag_2;
+        $contentModel->text     = $soapModel->Nita_page_text;
+        
+        // Do some date formatting
+        $contentModel->date       = $this->formatDate($contentModel->date);
+        
+        return $contentModel;
+
     }
     
     private function formatDate($date) {
