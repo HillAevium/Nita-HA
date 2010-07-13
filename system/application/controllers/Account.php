@@ -121,15 +121,26 @@ class Account extends AbstractController {
     public function doRegistration() {
         // Validate form data
         
+        // There's a config setting that we can set which will
+        // automatically scrub all POST data for XSS and such
+        $data = $_POST;
+        // Testing the forms...
+        print_r($data);
+        
         // If this is a single user registration
         // create a single user model.
-        
-        // If this is a firm registration
+        if($_POST['regType'] == 'individual') {
+            // TODO
+        }
+        // If this is a group registration
         // create a firm model and a user model
         // with this user being the firm's superuser.
+        else if ($_POST['regType'] == 'group') {
+            // TODO
+        }
         
         // If this is a user being added to a firm
-        // create a user model and assocaiate them
+        // create a user model and associate them
         // with the firm.
         
         // If there was a referal page that the user
@@ -241,11 +252,11 @@ class Account extends AbstractController {
         
         // Check for registration type in uri,
         // otherwise display funnel if not set
-        if(!$this->uri->segment(3)) {
+        if(!$this->getArgument('type')) {
             $this->showRegistrationFunnel();
             return;
         } else {
-            $accountType = $this->uri->segment(3);
+            $accountType = $this->getArgument('type');
             $this->showRegistrationForm($accountType);
         }
         
@@ -272,9 +283,12 @@ class Account extends AbstractController {
     private function showRegistrationForm($accountType) {
         switch($accountType) {
             case 'group':
+                // get the form template for groups
+                $args['form'] = $this->load->view('user/form_group', '', true);
+                
                 $views = array(
                     array('name' => 'main_nav', 'args' => null),
-                    array('name' => 'user/reg_group', 'args' => null)
+                    array('name' => 'user/reg_group', 'args' => $args)
                 );
                 $this->loadViews($views, 'blue_short');
                 break;
