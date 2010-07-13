@@ -23,28 +23,28 @@
  */
 ?>
 
-<div class="tab_panel" id="tab_panel">
-  <ul class="tabs">
-    <?php foreach($tabs as $tab): ?>
-      <li id="tab">
-        <div class='<?php echo $class['tabs']; ?>'
-             id='<?php echo $tab['id']; ?>'>
-          <?php echo $tab['name']; ?>
-        </div>
-      </li>
-    <?php endforeach; ?>
-  </ul>
+    <div class="tab_panel" id="tab_panel">
+        <ul class="tabs">
+        <?php foreach($tabs as $tab): ?>
+            <li id="tab">
+                <div class='<?php echo $class['tabs']; ?>'
+                 id='<?php echo $tab['id']; ?>'>
+                    <?php echo $tab['name']; ?>
+                </div>
+            </li>
+        <?php endforeach; ?>
+        </ul>
   
-  <div class="panes">
-    <?php foreach($tabs as $tab): ?>
-      <div class='<?php echo $class['border']; ?>'
-           id='<?php echo $tab['id']; ?>'>
-        <?php
-        if(isset($tab['content'])) {
-            echo $tab['content'];
-        }
-        ?>
-      </div>
-    <?php endforeach; ?>
-  </div>
-</div> <!-- #tab_panel -->
+        <div class="panes">
+            <?php foreach($tabs as $tab): ?>
+            <div class='<?php echo $class['border']; ?>'
+                 id='<?php echo $tab['id']; ?>'>
+                <?php
+                if(isset($tab['content'])) {
+                    echo $tab['content'];
+                }
+                ?>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div> <!-- #tab_panel -->

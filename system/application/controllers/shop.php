@@ -53,7 +53,7 @@ class Shop extends AbstractController {
         }
         
         // Set the title to the Program being viewed
-        $this->title = $args['program']->name;
+        $this->title = $model['model']->name;
         
         // TODO
         // Some of these will likely get created
@@ -61,22 +61,22 @@ class Shop extends AbstractController {
         // that.
         // Load our content panels
         $content[] = $this->load->view('programs/overview',  $model, true);
-        $content[] = $this->load->view('programs/schedule',  $model, true);
-        $content[] = $this->load->view('programs/logistics', $model, true);
-        $content[] = $this->load->view('programs/materials', $model, true);
-        $content[] = $this->load->view('programs/faculty',   $model, true);
-        $content[] = $this->load->view('programs/credits',   $model, true);
-        $content[] = $this->load->view('programs/forum',     $model, true);
+//        $content[] = $this->load->view('programs/schedule',  $model, true);
+//        $content[] = $this->load->view('programs/logistics', $model, true);
+//        $content[] = $this->load->view('programs/materials', $model, true);
+//        $content[] = $this->load->view('programs/faculty',   $model, true);
+//        $content[] = $this->load->view('programs/credits',   $model, true);
+//        $content[] = $this->load->view('programs/forum',     $model, true);
         
         // Setup the tab panel
         $tabs = array(
             array('name' => 'Overview',    'id' => 'overview',  'content' => $content[0]),
-            array('name' => 'Schedule',    'id' => 'schedule',  'content' => $content[1]),
-            array('name' => 'Logistics',   'id' => 'logistics', 'content' => $content[2]),
-            array('name' => 'Materials',   'id' => 'materials', 'content' => $content[3]),
-            array('name' => 'Faculty',     'id' => 'faculty',   'content' => $content[4]),
-            array('name' => 'CLE Credits', 'id' => 'credits',   'content' => $content[5]),
-            array('name' => 'Forum',       'id' => 'forum',     'content' => $content[6])
+//            array('name' => 'Schedule',    'id' => 'schedule',  'content' => $content[1]),
+//            array('name' => 'Logistics',   'id' => 'logistics', 'content' => $content[2]),
+//            array('name' => 'Materials',   'id' => 'materials', 'content' => $content[3]),
+//            array('name' => 'Faculty',     'id' => 'faculty',   'content' => $content[4]),
+//            array('name' => 'CLE Credits', 'id' => 'credits',   'content' => $content[5]),
+//            array('name' => 'Forum',       'id' => 'forum',     'content' => $content[6])
         );
         
         // And the tabs classes

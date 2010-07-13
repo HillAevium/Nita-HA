@@ -1,3 +1,5 @@
 <div id="content_main">
-  <?php echo $content; ?>
+    <div id="content_top"></div>
+    <div id="breadcrumb"></div>
+    <?php echo $content; ?>
 </div>
