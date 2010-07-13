@@ -1,5 +1,4 @@
     <div id="content_main_inner">
-        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
         <table class="product_list">
             <thead>
                 <tr>
@@ -9,14 +8,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($publications as $pub): ?>
+                <?php foreach($models as $model): ?>
                 <tr>
-                    <td><?php echo $pub->name; ?></td>
-                    <td>$<?php echo $pub->price; ?></td>
+                    <td><?php echo $model->name; ?></td>
+                    <td>$<?php echo $model->price; ?></td>
                     <td valign="middle"><a class="add_to_cart" href=""></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
     </div> <!-- #content_main_inner -->

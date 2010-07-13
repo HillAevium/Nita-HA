@@ -68,7 +68,7 @@ class Program extends Model {
      *
      * @return an array of Programs
      */
-    public function getAllPrograms() {
+    public function getAll() {
         $programs = $this->soap->getAllPrograms();
         
         return $programs;
@@ -80,7 +80,7 @@ class Program extends Model {
      * @param int $id the id of a Program
      * @return a Program matching the id
      */
-    public function getProgram($id) {
+    public function getSingle($id) {
         $program = $this->soap->getProgram($id);
         
         return $program;
@@ -92,7 +92,7 @@ class Program extends Model {
      * @param FilterSet $filters a set of search parameters to apply to the query
      * @return an array of Programs
      */
-    public function getPrograms(FilterSet $filters) {
+    public function getFiltered(FilterSet $filters) {
         $programs = $this->soap->getPrograms($filters);
         
         return $programs;

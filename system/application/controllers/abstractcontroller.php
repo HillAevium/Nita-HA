@@ -14,13 +14,19 @@ abstract class AbstractController extends Controller {
      */
     
     // the uri arguments
-    protected $arguments;
-    // the page title
-    protected $title;
-    // ajax request
-    protected $ajax = false;
-    // show the main navigation container
-    protected $showMainNav = false;
+    private $arguments;
+    // options for the loadViews
+    private $viewOptions = array();
+    
+    /* viewOptions
+     * bodyClass - sets the class of the body tag for the page
+     * debug     - boolean switch to turn the debug console on/off
+     * mainNav   - boolean switch to turn the mainNav on/off
+     * pageTitle - title for the browser window
+     * views     - an array of views consisting of the following structure:
+     *             'name': the name of the view to load
+     *             'args': the arguments the view uses to render itself
+     */
     
     private $debugOptions = DEBUG_NONE;
     
@@ -58,21 +64,20 @@ abstract class AbstractController extends Controller {
         return $this->haveArgument($name) ? $this->arguments[$name] : false;
     }
     
+    protected function getViewOption($option) {
+        return $this->haveViewOption($option) ? $this->viewOptions[$option] : false;
+    }
+    
     protected function haveArgument($name) {
         return isset($this->arguments[$name]);
     }
     
-    protected function createPaginationLinks($function, $totalRows) {
-        $this->load->library('pagination');
-        
-        // Move this to config/pagination.php ?
-        $config['base_url'] = 'http://' . $_SERVER['HTTP_HOST'] . '/shop/' . $function . '/offset/';
-        $config['total_rows'] = $totalRows;
-        $config['per_page'] = 8;
-        
-        $this->pagination->initialize($config);
-        
-        return $this->pagination->create_links();
+    protected function haveViewOption($option) {
+        return isset($this->viewOptions[$option]);
+    }
+    
+    protected function setViewOption($option, $value) {
+        $this->viewOptions[$option] = $value;
     }
     
     /**
@@ -83,16 +88,22 @@ abstract class AbstractController extends Controller {
      *                     into the main content area
      * @param string $bodyClass optional css class to be applied to the <body>
      */
-    protected function loadViews(array $views, $bodyClass = '') {
-        $this->load->view('http_header', array('title' => $this->title));
-        if($bodyClass != '') {
+    protected function loadViews() {
+        $bodyClass = $this->getViewOption('bodyClass');
+        $debug     = $this->getViewOption('debug');
+        $mainNav   = $this->getViewOption('mainNav');
+        $title     = $this->getViewOption('pageTitle');
+        $views     = $this->getViewOption('views');
+        
+        $this->load->view('http_header', array('title' => $title));
+        if($bodyClass !== false) {
             $this->load->view('header', array('bodyClass' => $bodyClass));
         } else {
             $this->load->view('header');
         }
         
-	// Only show the nav bar if its requested
-        if($this->showMainNav) {
+        // Only show the nav bar if its requested
+        if($mainNav) {
             $this->load->view('main_nav');
         }
         
