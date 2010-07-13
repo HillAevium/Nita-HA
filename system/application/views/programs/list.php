@@ -18,7 +18,7 @@
                 <td width="18%"><?php echo $program->programDates; ?></td>
                 <td width="19%"><?php echo $program->location . '<br/>' . $program->city; ?></td>
                 <td width="15%">$<?php echo $program->price; ?></td>
-                <td width="5%" valign="middle"><a class="add_to_cart" href=""></a></td>
+                <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></a></td>
             </tr>
             <?php endforeach; ?>
         </table>

@@ -30,8 +30,8 @@ function doPageLoad(uri, secure, useHistory) {
 /**
  * Click event handler for 'add to shopping cart' button.
  */
-function handleCartItemClick() {
-    alert("Cart item clicked");
+function handleCartItemClick(id) {
+    alert("You have selected: " + id);
 }
 
 /**
@@ -56,7 +56,17 @@ function handleItemClick(event) {
     // Swap the list for the details
     doContainerSwap(requestUrl, listPanel, addTabHandler);
     */
-    doPageLoad('/shop/program/id/' + event.currentTarget.id, false, true);
+    
+    // If the cart was clicked divert to the event handler
+    // for that. We do this here to make it easier to find
+    // which item was clicked without embedding it into the
+    // cart div itself.
+    if(event.target.id == 'cart_item') {
+        var id = event.currentTarget.id;
+        handleCartItemClick(id);
+    } else {
+        doPageLoad('/shop/program/id/' + event.currentTarget.id, false, true);
+    }
 }
 
 /**
@@ -67,7 +77,6 @@ function handleItemClick(event) {
 function addItemHandler() {
     $("table#items > tbody > tr").hover(handleItemHover, handleItemHover);
     $("table#items > tbody > tr").click(handleItemClick);
-    $("cartItem").click(handleCartItemClick);
 }
 
 /**
