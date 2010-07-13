@@ -23,7 +23,14 @@ class Main extends AbstractController {
         );
         
         // ... and go
-        $this->loadViews($views);
+        
+        // FIXME This broke the main page which does not want
+        // the other parts of the content pane
+        //$this->loadViews($views);
+        $this->load->view('http_header', array('title' => $this->title));
+        $this->load->view('header');
+        $this->load->view('home/default');
+        $this->load->view('footer');
     }
 }
 

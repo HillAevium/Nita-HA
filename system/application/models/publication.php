@@ -34,7 +34,7 @@ class Publication extends Model {
      *
      * @return an array of Publications
      */
-    public function getAllPublications() {
+    public function getAll() {
         $publications = $this->soap->getAllPublications();
         
         return $publications;
@@ -46,7 +46,7 @@ class Publication extends Model {
      * @param int $id the id of a Publication
      * @return a Publication matching the id
      */
-    public function getPublication($id) {
+    public function getSingle($id) {
         $publication = $this->soap->getPublication($id);
         
         return $publication;
@@ -58,7 +58,7 @@ class Publication extends Model {
      * @param FilterSet $filters a set of search parameters to apply to the query
      * @return an array of Publications
      */
-    public function getPublications(FilterSet $filters) {
+    public function getFiltered(FilterSet $filters) {
         $publications = $this->soap->getPublications($filters);
         
         return $publications;
