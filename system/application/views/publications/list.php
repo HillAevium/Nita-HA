@@ -1,8 +1,5 @@
-<div id="content_top"></div>
-<div id="content_main">
     <div id="content_main_inner">
-        <div id="breadcrumb"></div>
-        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->  
+        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
         <table class="product_list">
             <thead>
                 <tr>
@@ -23,4 +20,3 @@
         </table>
         <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
     </div> <!-- #content_main_inner -->
-</div> <!-- #content_main -->
