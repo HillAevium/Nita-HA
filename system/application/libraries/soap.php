@@ -18,7 +18,7 @@ class Soap {
      * Construct a new Soap API object
      */
     public function Soap() {
-        $CI = get_instance();
+        $CI =& get_instance();
         $soap = $CI->config->item('soap');
         $this->soapUrl    = $soap['server'];
         $this->programUri = $soap['services']['programs'];
