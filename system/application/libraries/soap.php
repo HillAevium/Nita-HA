@@ -12,13 +12,14 @@ class Soap {
     private $soapUrl;
     private $programUri;
     // Date Format -> March 23rd, 2009
-    private $dateFormat = 'F jS, Y';
+    private $dateFormat = 'n/j/Y';
     
     /**
      * Construct a new Soap API object
      */
     public function Soap() {
-        global $soap;
+        $CI = get_instance();
+        $soap = $CI->config->item('soap');
         $this->soapUrl    = $soap['server'];
         $this->programUri = $soap['services']['programs'];
     }
@@ -115,7 +116,7 @@ class Soap {
         
         // Process the results into an array of Program objects
         $programs = array();
-        foreach($soapResult as $program) {
+        foreach($soapResult->ProgramModel as $program) {
             $programs[] = $this->convertProgramModel($program);
         }
         
@@ -130,10 +131,10 @@ class Soap {
      */
     private function convertProgramModel($soapModel) {
         $programModel = new Program();
-        $programModel->address          = $soapModel->NITA_FacilityAddress1 . ":" .
-                                          $soapModel->NITA_FacilityAddress2 . ":" .
-                                          $soapModel->NITA_FacilityAddress3 . ":" .
-                                          $soapModel->NITA_FacilityAddress4;
+        $programModel->address          = $soapModel->NITA_FacilityAddr1 . ":" .
+                                          $soapModel->NITA_FacilityAddr2 . ":" .
+                                          $soapModel->NITA_FacilityAddr3 . ":" .
+                                          $soapModel->NITA_FacilityAddr4;
         $programModel->capacityMax      = $soapModel->NITA_MaxCapacity;
         $programModel->capacityMin      = $soapModel->NITA_MinCapacity;
         $programModel->city             = $soapModel->NITA_FacilityCity;
@@ -147,12 +148,14 @@ class Soap {
         $programModel->endDate          = $soapModel->NITA_EndDate;
         $programModel->id               = $soapModel->NITA_ProgramId;
         $programModel->location         = $soapModel->NITA_FacilityName;
-        $programModel->name             = $soapModel->NITA_Title;
+        $programModel->name             = $soapModel->NITA_name;
         $programModel->price            = $soapModel->NITA_TuitionPriceStandard;
         $programModel->registerEnd      = $soapModel->NITA_RegistrationEndDate;
         $programModel->registerStart    = $soapModel->NITA_RegistrationBeginDate;
         $programModel->startDate        = $soapModel->NITA_StartDate;
         $programModel->state            = $soapModel->NITA_FacilityState;
+        $programModel->title            = $soapModel->NITA_Title;
+        $programModel->typeId           = $soapModel->nita_programtypeid;
         $programModel->zip              = $soapModel->NITA_FacilityZip;
         
         // Do some date formatting
@@ -160,6 +163,7 @@ class Soap {
         $programModel->startDate     = $this->formatDate($programModel->startDate);
         $programModel->registerEnd   = $this->formatDate($programModel->registerEnd);
         $programModel->registerStart = $this->formatDate($programModel->registerStart);
+        $programModel->dates         = $programModel->startDate . ' - ' . $programModel->endDate;
         
         return $programModel;
     }

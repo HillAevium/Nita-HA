@@ -13,7 +13,7 @@
 |       http://10.42.122.19/
 |
 */
-$soap['server'] = 'http://10.137.1.49:6652/';
+$config['soap']['server'] = 'http://72.54.98.142:6652/';
 
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +25,10 @@ $soap['server'] = 'http://10.137.1.49:6652/';
 |
 |       SomeWsdlService.svc?wsdl
 */
-$soap['services']['webPages'] = 'WebPageService.svc?wsdl';
-$soap['services']['programs'] = 'ProgramService.svc?wsdl';
-$soap['services']['users']    = 'AccountService.svc?wsdl';
-$soap['services']['contacts'] = 'ContactService.svc?wsdl';
+$config['soap']['services']['webPages'] = 'WebPageService.svc?wsdl';
+$config['soap']['services']['programs'] = 'ProgramService.svc?wsdl';
+$config['soap']['services']['users']    = 'AccountService.svc?wsdl';
+$config['soap']['services']['contacts'] = 'ContactService.svc?wsdl';
 
 
 /*
@@ -38,7 +38,7 @@ $soap['services']['contacts'] = 'ContactService.svc?wsdl';
 |
 | Page ID numbers for contentent coming from CRM.
 */
-$soap['page']['home']   = 'f4d317f9-f37e-df11-8d9f-000c2916a1cb';
-$soap['page']['footer'] = '582cd7a9-8f80-df11-8d9f-000c2916a1cb';
+$config['soap']['page']['home']   = 'f4d317f9-f37e-df11-8d9f-000c2916a1cb';
+$config['soap']['page']['footer'] = '582cd7a9-8f80-df11-8d9f-000c2916a1cb';
 
 /* End of file soap.php */

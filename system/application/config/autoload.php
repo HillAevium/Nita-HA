@@ -39,7 +39,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('mocksoap');
+$autoload['libraries'] = array('soap');
 // TODO change to the one below when going live
 //$autoload['libraries'] = array('soak');
 
@@ -80,7 +80,7 @@ $autoload['plugin'] = array();
 |
 */
 
-$autoload['config'] = array('');
+$autoload['config'] = array('soap');
 
 
 /*

@@ -1,7 +1,6 @@
 <?php
 
 require_once BASEPATH.'/libraries/Model.php';
-require_once APPPATH.'/libraries/filter/FilterSet.php';
 
 /**
  * A model for a Program.
@@ -55,6 +54,7 @@ class Program extends Model {
     public $startDate          = '';
     public $state              = '';
     public $title              = '';
+    public $typeId             = '';
     public $zip                = '';
     
     /*TODO - Parameters

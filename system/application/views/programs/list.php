@@ -12,13 +12,13 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($programs as $program): ?>
-                <tr id="<?php echo $program->id; ?>">
-                    <td width="25%"><?php echo $program->title; ?></td>
-                    <td width="18%"><?php echo $program->typeId; ?></td>
-                    <td width="18%"><?php echo $program->dates; ?></td>
-                    <td width="19%"><?php echo $program->location . '<br/>' . $program->city . ', ' . $program->state; ?></td>
-                    <td width="15%">$<?php echo $program->price; ?></td>
+                <?php foreach($models as $model): ?>
+                <tr id="<?php echo $model->id; ?>">
+                    <td width="25%"><?php echo $model->title; ?></td>
+                    <td width="18%"><?php echo $model->typeId; ?></td>
+                    <td width="18%"><?php echo $model->dates; ?></td>
+                    <td width="19%"><?php echo $model->location . '<br/>' . $model->city . ', ' . $model->state; ?></td>
+                    <td width="15%">$<?php echo $model->price; ?></td>
                     <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></a></td>
                 </tr>
                 <?php endforeach; ?>
