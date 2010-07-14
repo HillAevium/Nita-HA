@@ -23,29 +23,39 @@ class Program extends Model {
     // the moment i dont like the way it is, but we won't know the best format
     // for the view until the view is actually using this info.
     
-    public $address        = '';
-    public $capacityMax    = '';
-    public $capacityMin    = '';
-    public $city           = '';
-    public $cleCredits     = '';
-    public $description    = '';
-    public $descriptor     = '';
-    public $dinnerDate     = '';
-    public $dinnerLocation = '';
-    public $director       = array();
-    public $discounts      = array(); // may require an object
-    public $duration       = '';
-    public $endDate        = '';
-    public $id             = '';
-    public $location       = '';
-    public $name           = '';
-    public $type           = '';
-    public $price          = '';
-    public $registerEnd    = '';
-    public $registerStart  = '';
-    public $startDate      = '';
-    public $state          = '';
-    public $zip            = '';
+    public $accountId          = '';
+    public $address            = '';
+    public $capacityMax        = '';
+    public $capacityMin        = '';
+    public $categoryId         = '';
+    public $city               = '';
+    public $cleCredits         = '';
+    public $credits50Min       = '';
+    public $credits60Min       = '';
+    public $dates              = '';
+    public $description        = '';
+    public $descriptor         = '';
+    public $dinnerDate         = '';
+    public $dinnerLocation     = '';
+    public $director           = array();
+    public $discounts          = array(); // may require an object
+    public $duration           = '';
+    public $endDate            = '';
+    public $id                 = '';
+    public $location           = '';
+    public $materialTemplateId = '';
+    public $name               = '';
+    public $type               = '';
+    public $periodId           = '';
+    public $price              = '';
+    public $priceConfirmed     = '';
+    public $regionId           = '';
+    public $registerEnd        = '';
+    public $registerStart      = '';
+    public $startDate          = '';
+    public $state              = '';
+    public $title              = '';
+    public $zip                = '';
     
     /*TODO - Parameters
      * Director(s) / speaker(s) - provide links to bios
@@ -60,7 +70,7 @@ class Program extends Model {
     public function Program() {
         parent::Model();
         // TODO - Remove this once the soap API goes live
-        $this->soap =& $this->mocksoap;
+        //$this->soap =& $this->mocksoap;
     }
     
     /**
@@ -70,7 +80,7 @@ class Program extends Model {
      */
     public function getAllPrograms() {
         $programs = $this->soap->getAllPrograms();
-        
+
         return $programs;
     }
     
