@@ -26,16 +26,8 @@ class MockSoap extends Soap {
         return $this->mockProgram($id);
     }
     
-    public function getPrograms(FilterSet $filters) {
-        throw new RuntimeException("Not Implemented");
-    }
-    
     public function getPublication($id) {
         return $this->mockPublication($id);
-    }
-    
-    public function getPublications(FilterSet $filters) {
-        throw new RuntimeException("Not Implemented");
     }
     
     private function mockProgram($id = '') {
