@@ -9,10 +9,10 @@
                 <div id="search_bar_search">
                     <input name="search" type="text" />
                 </div>
-                <a id="search_bar_rss" class="search_bar_rss" href=""></a>
-                <a id="search_bar_cart" class="search_bar_cart" href=""></a>
-                <a id="search_bar_account" class="search_bar_account" href=""></a>
-                <a id="search_bar_print" class="search_bar_print" href=""></a>
+                <a id="search_bar_rss" class="search_bar_rss has_hover" href=""></a>
+                <a id="search_bar_cart" class="search_bar_cart has_hover" href=""></a>
+                <a id="search_bar_account" class="search_bar_account has_hover" href=""></a>
+                <a id="search_bar_print" class="search_bar_print has_hover" href=""></a>
             </div>
         </div>
     </div> <!-- #header_inner -->
