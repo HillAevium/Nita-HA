@@ -79,7 +79,7 @@ abstract class AbstractController extends Controller {
     
     protected function getRandomText($amount) {
         $output = '';
-        for($i = 0; i < $amount; $i++) {
+        for($i = 0; $i < $amount; $i++) {
             $output .= $this->lipsum['50'];
         }
         return $output;

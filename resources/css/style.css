@@ -38,6 +38,7 @@ a.search_bar_print            { left:281px; width:33px; background:url(../images
 #content_top div.summary      { position:absolute; top:87px; left:300px; width:634px; }
 #content_top div.image        { position:absolute; top:87px; left:20px; width:260px; height:190px; background:yellow; }
 #content_top h1               { font-size:15pt; font-weight:normal; padding:0 300px 10px 0; line-height:23pt; border-bottom:1px solid #fff; }
+#content_top div.content      { position:relative; top:10px; }
 #content_top_short            { width:100%; height:170px; }
 #content_main                 { width:945px; margin:0 auto; }
 #content_main_inner           { position:relative; width:100%; }

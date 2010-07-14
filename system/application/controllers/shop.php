@@ -152,6 +152,13 @@ class Shop extends AbstractController {
             show_404('/shop/'.$type.'/id/'.$id);
         }
         
+        // Setup the topbox content
+        $topbox = array(
+            'image'   => 'topbox_test.jpg',
+            'title'   => $model->title,
+            'content' => $this->getRandomText(1)
+        );
+        
         // Setup the breadcrumb
         $breadcrumb = array(
             $this->breadcrumbs['home'],
@@ -161,6 +168,7 @@ class Shop extends AbstractController {
         
         // Load the view options
         $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('topbox', $topbox);
         $this->setViewOption('pageTitle', $model->title);
         $this->setViewOption('bodyClass', $bodyColor);
         
@@ -187,8 +195,15 @@ class Shop extends AbstractController {
             $this->breadcrumbs[$type]
         );
         
+        // Setup the topbox content
+        $topbox = array(
+            'image'   => 'topbox_test.jpg',
+            'title'   => strtoupper($this->titles[$type]),
+            'content' => $this->getRandomText(1)
+        );
         
         // Load the view options
+        $this->setViewOption('topbox', $topbox);
         $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('views', $views);
         $this->setViewOption('pageTitle', $this->titles[$type]);
