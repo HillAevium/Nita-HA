@@ -158,12 +158,18 @@ class Soap {
         $programModel->typeId           = $soapModel->nita_programtypeid;
         $programModel->zip              = $soapModel->NITA_FacilityZip;
         
-        // Do some date formatting
+        // Format dates
         $programModel->endDate       = $this->formatDate($programModel->endDate);
         $programModel->startDate     = $this->formatDate($programModel->startDate);
         $programModel->registerEnd   = $this->formatDate($programModel->registerEnd);
         $programModel->registerStart = $this->formatDate($programModel->registerStart);
         $programModel->dates         = $programModel->startDate . ' - ' . $programModel->endDate;
+        
+        // Format numbers
+        $programModel->price = number_format($programModel->price,2,'.','');
+        
+        // Format text
+        $programModel->description = nl2br($programModel->description);
         
         return $programModel;
     }
