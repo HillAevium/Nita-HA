@@ -6,6 +6,6 @@
             <h1>Robert F. Hanley Advanced Advocacy Skills</h1>
         </div> 
     </div>
-    <div id="breadcrumb"></div>
+    <?php echo $breadcrumb; ?>
     <?php echo $content; ?>
 </div>

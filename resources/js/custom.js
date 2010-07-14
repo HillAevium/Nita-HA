@@ -77,6 +77,11 @@ function handleItemClick(event) {
     }
 }
 
+function handleBreadcrumbClick(event) {
+    var id = event.target.id;
+    doPageLoad(id, false, true);
+}
+
 /**
  * Add event handlers to listed items.
  * 
@@ -96,12 +101,17 @@ function addTabHandler() {
     $("ul.tabs").tabs("div.panes > div");
 }
 
+function addBreadcrumbHandler() {
+    $("div#breadcrumb > div.parent").click(handleBreadcrumbClick);
+}
+
 /*
  * bootstrap
  */
 function init() {
     addItemHandler();
     addTabHandler();
+    addBreadcrumbHandler();
 }
 
 $(init);

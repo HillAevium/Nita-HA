@@ -5,6 +5,7 @@ require_once APPPATH.'/controllers/AbstractController.php';
 class Shop extends AbstractController {
     
     private $titles;
+    private $breadcrumbs;
     
     public function Shop() {
         parent::AbstractController();
@@ -14,8 +15,18 @@ class Shop extends AbstractController {
         // All entry points here use the main
         // navigation
         $this->setViewOption('mainNav', true);
+        
+        // Create the page titles
         $this->titles['publication'] = 'Nita - Our Publications';
         $this->titles['program'] = 'Nita - Our Programs';
+        
+        // Create the breadcrumbs
+        
+        $this->breadcrumbs = array(
+            'home'        => array('name' => 'Home', 'id' => '/main/index/'),
+            'program'     => array('name' => 'Programs',     'id' => '/shop/programs/'),
+            'publication' => array('name' => 'Publications', 'id' => '/shop/publications')
+        );
     }
     
     /**
@@ -134,7 +145,7 @@ class Shop extends AbstractController {
         $this->load->model($type);
         
         // Get the model for the details
-        $model['model'] = $this->$type->getSingle($id);
+        $model = $this->$type->getSingle($id);
         
         // We need to check if we got a program as the ID could
         // have been entered by hand and been invalid
@@ -142,11 +153,19 @@ class Shop extends AbstractController {
             show_404('/shop/'.$type.'/id/'.$id);
         }
         
-        // Set the title to the Program being viewed
-        $this->setViewOption('pageTitle', $model['model']->name);
+        // Setup the breadcrumb
+        $breadcrumb = array(
+            $this->breadcrumbs['home'],
+            $this->breadcrumbs[$type],
+            array('name' => $model->title)
+        );
+        
+        // Load the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('pageTitle', $model->title);
         $this->setViewOption('bodyClass', $bodyColor);
         
-        return $model;
+        return array('model' => $model);
     }
     
     private function renderList($type, $bodyColor) {
@@ -163,7 +182,15 @@ class Shop extends AbstractController {
             array('name' => $type.'s/list', 'args' => array('models' => $models))
         );
         
-        // Load it into the options
+        // Setup the breadcrumb
+        $breadcrumb = array(
+            $this->breadcrumbs['home'],
+            $this->breadcrumbs[$type]
+        );
+        
+        
+        // Load the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('views', $views);
         $this->setViewOption('pageTitle', $this->titles[$type]);
         $this->setViewOption('bodyClass', $bodyColor);

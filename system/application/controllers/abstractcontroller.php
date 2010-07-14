@@ -19,6 +19,9 @@ abstract class AbstractController extends Controller {
     private $viewOptions = array();
     
     /* viewOptions
+     * breadcrumb - an indexed array of strings to add to the
+     *              breadcrumb bar. Each element has an array with
+     *              two elements, 'id' and 'name'.
      * bodyClass - sets the class of the body tag for the page
      * debug     - boolean switch to turn the debug console on/off
      * mainNav   - boolean switch to turn the mainNav on/off
@@ -107,12 +110,27 @@ abstract class AbstractController extends Controller {
             $this->load->view('main_nav');
         }
         
-        // Load the content container and inject the
-        // requested view into it.
+        // Load the top box container for injection
+        $args['topbox'] = '';
+        if($this->haveViewOption('topbox')) {
+            $topbox['topbox'] = $this->getViewOption('topbox');
+            $args['topbox'] = $this->load->view('topbox', $topbox, true);
+        }
+        
+        // Load the breadcrumb for injection
+        $args['breadcrumb'] = '';
+        if($this->haveViewOption('breadcrumb')) {
+            $breadcrumb['breadcrumb'] = $this->getViewOption('breadcrumb');
+            $args['breadcrumb'] = $this->load->view('breadcrumb', $breadcrumb, true);
+        }
+        
+        // Load the content pane for injection
         $args['content'] = '';
         foreach($views as $view) {
             $args['content'] .= $this->load->view($view['name'], $view['args'], true);
         }
+        
+        // Inject the content container
         $this->load->view('content_container', $args);
         
         // If debugging is turned on display the Debug Console

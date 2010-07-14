@@ -137,6 +137,10 @@ li.current div.orange_tabs > div { background-position:0px -32px; }
 
 /* Breadcrumbs */
 div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
+div#breadcrumb > div          { float: left; position:relative; top:0px; padding:4px 3px;}
+div#breadcrumb .parent        { background-color: #aaa; }
+div#breadcrumb .current       { background-color: #fff; }
+div#breadcrumb .parent:hover  { background-color: #333; cursor:pointer; }
  
 .ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
 .add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }

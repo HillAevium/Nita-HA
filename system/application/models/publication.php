@@ -1,7 +1,6 @@
 <?php
 
 require_once BASEPATH.'/libraries/Model.php';
-require_once APPPATH.'/libraries/filter/FilterSet.php';
 
 /**
  * A model for a Publication
