@@ -29,7 +29,8 @@
             <li id="tab">
                 <div class='<?php echo $class['tabs']; ?>'
                  id='<?php echo $tab['id']; ?>'>
-                    <?php echo $tab['name']; ?>
+                    <span><?php echo $tab['name']; ?></span>
+                    <div></div>
                 </div>
             </li>
         <?php endforeach; ?>

@@ -63,6 +63,7 @@ a.search_bar_print            { left:281px; width:33px; background:url(../images
 h1.page_title                 { padding:50px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
 .small                        { font-size:8pt; }  
 span.blue                     { color:#0f4964; }
+.todo                         { color:#ff0000; }
 a.orange                      { color:#f1a617; }
 a.red                         { color:#e95621; }
 a.purple                      { color:#736ea0; }
@@ -106,12 +107,30 @@ div.gray_line                 { height:0px; border-top:1px solid #ddd; }
 div.header_bar_blue_full      { width:941px; height:28px; margin-bottom:3px; background:url(../images/header_bar_blue_full.png) no-repeat; }
 
 /* Page-specific styling */
-div#sign_in                   { margin:-10px 0 10px 0; }
-div.pagination                { padding:40px 0 0 10px; }
-table.reg_funnel              { width:100%; margin-top:44px; }
-table.program_list            { width:100%; margin-top:30px; font-size:9pt; }
-table.program_list thead td   { padding:10px; font-size:11pt; }
-table.program_list td         { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
+div#sign_in                    { margin:-10px 0 10px 0; }
+div.pagination                 { padding:40px 0 0 10px; }
+table.reg_funnel               { width:100%; margin-top:44px; }
+table.program_list             { width:100%; margin-top:30px; font-size:9pt; }
+table.program_list thead td    { padding:10px; font-size:11pt; }
+table.program_list td          { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
+table.program_list .item_hover { background:#ededed url(../images/list_item_bg.png) top repeat-x; cursor:pointer; }
+
+/* Tabbed content boxes */
+.tab_content_container          { width:100%; color:#575757; }
+.tab_content_container h3       { font-size:10pt; color:#fff; padding-left:7px; height:28px; line-height:28px; background-image:url(../images/sprite.png); }
+.tab_content_container h3 > div { float:right; width:3px; height:28px; background-image:url(../images/sprite.png); }
+.tab_content_container .content_block { position:relative; padding:16px 7px; font-size:9pt; line-height:12pt;}
+.orange_border                  { border-color:#f2a512; }
+.purple_border                  { border-color:#f2a512; }
+.blue_border                    { border-color:#f2a512; }
+.green_border                   { border-color:#f2a512; }
+.yellowgreen_border             { border-color:#f2a512; }
+
+.orange_border h3             { background-position:-3px -64px; }
+.orange_border h3 > div       { background-position:0 -64px; }
+
+li.current div.orange_tabs       { background-position:-4px -32px; }
+li.current div.orange_tabs > div { background-position:0px -32px; }
 
 /* Breadcrumbs */
 div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
@@ -119,19 +138,16 @@ div#breadcrumb                { position:absolute; width:944px; height:25px; bac
 .ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
 .add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
 
-.item_hover             { background:#aaa; cursor:pointer; }
-
 div.tab_panel {
-	width:80%;
-	margin:auto;
-	padding-top:30px;
+    width:765px;
+	padding-top:50px;
 }
 
 ul.tabs {
 	list-style:none;
 	margin:0 !important;
 	padding:0;
-	height:30px;
+	height:32px;
 }
 
 ul.tabs li {
@@ -143,24 +159,43 @@ ul.tabs li {
 }
 
 ul.tabs li {
-	padding-right:5px;
+	color:#575757;
+	padding-right:6px;
+	font-size:10pt;
+	cursor:pointer;
 }
 
-ul.tabs div {
-	background:#999;
-	font-size:11px;
+ul.tabs li.current {
+	color:#fff;
+}
+
+ul.tabs li div {
+	background-image:url(../images/sprite.png);
+}
+
+ul.tabs li > div {
+    background-position: -4px 0;
 	display:block;
-	height:30px;
-	line-height:30px;
+	height:32px;
+	line-height:32px;
 	text-align:center;
-	text-decoration:none;
-	color:#000;
-	padding:0px 15px 0px 15px;
-	margin:0px;
 	position:relative;
 	top:0px;
 }
 
-div.panes {
-	border:9px solid orange;
+ul.tabs li > div > span {
+    padding:0 5px 0 10px;
+}
+
+ul.tabs li > div > div {
+    background-position: 0 0;
+    width:4px;
+    height:30px;
+    float:right;
+}
+
+div.panes > div {
+	border-width:9px;
+	border-style:solid;
+	padding:12px 9px;
 }

@@ -1,5 +1,10 @@
 <<<<<<< HEAD
-<div id="content_top"></div>
+<div id="content_top">
+    <div class="image"></div>
+    <div class="content_top_content">
+        <h1><?php echo $program->name; ?></h1>
+    </div>
+</div>
 <div id="content_main">
     <div id="content_main_inner">
         <div id="breadcrumb"></div>
@@ -7,7 +12,7 @@
             <li>Name: <?php echo $program->name; ?></li>
             <li>City: <?php echo $program->city; ?></li>
             <li>Location: <?php echo $program->location?></li>
-            <li>Program Dates: <?php echo $program->programDates; ?></li>
+            <li>Program Dates: <?php echo $program->startDate; ?></li>
             <li>Cost: <?php echo $program->price; ?></li>
             <?php if(count($program->director) == 1):?>
             <li>Director:

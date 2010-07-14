@@ -1,5 +1,5 @@
     <div id="content_main_inner">
-        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
+        <!-- <div class="pagination"><?php //echo $pagination; ?></div> -->
         <table id="items" class="program_list">
             <thead>
                 <tr>
@@ -14,15 +14,15 @@
             <tbody>
                 <?php foreach($programs as $program): ?>
                 <tr id="<?php echo $program->id; ?>">
-                    <td width="25%"><?php echo $program->name; ?></td>
-                    <td width="18%"><?php echo $program->type; ?></td>
-                    <td width="18%"><?php echo $program->programDates; ?></td>
-                    <td width="19%"><?php echo $program->location . '<br/>' . $program->city; ?></td>
+                    <td width="25%"><?php echo $program->title; ?></td>
+                    <td width="18%"><?php echo $program->typeId; ?></td>
+                    <td width="18%"><?php echo $program->dates; ?></td>
+                    <td width="19%"><?php echo $program->location . '<br/>' . $program->city . ', ' . $program->state; ?></td>
                     <td width="15%">$<?php echo $program->price; ?></td>
                     <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <!-- <div class="pagination"><?php echo $pagination; ?></div> -->
+        <!-- <div class="pagination"><?php //echo $pagination; ?></div> -->
     </div> <!-- #content_main_inner -->
