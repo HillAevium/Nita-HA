@@ -17,6 +17,9 @@ abstract class AbstractController extends Controller {
     private $arguments;
     // options for the loadViews
     private $viewOptions = array();
+    private $titlePrefix = 'Nita - ';
+    
+    private $lipsum = array();
     
     /* viewOptions
      * breadcrumb - an indexed array of strings to add to the
@@ -54,6 +57,13 @@ abstract class AbstractController extends Controller {
                 $this->ajax = true;
             }
         }
+        
+        $this->lipsum['50'] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. "
+                             ."Morbi sit amet neque at nulla pretium mattis quis a enim. "
+                             ."Integer ligula felis, sollicitudin sit amet porta ut, "
+                             ."fringilla et libero. Mauris sed commodo magna. Maecenas "
+                             ."porta, mi ut tincidunt bibendum, ligula orci pretium nibh, "
+                             ."vel dapibus odio diam non enim.";
     }
     
     protected function isDebugEnabled($option = -1) {
@@ -65,6 +75,14 @@ abstract class AbstractController extends Controller {
     
     protected function getArgument($name) {
         return $this->haveArgument($name) ? $this->arguments[$name] : false;
+    }
+    
+    protected function getRandomText($amount) {
+        $output = '';
+        for($i = 0; i < $amount; $i++) {
+            $output .= $this->lipsum['50'];
+        }
+        return $output;
     }
     
     protected function getViewOption($option) {
@@ -95,7 +113,7 @@ abstract class AbstractController extends Controller {
         $bodyClass = $this->getViewOption('bodyClass');
         $debug     = $this->getViewOption('debug');
         $mainNav   = $this->getViewOption('mainNav');
-        $title     = $this->getViewOption('pageTitle');
+        $title     = $this->titlePrefix . $this->getViewOption('pageTitle');
         $views     = $this->getViewOption('views');
         
         $this->load->view('http_header', array('title' => $title));

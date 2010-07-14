@@ -17,11 +17,10 @@ class Shop extends AbstractController {
         $this->setViewOption('mainNav', true);
         
         // Create the page titles
-        $this->titles['publication'] = 'Nita - Our Publications';
-        $this->titles['program'] = 'Nita - Our Programs';
+        $this->titles['publication'] = 'Our Publications';
+        $this->titles['program'] = 'Our Programs';
         
         // Create the breadcrumbs
-        
         $this->breadcrumbs = array(
             'home'        => array('name' => 'Home', 'id' => '/main/index/'),
             'program'     => array('name' => 'Programs',     'id' => '/shop/programs/'),
