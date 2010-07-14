@@ -47,15 +47,7 @@ class Soap {
         return $this->doProgramServiceGet($id);
     }
     
-    public function getPrograms(FilterSet $filters) {
-        // TODO
-    }
-    
     public function getPublication($id) {
-        // TODO
-    }
-    
-    public function getPublications(FilterSet $filters) {
         // TODO
     }
     

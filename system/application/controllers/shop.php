@@ -4,6 +4,8 @@ require_once APPPATH.'/controllers/AbstractController.php';
 
 class Shop extends AbstractController {
     
+    private $titles;
+    
     public function Shop() {
         parent::AbstractController();
         // FIXME remove for production
@@ -11,7 +13,9 @@ class Shop extends AbstractController {
         
         // All entry points here use the main
         // navigation
-        $this->showMainNav = true;
+        $this->setViewOption('mainNav', true);
+        $this->titles['publication'] = 'Nita - Our Publications';
+        $this->titles['program'] = 'Nita - Our Programs';
     }
     
     /**
@@ -33,27 +37,7 @@ class Shop extends AbstractController {
      * @param string $id the id of the program to display
      */
     public function program() {
-        $id = $this->getArgument('id');
-        
-        if($id === false) {
-            // FIXME What do we do here?
-            show_404('/shop/program/');
-        }
-        
-        // Load the model and get some data
-        $this->load->model('program');
-        
-        // Returns a single Program object
-        $model['model'] = $this->program->getProgram($id);
-        
-        // We need to check if we got a program as the ID could
-        // have been entered by hand and been invalid
-        if (is_null($model)) {
-            show_404('/shop/program/'.$id);
-        }
-        
-        // Set the title to the Program being viewed
-        $this->title = $model['model']->name;
+        $model = $this->initDetail('program', 'orange');
         
         // TODO
         // Some of these will likely get created
@@ -92,8 +76,11 @@ class Shop extends AbstractController {
             array('name' => 'tab_panel', 'args' => $args)
         );
         
+        $this->setViewOption('bodyClass', 'orange');
+        $this->setViewOption('views', $views);
+        
         // ... and go
-        $this->loadViews($views, 'orange');
+        $this->loadViews();
     }
     
     /**
@@ -102,28 +89,7 @@ class Shop extends AbstractController {
      * @param int $offset the current offset within the list of items to show
      */
     public function programs() {
-        $offset = $this->getArgument('offset');
-        
-        // Load the model and get some data
-        $this->load->model('program');
-        
-        // Gives an array of Program objects
-        $args['programs']   = $this->program->getAllPrograms();
-        $args['pagination'] = $this->createPaginationLinks(__FUNCTION__, count($args['programs']));
-        
-        // TODO - We should do something here if no items are returned
-        
-        // Slice the programs array to the range
-        // called for by the pagination
-        $args['programs'] = array_slice($args['programs'], $offset, $this->pagination->per_page);
-        
-        // Setup the views
-        $views = array(
-            array('name' => 'programs/list', 'args' => $args)
-        );
-        
-        // ... and go
-        $this->loadViews($views, 'orange');
+        $this->renderList('program', 'orange');
     }
     
     /**
@@ -132,70 +98,78 @@ class Shop extends AbstractController {
      * @param string $id the id of the publication to display
      */
     public function publication() {
-        $id = $this->getArgument('id');
+        $model = $this->initDetail('publication', 'red');
         
-        if($id === false) {
-            // FIXME What do we do here?
-            show_404('/shop/publication/');
-        }
-        
-        // Load the model and get some data
-        $this->load->model('publication');
-        
-        // Returns a single Publication object
-        $args['publication'] = $this->publication->getPublication($id);
-        
-        // We need to check if we got a publication as the ID could
-        // have been entered by hand and been invalid
-        if (is_null($args['publication'])) {
-            // Return a 404?
-            show_404('/shop/publication/id/'.$id);
-        }
-        
-        // Set the title to the publication being viewed
-        $this->title = $args['publication']->title;
+        $args['publication'] = $model;
         
         // Setup the views
         $views = array(
             array('name' => 'publications/detail', 'args' => $args)
         );
         
+        $this->setViewOption('bodyClass', 'red');
+        $this->setViewOption('views', $views);
+        
         // ... and go
-        $this->loadViews($views, 'red');
+        $this->loadViews();
     }
     
     /**
      * Generate the page for displaying a list of publications.
-     *
-     * @param int $offset the current offset within the list of items to show
      */
     public function publications() {
-        $offset = intval($this->getArgument('offset'));
+        $this->renderList('publication', 'red');
+    }
+
+    private function initDetail($type, $bodyColor) {
+        $id = $this->getArgument('id');
         
-        $this->title = 'NITA - Our Publications';
+        // No id was supplied?
+        if($id === false) {
+            // FIXME What do we do here.
+            show_404('/shop/'.$type.'/');
+        }
         
+        // Load the selected model
+        $this->load->model($type);
+        
+        // Get the model for the details
+        $model['model'] = $this->$type->getSingle($id);
+        
+        // We need to check if we got a program as the ID could
+        // have been entered by hand and been invalid
+        if (is_null($model)) {
+            show_404('/shop/'.$type.'/id/'.$id);
+        }
+        
+        // Set the title to the Program being viewed
+        $this->setViewOption('pageTitle', $model['model']->name);
+        $this->setViewOption('bodyClass', $bodyColor);
+        
+        return $model;
+    }
+    
+    private function renderList($type, $bodyColor) {
         // Load the model
-        $this->load->model('publication');
+        $this->load->model($type);
         
-        // Gives an array of Publication objects
-        $args['publications'] = $this->publication->getAllPublications();
-        
-        // Create the pagination links
-        $args['pagination'] = $this->createPaginationLinks(__FUNCTION__, count($args['publications']));
+        // Grab some models
+        $models = $this->$type->getAll();
         
         // TODO - We should do something here if no items are returned
         
-        // Slice the publications array to the range
-        // called for by the pagination
-        $args['publications'] = array_slice($args['publications'], $offset, $this->pagination->per_page);
-        
-        // Setup the views
+        // Setup the data for the view
         $views = array(
-            array('name' => 'publications/list', 'args' => $args)
+            array('name' => $type.'s/list', 'args' => array('models' => $models))
         );
         
+        // Load it into the options
+        $this->setViewOption('views', $views);
+        $this->setViewOption('pageTitle', $this->titles[$type]);
+        $this->setViewOption('bodyClass', $bodyColor);
+        
         // ... and go
-        $this->loadViews($views, 'red');
+        $this->loadViews();
     }
 }
 
