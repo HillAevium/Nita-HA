@@ -83,7 +83,7 @@ function handleItemClick(event) {
  * @return void
  */
 function addItemHandler() {
-    $("table#items > tbody > tr").hover(handleItemHover, handleItemHover);
+    //$("table#items > tbody > tr").hover(handleItemHover, handleItemHover);
     $("table#items > tbody > tr").click(handleItemClick);
 }
 
