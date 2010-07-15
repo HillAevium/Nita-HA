@@ -142,7 +142,7 @@ div.panes div div                     { border:none; padding:0; }
 .orange_border h3 div                 { background-position:-939px -297px; }
 
 li.current div.orange_tabs            { background-position:0 -33px; }
-li.current div.orange_tabs > div      { background-position:-295px -33px; }
+li.current div.orange_tabs div      { background-position:-295px -33px; }
 
 /* Breadcrumbs */
 div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
