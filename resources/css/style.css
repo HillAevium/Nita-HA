@@ -1,5 +1,5 @@
-html, body                    { margin:0; padding:0; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
-#main_container               { width:977px; margin:0 auto; }
+html, body                    { margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
+#main_container               { width:977px; margin:0 auto; text-align:left; }
 
 /* Header */
 #header                       { width:100%; height:210px; }
@@ -48,8 +48,8 @@ a.search_bar_print:hover      { background-image:url(../images/search_bar_print_
 #content_main_inner           { position:relative; width:100%; }
 
 /* Footer */
-#footer                       { width:100%; height:87px; margin-top:50px; border-top:3px solid #d9d9d9; background:url(../images/footer_bg.png) repeat-x; }
-#footer_inner                 { position:relative; width:977px; margin:0 auto; height:87px; }
+#footer                       { width:100%; height:87px; text-align:center; margin-top:50px; border-top:3px solid #d9d9d9; background:url(../images/footer_bg.png) repeat-x; }
+#footer_inner                 { position:relative; width:977px; margin:0 auto; height:87px; text-align:left; }
 #footer_menu1                 { position:absolute; top:10px; font-size:10pt;}
 #footer_menu1 ul.menu         { list-style:none; }
 #footer_menu1 ul.menu li      { display:inline; letter-spacing:1pt; }
@@ -124,93 +124,91 @@ table.program_list td             { padding:18px 8px; border-bottom:1px solid #d
 table.program_list tbody tr:hover { background:#ededed url(../images/list_item_bg.png) top repeat-x; cursor:pointer; }
 
 /* Tabbed content boxes */
-.tab_content_container          { width:100%; color:#575757; }
-.tab_content_container h3       { position:relative; font-size:10pt; color:#fff; padding-left:7px; height:28px; line-height:28px; background-image:url(../images/sprite.png); }
-.tab_content_container h3 > div { position:absolute; top:0; right:-3px; width:3px; height:28px; background-image:url(../images/sprite.png); }
-.tab_content_container .content_block { position:relative; padding:16px 7px; font-size:9pt; line-height:12pt;}
-.orange_border                  { border-color:#f2a512; }
-.purple_border                  { border-color:#f2a512; }
-.blue_border                    { border-color:#f2a512; }
-.green_border                   { border-color:#f2a512; }
-.yellowgreen_border             { border-color:#f2a512; }
+.tab_content_container                { width:100%; color:#575757; }
+.tab_content_container h3             { position:relative; font-size:10pt; color:#fff; padding-left:7px; margin-right:2px; height:28px; line-height:28px; background-image:url(../images/sprite.png); }
+.tab_content_container h3 div         { position:absolute; top:0; right:-3px; width:3px; height:28px; background-image:url(../images/sprite.png); }
+.tab_content_container .content_block { position:relative; padding:16px 7px; font-size:9pt; line-height:12pt; }
+div.panes div                         { border-width:9px; border-style:solid; padding:12px 9px; }
 
-.orange_border h3             { background-position:0 -297px; }
-.orange_border h3 > div       { background-position:-938px -297px; }
+div.panes div div                     { border:none; padding:0; }
 
-li.current div.orange_tabs       { background-position:0 -33px; }
-li.current div.orange_tabs > div { background-position:-295px -33px; }
+.orange_border                        { border-color:#f2a512; }
+.purple_border                        { border-color:#f2a512; }
+.blue_border                          { border-color:#f2a512; }
+.green_border                         { border-color:#f2a512; }
+.yellowgreen_border                   { border-color:#f2a512; }
+
+.orange_border h3                     { background-position:0px -297px; }
+.orange_border h3 div                 { background-position:-939px -297px; }
+
+li.current div.orange_tabs            { background-position:0 -33px; }
+li.current div.orange_tabs > div      { background-position:-295px -33px; }
 
 /* Breadcrumbs */
 div#breadcrumb                { position:absolute; width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
-div#breadcrumb > div          { float: left; position:relative; top:0px; padding:4px 3px;}
-div#breadcrumb .parent        { background-color: #aaa; }
+div#breadcrumb div            { float:left; padding:4px 3px; cursor:pointer; background:yellow; }
+div#breadcrumb .parent        { background-color: yellow; }
 div#breadcrumb .current       { background-color: #fff; }
-div#breadcrumb .parent:hover  { background-color: #333; cursor:pointer; }
+div#breadcrumb .parent:hover  { background-color: #333; }
  
 .ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
 .add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
 
 div.tab_panel {
     width:765px;
-	padding-top:50px;
+        padding-top:50px;
 }
 
 ul.tabs {
-	list-style:none;
-	margin:0 !important;
-	padding:0;
-	height:32px;
+        list-style:none;
+        margin:0 !important;
+        padding:0;
+        height:32px;
 }
 
 ul.tabs li {
-	float:left;
-	text-indent:0;
-	padding:0;
-	margin:0 !important;
-	list-style-image:none !important;
+        display:inline;
+        text-indent:0;
+        padding:0;
+        margin:0 !important;
+        list-style-image:none !important;
 }
 
 ul.tabs li {
-	color:#575757;
-	padding-right:6px;
-	font-size:10pt;
-	cursor:pointer;
+        color:#575757;
+        padding-right:6px;
+        font-size:10pt;
+        cursor:pointer;
 }
 
 ul.tabs li.current {
-	color:#fff;
+        color:#fff;
 }
 
 ul.tabs li div {
-	background-image:url(../images/sprite.png);
-	position:relative;
+        float:left;
+        position:relative;
+        margin-right:8px;
+        background-image:url(../images/sprite.png);
 }
 
-ul.tabs li > div {
+ul.tabs li div {
     background-position: 0 0;
-	display:block;
-	height:32px;
-	line-height:32px;
-	text-align:center;
-	position:relative;
-	top:0px;
+        height:32px;
+        width:auto;
+        line-height:32px;
+        text-align:center;
 }
 
-ul.tabs li > div > span {
+ul.tabs li div span {
     padding:0 8px 0 10px;
 }
 
-ul.tabs li > div > div {
+ul.tabs li div div {
     position:absolute;
-    right:0;
+    right:-8px;
     top:0;
     background-position: -295px 0;
     width:4px;
     height:30px;
-}
-
-div.panes > div {
-	border-width:9px;
-	border-style:solid;
-	padding:12px 12px 12px 9px;
 }
