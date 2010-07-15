@@ -1,6 +1,7 @@
 <?php
 
-require_once APPPATH.'controllers/AbstractController.php';
+require_once APPPATH.'/controllers/AbstractController.php';
+require_once APPPATH.'/models/userprofile.php';
 
 class Account extends AbstractController {
     
@@ -75,23 +76,23 @@ class Account extends AbstractController {
     }
     
     public function _remap($method) {
-        // FIXME
-        //throw new RuntimeException("Not Implemented");
-        
         $requestMethod = $_SERVER['REQUEST_METHOD'];
-        
-        switch($requestMethod) {
-            case 'POST' :
-                $this->handlePost($method);
-            break;
-            case 'GET' :
-                $this->handleGet($method);
-            break;
-            default :
-                // we really shouldn't end up here...
-                // FIXME but we still should handle it better
-                throw new RuntimeException("Invalid HTTP_REQUEST_METHOD");
-            break;
+        try {
+            switch($requestMethod) {
+                case 'POST' :
+                    $this->handlePost($method);
+                break;
+                case 'GET' :
+                    $this->handleGet($method);
+                break;
+                default :
+                    // we really shouldn't end up here...
+                    // FIXME but we still should handle it better
+                    throw new RuntimeException("Invalid HTTP_REQUEST_METHOD");
+                break;
+            }
+        } catch(Exception $e) {
+            // TODO Setup AuthenticationException trap
         }
     }
     
@@ -121,21 +122,34 @@ class Account extends AbstractController {
     public function doRegistration() {
         // Validate form data
         
+        // TODO - use $this->input->post()
         // There's a config setting that we can set which will
         // automatically scrub all POST data for XSS and such
-        $data = $_POST;
+        
         // Testing the forms...
-        print_r($data);
+        // print_r($data);
         
         // If this is a single user registration
         // create a single user model.
-        if($_POST['regType'] == 'individual') {
-            // TODO
+        $regType = $this->getArgument('regType');
+        
+        if($regType == 'individual') {
+            $profile = new UserProfile();
+            if(!$profile->loadForm($this)) {
+                // TODO There be errors!
+                echo "Failboat";
+                return;
+            }
+            // FIXME Add in the cache for this so
+            // we can do verification via email.
+            $this->load->model('userProfile');
+            $this->userProfile->insert($profile);
         }
+        
         // If this is a group registration
         // create a firm model and a user model
         // with this user being the firm's superuser.
-        else if ($_POST['regType'] == 'group') {
+        else if ($regType == 'group') {
             // TODO
         }
         
@@ -225,18 +239,25 @@ class Account extends AbstractController {
         // e.g. clicking checkout, then we need to
         // know where they came from.
         
-        // Show the login form and embed the referal
-        // page as a hidden field if there was one.
+        // Get the referal page, make the default the
+        // home page if there is no referal
+        $refPage = $this->getArgument('refPage', '/');
         
-        // We must also make sure that if the user
-        // hits Register from this screen that the
-        // referal page gets passed along.
+        // TODO - Session
+        // Add the referal page to the session
         
+        $args['refPage'] = $refPage;
         $views = array(
-                    array('name' => 'main_nav', 'args' => null),
-                    array('name' => 'user/login', 'args' => null)
-                );
-        $this->loadViews($views, 'blue_short');
+            array('name' => 'user/login', 'args' => $args)
+        );
+        
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
     }
     
     /**
@@ -245,10 +266,10 @@ class Account extends AbstractController {
      * @param string $step the step in the registration process
      * @param string $accountType the user's account type, either 'group' or 'individual'
      */
-    public function showRegistration() {  
+    public function showRegistration() {
         // TODO
-        // Set referral page in session, or pass through 
-        // to next page. 
+        // Set referral page in session, or pass through
+        // to next page.
         
         // Check for registration type in uri,
         // otherwise display funnel if not set
@@ -268,11 +289,16 @@ class Account extends AbstractController {
      */
     private function showRegistrationFunnel() {
         $views = array(
-            array('name' => 'main_nav', 'args' => null),
             array('name' => 'user/reg_funnel', 'args' => null)
         );
-        $this->loadViews($views, 'blue_short');
         
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
     }
     
     /**
@@ -287,19 +313,31 @@ class Account extends AbstractController {
                 $args['form'] = $this->load->view('user/form_group', '', true);
                 
                 $views = array(
-                    array('name' => 'main_nav', 'args' => null),
                     array('name' => 'user/reg_group', 'args' => $args)
                 );
-                $this->loadViews($views, 'blue_short');
+                
+                // Set up the view options
+                $this->setViewOption('bodyClass', 'blue_short');
+                $this->setViewOption('mainNav', true);
+                $this->setViewOption('views', $views);
+                
+                // ... and go
+                $this->loadViews();
                 break;
             case 'individual':
                 // get the form template for individuals
                 $args['form'] = $this->load->view('user/form_individual', '', true);
                 
                 $views = array(
-                    array('name' => 'main_nav', 'args' => null),
                     array('name' => 'user/reg_individual', 'args' => $args)
                 );
+                
+                // Set up the view options
+                $this->setViewOption('bodyClass', 'blue_short');
+                $this->setViewOption('mainNav', true);
+                $this->setViewOption('views', $views);
+                
+                // ... and go
                 $this->loadViews($views, 'blue_short');
                 break;
             default:
@@ -307,29 +345,59 @@ class Account extends AbstractController {
                 $this->showRegistrationFunnel();
                 break;
         }
-        
-    }  
+    }
     
     public function showUserProfile() {
         // Get the user ID (from a cookie?)
+        $userId = $this->getArgument('userId');
         
-        // Do authentication check.
+        // Make sure the user has access.
+        if(!$this->checkUserAuthentication($userId)) {
+            // Return a 401 UNAUTHORIZED
+            log_message('error', "Unauthroized UserProfile Access Attempt");
+            show_error("You are not authorized to access this profile.", 401);
+            // TODO This may simply be an expired session which is no
+            // reason to sound off any alarm bells. We should still do something
+            // here to track intrusion attempts.
+        }
         
-        // If auth passed request the user information
-        // from AccountService
+        // Load the profile model and request the account.
+        $this->load->model('userprofile');
+        $model = $this->userprofile->get($userId);
         
-        // The case here is different than the firm page.
-        // The super-user for a firm may be viewing a user
-        // page that belongs to their firm. We have to verify
-        // the super-user in the auth check, and we also have
-        // to verify that the user page being requested belongs
-        // the the firm that the super-user controls.
+        if(is_null($model)) {
+            // Apparently the user does not exist.
+            // FIXME What to do here ?
+            show_404('/account/user/');
+        }
         
-        // If auth failed because of a dead session then
-        // send them to the login screen
+        $views = array(
+            array('name' => 'user/profile', 'args' => $model)
+        );
         
-        // If auth failed send them to the login screen
-        // with the firm profile page as the referal page.
+        $this->viewOption('bodyClass', 'blue_short');
+        $this->viewOption('mainNav', true);
+        $this->viewOption('views', $views);
+        $this->loadViews();
+    }
+    
+    private function checkUserId($userId) {
+        // Covers false, 0, '' and null
+        if($userId == false) {
+            return false;
+        }
+        // TODO What more checking should be done here?
+        return true;
+    }
+    
+    private function checkUserAuthentication($userId) {
+        $this->checkUserId($userId);
+        // TODO
+        // This is just a session check, not a check
+        // that goes to the ContactService.Authenticate()
+        // We mostly need to know that the requested user
+        // page is that of the session user
+        return true;
     }
     
     private function handleGet($method) {

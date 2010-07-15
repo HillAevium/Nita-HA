@@ -25,10 +25,10 @@ $config['soap']['server'] = 'http://72.54.98.142:6652/';
 |
 |       SomeWsdlService.svc?wsdl
 */
-$config['soap']['services']['webPages'] = 'WebPageService.svc?wsdl';
-$config['soap']['services']['programs'] = 'ProgramService.svc?wsdl';
-$config['soap']['services']['users']    = 'AccountService.svc?wsdl';
-$config['soap']['services']['contacts'] = 'ContactService.svc?wsdl';
+$config['soap']['services']['webPage'] = 'WebPageService.svc?wsdl';
+$config['soap']['services']['program'] = 'ProgramService.svc?wsdl';
+$config['soap']['services']['account']    = 'AccountService.svc?wsdl';
+$config['soap']['services']['contact'] = 'ContactService.svc?wsdl';
 
 
 /*

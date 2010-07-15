@@ -11,17 +11,33 @@ class Soap {
     
     private $soapUrl;
     private $programUri;
+    private $accountUri;
+    
     // Date Format -> March 23rd, 2009
     private $dateFormat = 'n/j/Y';
+    
+    private $programTypeMap = array();
     
     /**
      * Construct a new Soap API object
      */
     public function Soap() {
+        // Load the soap config
         $CI =& get_instance();
         $soap = $CI->config->item('soap');
+        
+        // Save some of the soap configs locally
         $this->soapUrl    = $soap['server'];
-        $this->programUri = $soap['services']['programs'];
+        $this->programUri = $soap['services']['program'];
+        $this->accountUri = $soap['services']['account'];
+        $this->contactUri = $soap['services']['contact'];
+        $this->webPageUri = $soap['services']['webPage'];
+        
+        // FIXME - Hack for displaying cleaner names in list output
+        $this->programTypeMap = array(
+            '47c4b583-eca9-dc11-b373-00304832346b' => 'Trial Advocacy',
+            '50c4b583-eca9-dc11-b373-00304832346b' => 'Deposition and Pretrial Skills'
+        );
     }
     
     public function getContent($id) {
@@ -52,6 +68,266 @@ class Soap {
         // TODO
     }
     
+    public function userInsert(UserProfile $model) {
+        return $this->doContactServiceInsert($model);
+    }
+    
+    public function userAuthenticate($username, $password) {
+        return $this->doContactServiceAuthenticate($username, $password);
+    }
+    
+    public function userGet($id) {
+        return $this->doContactServiceGet($id);
+    }
+    
+    public function userUpdate(UserProfile $model) {
+        return $this->doContactServiceUpdate($model);
+    }
+    
+    //----------------------------------------------------------------------------//
+    //                               ContactService                               //
+    //----------------------------------------------------------------------------//
+    
+    /**
+     * Perform the Authenticate request on the ContactService.
+     *
+     * If authentication fails a value of <code>false</code> will
+     * be returned.
+     *
+     * If authentication suceeds a <code>UserProfile</code> will
+     * be returned.
+     *
+     * @param string $username the username
+     * @param string $password the password
+     * @return boolean|UserProfile false or the UserProfile for the user
+     */
+    private function doContactServiceAuthenticate($username, $password) {
+        // We assume input is clean at this point.
+        
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the username and password arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('username', $username);
+        $soapArgs->addStringArgument('password', $password);
+        
+        // Send the auth request
+        $soapResult = $soapClient->Authenticate($soapArgs)->AuthenticateResult;
+        
+        // FIXME - It is not clear what is returned when authentication fails
+        if(!isset($soapResult) OR is_null($soapResult) OR ($soapResult == false)) {
+            // The caller is expecting false on failure
+            return false;
+        }
+        
+        // Conver the soap mess.. er model to a UserProfile
+        $userProfile = $this->convertUserProfile($soapResult);
+        
+        return $userProfile;
+    }
+    
+    /**
+     * Perform the Delete request on the ContactService.
+     *
+     * TODO Is this something we are responsible for?
+     *
+     * @param int $id the user id
+     * @return boolean true if sucessful, otherwise false
+     */
+    private function doContactServiceDelete($id) {
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the id arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('id', $id);
+        
+        // Send the delete request
+        $soapResult = $soapClient->Delete($soapArgs);
+        
+        // FIXME - The spec does not specify any fields in DeleteResponse
+        
+        return true;
+    }
+    
+    /**
+     * Perform the Get request on the ContactService.
+     *
+     * Will return the UserProfile for the specified user. If there was
+     * a problem a null value will be returned.
+     *
+     * @param int $id the user id
+     * @return UserProfile
+     */
+    private function doContactServiceGet($id) {
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the id arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('id', $id);
+        
+        // Send the get request
+        $soapResult = $soapClient->Get($soapArgs)->GetResult;
+        
+        // FIXME - It is not clear what is returned if the id is invalid
+        if(!isset($soapResult) OR is_null($soapResult) OR ($soapResult == false)) {
+            // The caller is expecting null on failure
+            return null;
+        }
+        
+        // Convert the model
+        $userProfile = $this->convertUserProfile($soapResult);
+        
+        // Return the profile
+        return $userProfile;
+    }
+    
+    public function doContactServiceGetDropDownOptionsForField($field) {
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the id arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('fieldName', $field);
+        
+        // Send the get request
+        // XXX This is a prime example of long name abuse!
+        $soapResult = $soapClient->GetDropDownOptionsForField($soapArgs)->GetDropDownOptionsForFieldResult;
+        
+        // soapResult contains ArrayOfDropDownOption
+    }
+    
+    /**
+     * Perform the Insert request on the ContctService.
+     *
+     * Returns true if the insert was successful, false otherwise.
+     *
+     * @param UserProfile $model the model to insert
+     * @return boolean true on success, otherwise false
+     */
+    private function doContactServiceInsert(UserProfile $model) {
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the id arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addContactModelArgument('model', $this->convertUserProfile($model));
+        
+        // Send the insert
+        // FIXME Fails
+        $soapResult = $soapClient->Insert($soapArgs);
+        
+        // FIXME - The definition says InsertResult should be a string, but of what?
+        echo "<pre>";
+        print_r($soapResult);
+        echo "</pre>";
+        return true;
+    }
+    
+    /**
+     * Perform the Update request on the ContactService.
+     *
+     * Returns true if the update was sucessful, false otherwise.
+     *
+     * @param UserProfile $model the model to update
+     * @return boolean true on sucess, otherwise false
+     */
+    private function doContactServiceUpdate(UserProfile $model) {
+        // Create the soap client for the contact service
+        $soapClient = new SoapClient($this->soapUrl.$this->contactUri);
+        
+        // Create the id arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addContactModelArgument('model', $this->convertUserProfile($model));
+        
+        // Send the update
+        $soapResult = $soapClient->Update($soapArgs);
+        
+        // FIXME - The spec does not specify any fields for UpdateResponse
+        
+        return true;
+    }
+    
+    /**
+     * Convert from a Nita ContactModel to a UserProfile or vice versa.
+     *
+     * This method handles the dual conversion to and from UserProfile.
+     *
+     * @param ContactModel|UserProfile $model either a Nita ContactModel or a UserProfile
+     * @return UserProfile|ContactModel the converted model
+     */
+    private function convertUserProfile($model) {
+        if($model instanceof UserProfile) {
+            // Convert a UserProfile to a Nita ContactModel
+            $soapModel = new SoapArguments();
+            $soapModel->addStringArgument('address1_line1',           $model->address);
+            // FIXME
+            //$soapModel->addStringArgument('address1_line2', ???);
+            //$soapModel->addStringArgument('address1_line3', ???);
+            $soapModel->addStringArgument('address1_city',            $model->city);
+            $soapModel->addStringArgument('address1_country',         $model->country);
+            // FIXME This might need to be converted to some date format
+            $soapModel->addStringArgument('createdon',                $model->creationTime);
+            $soapModel->addStringArgument('description',              $model->description);
+            $soapModel->addStringArgument('emailaddress1',            $model->email);
+            $soapModel->addStringArgument('Nita_ethnicity',           $model->ethnicity);
+            $soapModel->addStringArgument('fax',                      $model->fax);
+            $soapModel->addStringArgument('firstname',                $model->firstName);
+            // FIXME - No idea if this GenderCode is just male/female or something obscure
+            $soapModel->addStringArgument('GenderCode',               $model->gender);
+            $soapModel->addStringArgument('contactid',                $model->id);
+            // FIXME - Do we provide this? or is it simply provided to us?
+            $soapModel->addStringArgument('nita_web_last_login',      $model->lastLoginTime);
+            $soapModel->addStringArgument('lastname',                 $model->lastName);
+            $soapModel->addStringArgument('middlename',               $model->middleName);
+            $soapModel->addStringArgument('modifiedon',               $model->modificationTime);
+            $soapModel->addStringArgument('nita_web_password',        $model->password);
+            $soapModel->addStringArgument('mobilephone',              $model->phoneMobile);
+            $soapModel->addStringArgument('telephone1',               $model->phoneOne);
+            $soapModel->addStringArgument('telephone2',               $model->phoneTwo);
+            $soapModel->addStringArgument('address1_stateorprovince', $model->state);
+            $soapModel->addStringArgument('nita_web_username',        $model->username);
+            $soapModel->addStringArgument('address1_postalcode',      $model->zip);
+            
+            return $soapModel;
+        } else {
+            $userProfile = new UserProfile();
+            $userProfile->address       = $model->address1_line1;
+            // FIXME
+            //$userProfile->??? = $model->address1_line2;
+            //$userProfile->??? = $model->address1_line3;
+            $userProfile->city              = $model->address1_city;
+            $userProfile->country           = $model->address1_country;
+            $userProfile->creationTime      = $model->createdon;
+            $userProfile->description       = $model->description;
+            $userProfile->email             = $model->emailaddress1;
+            $userProfile->ethnicity         = $model->Nita_ethnicity;
+            $userProfile->fax               = $model->fax;
+            $userProfile->firstName         = $model->firstname;
+            $userProfile->gender            = $model->GenderCode;
+            $userProfile->id                = $model->contactid;
+            $userProfile->lastLoginTime     = $model->nita_web_last_login;
+            $userProfile->lastName          = $model->lastname;
+            $userProfile->middleName        = $model->middlename;
+            $userProfile->modificationTime  = $model->modifiedon;
+            $userProfile->password          = $model->nita_web_password;
+            $userProfile->phoneMobile       = $model->mobilephone;
+            $userProfile->phoneOne          = $model->telephone1;
+            $userProfile->phoneTwo          = $model->telephone2;
+            $userProfile->state             = $model->address1_stateorprovince;
+            $userProfile->username          = $model->nita_web_username;
+            $userProfile->zip               = $model->address1_postalcode;
+            
+            // FIXME - Unimplemented fields are documented in UserProfile
+        }
+    }
+    
+    //----------------------------------------------------------------------------//
+    //                               ProgramService                               //
+    //----------------------------------------------------------------------------//
+    
     /**
      * Perform the Get request on the ProgramService.
      *
@@ -62,7 +338,7 @@ class Soap {
      * was invalid, then a null value will be returned.
      *
      * @param string $id the unique identifier of the resource
-     * @return Program the Program model for this resource, or null if there
+     * @return ProgramModel the Program model for this resource, or null if there
      *         was no model for the id.
      */
     private function doProgramServiceGet($id) {
@@ -171,6 +447,10 @@ class Soap {
         // Format text
         $programModel->description = nl2br($programModel->description);
         
+        // Format program types
+        if(key_exists($programModel->typeId, $this->programTypeMap)) {
+            $programModel->typeId = $this->programTypeMap[$programModel->typeId];
+        }
         return $programModel;
     }
     
@@ -231,6 +511,11 @@ class SoapArguments {
     
     public function addDateArgument($name, $value) {
         $this->addArgument($name, $value, XSD_DATETIME, "dateTime");
+    }
+    
+    public function addContactModelArgument($name, SoapArguments $value) {
+        // FIXME - Are these the proper soap types?
+        $this->addArgument($name, $value, XSD_ANYTYPE, "ContactModel");
     }
 }
 /* End of file Soap.php */

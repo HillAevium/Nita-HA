@@ -14,7 +14,7 @@ abstract class AbstractController extends Controller {
      */
     
     // the uri arguments
-    private $arguments;
+    protected $arguments = array();
     // options for the loadViews
     private $viewOptions = array();
     private $titlePrefix = 'Nita - ';
@@ -39,7 +39,31 @@ abstract class AbstractController extends Controller {
     protected function AbstractController() {
         parent::Controller();
         
-        $this->arguments = $this->uri->uri_to_assoc();
+        // FIXME - Hack
+        // Clean this argument code up.
+        
+        // URI
+        $this->addArguments($this->uri->uri_to_assoc());
+        
+        // TODO - Session
+        //$this->addArguments($this->session->all_userdata());
+        
+        // Cookies
+        $cookieKeys = array_keys($_COOKIE);
+        $args = array();
+        foreach($cookieKeys as $key) {
+            $value= $this->input->cookie($key, true);
+        }
+        $this->addArguments($args);
+        
+        // Post
+        $postKeys = array_keys($_POST);
+        $args = array();
+        foreach($postKeys as $key) {
+            $value = $this->input->post($key, true);
+            $args[$key] = $value;
+        }
+        $this->addArguments($args);
         
         // Turn on debug if its enabled.
         if(DEBUG != DEBUG_NONE) {
@@ -66,6 +90,16 @@ abstract class AbstractController extends Controller {
                              ."vel dapibus odio diam non enim.";
     }
     
+    private function addArguments($arguments) {
+        foreach($arguments as $key => $value) {
+            if(array_key_exists($key, $this->arguments)) {
+                // Namespace conflict!
+                throw new Exception("Namespace conflict: AbstractController::arguments: Key: " + $key);
+            }
+            $this->arguments[$key] = $value;
+        }
+    }
+    
     protected function isDebugEnabled($option = -1) {
         if ($option == -1) {
             return $this->debugOptions > DEBUG_NONE;
@@ -73,11 +107,11 @@ abstract class AbstractController extends Controller {
         return $this->debugOptions & $option == $option;
     }
     
-    protected function getArgument($name) {
-        return $this->haveArgument($name) ? $this->arguments[$name] : false;
+    public function getArgument($name, $default = false) {
+        return $this->haveArgument($name) ? $this->arguments[$name] : $default;
     }
     
-    protected function getRandomText($amount) {
+    public function getRandomText($amount) {
         $output = '';
         for($i = 0; $i < $amount; $i++) {
             $output .= $this->lipsum['50'];
@@ -89,7 +123,7 @@ abstract class AbstractController extends Controller {
         return $this->haveViewOption($option) ? $this->viewOptions[$option] : false;
     }
     
-    protected function haveArgument($name) {
+    public function haveArgument($name) {
         return isset($this->arguments[$name]);
     }
     
