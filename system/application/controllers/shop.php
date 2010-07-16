@@ -203,6 +203,7 @@ class Shop extends AbstractController {
         );
         
         // Load the view options
+        $this->setViewOption('searchbox', true);
         $this->setViewOption('topbox', $topbox);
         $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('views', $views);

@@ -12,7 +12,7 @@
  |-------------------------------------------------------+
  */
 ?>
-<?php $size = sizeof($breadcrumb); ?>
+<?php $size = sizeof($breadcrumb) - 1; ?>
 
 <div id="breadcrumb">
     <?php for($i = 0; $i < $size - 1; $i++): ?>
@@ -23,4 +23,8 @@
     <div class="current">
         <?php echo $breadcrumb[$size - 1]['name'] ?>
     </div>
+    <!-- Search box open button -->
+    <?php if($breadcrumb['hasSearch']): ?>
+    <div class="search_open" id="search_open">Search</div>
+    <?php endif; ?>
 </div>

@@ -113,6 +113,7 @@ body.red                      { background:url(../images/color_bar_red.png) cent
 /* Misc. design elements */
 div.gray_line                 { height:0px; border-top:1px solid #ddd; }
 div.header_bar_blue_full      { width:941px; height:28px; margin-bottom:3px; background:url(../images/header_bar_blue_full.png) no-repeat; }
+.hide                         { display:none; }
 
 /* Page-specific styling */
 div#sign_in                       { margin:-10px 0 10px 0; }
@@ -153,6 +154,16 @@ div#breadcrumb .parent:hover  { background-color: #333; }
  
 .ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
 .add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+
+/* Search Box */
+div#search_box                { position:relative; top:25px; width:944px; height:200px; background:#eee; }
+div#search_header             { position:relative; top:0px; height:26px; background:#ddd; }
+div#search_header .title      { float:left; position:relative; left:5px; padding:5px 5px; background:#ccc; }
+div#search_header .close      { float:right; position:relative; right:5px; padding: 5px 5px; background: #ccc; }
+div#search_header .close:hover { background:#bbb; cursor:pointer; }
+div#search_body label         { }
+div#search_body input         { }
+
 
 div.tab_panel {
     width:765px;

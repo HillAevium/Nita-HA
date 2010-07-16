@@ -82,6 +82,57 @@ function handleBreadcrumbClick(event) {
     doPageLoad(id, false, true);
 }
 
+function handleSearchboxToggle() {
+    $("div#search_box").toggleClass("hide");
+    $("div#search_open").toggleClass("hide");
+}
+
+function handleSearchboxType(event) {
+    //dumpHeights();
+    
+    var selected = $("select#search_type option:selected").text();
+    
+    showAllRows();
+    
+    if(selected != '0') {
+        hideRows(2, selected);
+    }
+    
+    setWindowHeight($("body").height());
+    
+    dumpHeights();
+}
+
+function setWindowHeight(value) {
+    $(document).height(3000);
+}
+
+function dumpHeights() {
+    //var window = $(window).height();
+    var dh = $(document).height();
+    var bh = $(document.body).height();
+    var hh = $("html").height();
+    alert("Document: " + dh + "\nBody: " + bh + "\nHTML: " + hh);
+}
+
+function hideRows(columnIndex, text) {
+    $("table#items > tbody > tr > td:nth-child("+columnIndex+")").each(
+        function(index, element) {
+            if($(this).text() != text) {
+                $(this).parent().addClass("hide");
+            }
+        }
+    );
+}
+
+function showAllRows() {
+    $("table#items > tbody > tr").each(
+        function() {
+            $(this).removeClass("hide");
+        }
+    );
+}
+
 /**
  * Add event handlers to listed items.
  * 
@@ -105,6 +156,64 @@ function addBreadcrumbHandler() {
     $("div#breadcrumb > div.parent").click(handleBreadcrumbClick);
 }
 
+function addSearchboxHandler() {
+    $("div#search_open").click(handleSearchboxToggle);
+    $("div#search_close").click(handleSearchboxToggle);
+    $("select#search_type").change(handleSearchboxType);
+}
+
+function addDebugBox() {
+    addDebugBox.scroll = $(document).scrollTop();
+    $("body").append("<div id='debug' style='position:absolute;right:0;top:533;'>Debug</div>");
+    $(document).scroll(
+        function(event) {
+            var position = $(document).scrollTop();
+            var move = position - addDebugBox.scroll;
+            if(position > 533) {
+                $("#debug").animate({top:'+='+move},0);
+            }
+            addDebugBox.scroll = position;
+        }
+    );
+    $("#debug").click(
+        function() {
+            $("#debug").addClass("hide");
+        }
+    );
+}
+
+function addDebugHandlers() {
+    $(document).mousemove(
+        function(event) {
+            debug.mouseX = event.pageX;
+            debug.mouseY = event.pageY;
+            debug();
+        }
+    );
+    $(document).scroll(
+        function(event) {
+            debug.scrollLeft = $(document).scrollLeft();
+            debug.scrollTop  = $(document).scrollTop();
+            debug();
+        }
+    );
+}
+
+function debug() {
+    if(typeof debug.mouseX == undefined) {
+        debug.mouseX = 0;
+        debug.mouseY = 0;
+        debug.scrollTop = 0;
+        debug.scrollLeft = 0;
+    }
+    var text = "Debug<br/>"
+             + "Mouse X: " + debug.mouseX + "<br />"
+             + "Mouse Y: " + debug.mouseY + "<br />"
+             + "Scroll Top: " + debug.scrollTop + "<br />"
+             + "Scroll Left: " + debug.scrollLeft + "<br />";
+    $("#debug").html(text);
+    
+}
 /*
  * bootstrap
  */
@@ -112,6 +221,9 @@ function init() {
     addItemHandler();
     addTabHandler();
     addBreadcrumbHandler();
+    addSearchboxHandler();
+    addDebugBox();
+    addDebugHandlers();
 }
 
 $(init);

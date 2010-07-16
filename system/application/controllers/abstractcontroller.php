@@ -9,8 +9,9 @@ define('DEBUG', DEBUG_NONE);
 
 abstract class AbstractController extends Controller {
     
-    /* TODO
-     * > Should we move the generic page titles to a config file?
+    /* TODO(chris)
+     * viewOptoins is really starting to become an unwelcome
+     * hack. Need to fix this up.
      */
     
     // the uri arguments
@@ -149,6 +150,9 @@ abstract class AbstractController extends Controller {
         $mainNav   = $this->getViewOption('mainNav');
         $title     = $this->titlePrefix . $this->getViewOption('pageTitle');
         $views     = $this->getViewOption('views');
+        $searchbox = $this->getViewOption('searchbox');
+        $topbox    = $this->getViewOption('topbox');
+        $breadcrumb= $this->getViewOption('breadcrumb');
         
         $this->load->view('http_header', array('title' => $title));
         if($bodyClass !== false) {
@@ -164,16 +168,23 @@ abstract class AbstractController extends Controller {
         
         // Load the top box container for injection
         $args['topbox'] = '';
-        if($this->haveViewOption('topbox')) {
-            $topbox['topbox'] = $this->getViewOption('topbox');
+        if($topbox !== false) {
+            $topbox['topbox'] = $topbox;
             $args['topbox'] = $this->load->view('topbox', $topbox, true);
         }
         
         // Load the breadcrumb for injection
         $args['breadcrumb'] = '';
-        if($this->haveViewOption('breadcrumb')) {
-            $breadcrumb['breadcrumb'] = $this->getViewOption('breadcrumb');
+        if($breadcrumb !== false) {
+            $breadcrumb['hasSearch'] = $searchbox;
+            $breadcrumb['breadcrumb'] = $breadcrumb;
             $args['breadcrumb'] = $this->load->view('breadcrumb', $breadcrumb, true);
+        }
+        
+        // Load the search box for injection
+        $args['searchbox'] = '';
+        if($searchbox !== false) {
+            $args['searchbox'] = $this->load->view('searchbox', null, true);
         }
         
         // Load the content pane for injection

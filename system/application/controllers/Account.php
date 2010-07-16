@@ -122,12 +122,8 @@ class Account extends AbstractController {
     public function doRegistration() {
         // Validate form data
         
-        // TODO - use $this->input->post()
         // There's a config setting that we can set which will
         // automatically scrub all POST data for XSS and such
-        
-        // Testing the forms...
-        // print_r($data);
         
         // If this is a single user registration
         // create a single user model.
