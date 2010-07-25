@@ -38,6 +38,34 @@ class UserProfile extends Model {
     public $username         = '';
     public $zip              = '';
     
+    private static $requiredContactFields = array (
+        'firstname'             => 'ERROR_FIRST_NAME',
+        'firstName'             => 'ERROR_FIRST_NAME',
+        'lastName'              => 'ERROR_LAST_NAME',
+        'email'                 => 'ERROR_EMAIL',
+        'password'              => 'ERROR_PASSWORD',
+        'phone'                 => 'ERROR_PHONE',
+        'role'                  => 'ERROR_ROLE',
+        'billingAddress1'       => 'ERROR_BILL_ADDRESS',
+        'billingCity'           => 'ERROR_BILL_ADDRESS',
+        'billingState'          => 'ERROR_BILL_STATE',
+        'billingZip'            => 'ERROR_BILL_ZIP',
+        'billingCountry'        => 'ERROR_BILL_COUNTRY',
+        'shippingAddress1'      => 'ERROR_SHIP_ADDRESS',
+        'shippingCity'          => 'ERROR_SHIP_CITY',
+        'shippingState'         => 'ERROR_SHIP_STATE',
+        'shippingZip'           => 'ERROR_SHIP_ZIP',
+        'shippingCountry'       => 'ERROR_SHIP_COUNTRY',
+        'requireAccessibility'  => 'ERROR_REQ_ACCESS',
+        'haveScolarship'        => 'ERROR_SCOLARSHIP'
+    );
+    
+    private static $optionalContactFields = array(
+        'accountId', 'salutation', 'middleInitial', 'suffix', 'title',
+        'phone2', 'fax', 'companyName', 'typeOfPractice', 'lawSchoolAttended',
+        'firmSize', 'ethnicity', 'lawInterests', 'trainingDirector'
+    );
+    
     private $errors = array();
     
     public function UserProfile() {
@@ -66,59 +94,16 @@ class UserProfile extends Model {
         $this->soap->userGet($id);
     }
     
-    public function insert(UserProfile $model) {
-        $this->soap->userInsert($model);
+    public function insert(array $data) {
+        $this->soap->userInsert($data);
     }
     
-    public function loadForm(AbstractController $controller) {
-        // First we check that required fields are present.
-        if(!$controller->haveArgument('firstName')) {
-            $this->error[] = "No first name supplied.";
-        }
-        if(!$controller->haveArgument('lastName')) {
-            $this->error[] = "No last name supplied.";
-        }
-        if(!$controller->haveArgument('address')) {
-            $this->error[] = "No address supplied.";
-        }
-        if(!$controller->haveArgument('city')) {
-            $this->error[] = "No city supplied.";
-        }
-        if(!$controller->haveArgument('state')) {
-            $this->error[] = "No state supplied.";
-        }
-        if(!$controller->haveArgument('phone')) {
-            $this->error[] = "No phone number supplied.";
-        }
-        if(!$controller->haveArgument('email')) {
-            $this->error[] = "No email supplied.";
-        }
-        if(!$controller->haveArgument('username')) {
-            $this->error[] = "No username supplied.";
-        }
-        if(!$controller->haveArgument('password')) {
-            $this->error[] = "No password supplied.";
-        }
-        
-        // If there are errors dont bother continuing
-        if(sizeof($this->errors) > 0) {
-            return false;
-        }
-        
-        // Next check that the information is sane.
-        // TODO Look into using CI Form Validator class for this
-        
-        $this->firstName = $controller->getArgument('firstName');
-        $this->lastName  = $controller->getArgument('lastName');
-        $this->address   = $controller->getArgument('address');
-        $this->city      = $controller->getArgument('city');
-        $this->state     = $controller->getArgument('state');
-        $this->phoneOne  = $controller->getArgument('phone');
-        $this->email     = $controller->getArgument('email');
-        $this->username  = $controller->getArgument('username');
-        $this->password  = $controller->getArgument('password');
-        
-        return true;
+    public function getRequiredFields() {
+        return self::$requiredContactFields;
+    }
+    
+    public function getOptionalFields() {
+        return self::$optionalContactFields;
     }
     
     /**
@@ -128,6 +113,95 @@ class UserProfile extends Model {
      */
     public function update(UserProfile $model) {
         $this->soap->userUpdate($model);
+    }
+    
+    private function selectAccount($id) {
+        $result = $this->db->from('account')
+                           ->where(array('id' => $id))
+                           ->get();
+        if($result->num_rows() != 1) {
+            throw new RuntimeException("Account does not exist");
+        }
+        
+        return $result->row();
+    }
+    
+    private function selectUserById($id) {
+        // Get the user info
+        $result = $this->db->from('contact')
+                           ->where(array('id' => $id))
+                           ->get();
+        if($result->num_rows() != 1) {
+            throw new RuntimeException("User does not exist ID=".$id);
+        }
+        $user = $result->row();
+        
+        // And the bar info
+        $result = $this->db->from('contactbarinfo')
+                           ->where(array('id' => $id))
+                           ->get();
+        if($result->num_rows() === 0) {
+            throw new RuntimeException("No bar IDs found for this user. ID=".$id);
+        }
+        $user->bar = $result->result_array();
+        
+        //TODO return (UserProfile) $user;
+        return $user;
+    }
+    
+    private function selectUsersByAccount($accountId) {
+        $result = array();
+        $ids = $this->getUserIdsForAccount($accountId);
+        foreach($ids as $id) {
+            $result[] = $this->selectUserById($id);
+        }
+        
+        return $result;
+    }
+    
+    private function getUserIdsForAccount($accountId) {
+        $result = $this->db->select('id')
+                           ->from('contact')
+                           ->where(array('accountId' => $accountId))
+                           ->get();
+        if($result->num_rows() === 0) {
+            throw new RuntimeException("No users found for account id. ID=".$accountId);
+        }
+    }
+    
+    private function insertAccount($data) {
+        return $this->insertInto('account', $data);
+    }
+    
+    private function insertUser($data) {
+        $bars = $data['bar'];
+        unset($data['bar']);
+        
+        $userId = $this->insertInto('contact', $data);
+        
+        foreach($bars as $bar) {
+            $bar['userId'] = $userId;
+            $this->insertInto('contactbarinfo', $bar);
+        }
+    }
+    
+    private function insertInto($table, array $data) {
+        $this->db->insert($table, $data);
+        
+        if($this->db->affected_rows() !== 1) {
+            log_message('error', print_r($data, true));
+            throw new RuntimeException("INSERT INTO `".$table."` Failed. Data: ".print_r($data, true));
+        }
+        
+        return $this->db->insert_id();
+    }
+    
+    private function updateAccount($data, $id=0) {
+        // TODO
+    }
+    
+    private function updateUser($data, $id=0) {
+        // TODO
     }
 }
 
