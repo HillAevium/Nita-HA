@@ -80,6 +80,7 @@ class Account extends AbstractController {
         try {
             switch($requestMethod) {
                 case 'POST' :
+                    $this->load->helper('post');
                     $this->handlePost($method);
                 break;
                 case 'GET' :
@@ -120,25 +121,24 @@ class Account extends AbstractController {
     }
     
     public function doRegistration() {
-        // Validate form data
+        // Validate form data    
         
         // There's a config setting that we can set which will
         // automatically scrub all POST data for XSS and such
         
         // If this is a single user registration
         // create a single user model.
-        $regType = $this->getArgument('regType');
+        $regType = $this->getArgument('regtype');
         
         if($regType == 'individual') {
             $profile = new UserProfile();
-            if(!$profile->loadForm($this)) {
-                // TODO There be errors!
-                echo "Failboat";
-                return;
-            }
+            $requiredFields = $profile->getRequiredFields();
+            $optionalFields = $profile->getOptionalFields();
+            $process_post();
             // FIXME Add in the cache for this so
             // we can do verification via email.
             $this->load->model('userProfile');
+            
             $this->userProfile->insert($profile);
         }
         

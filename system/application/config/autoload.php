@@ -39,7 +39,7 @@
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('soap');
+$autoload['libraries'] = array('soap','database');
 // TODO change to the one below when going live
 //$autoload['libraries'] = array('soak');
 

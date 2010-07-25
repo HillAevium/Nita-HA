@@ -3,9 +3,8 @@
         <div id="sign_in" class="small">Already have an account? <a href="/account/login">Sign in!</a></div>
         <div class="gray_line"></div>
         <div class="form">
-            <form name="regForm" action="/account/register" method="POST">
+            <form name="regForm" action="/account/register/regtype/individual" method="POST">
                 <?php echo $form; ?>
-                <input type="hidden" name="regType" value="individual" />
             </form>
         </div>
         <div class="gray_line"></div>
