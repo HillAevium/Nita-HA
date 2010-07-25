@@ -134,7 +134,7 @@ class Account extends AbstractController {
             $profile = new UserProfile();
             $requiredFields = $profile->getRequiredFields();
             $optionalFields = $profile->getOptionalFields();
-            $process_post();
+            $profile = process_post($_POST);
             // FIXME Add in the cache for this so
             // we can do verification via email.
             $this->load->model('userProfile');

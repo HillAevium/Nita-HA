@@ -68,19 +68,14 @@ if ( ! function_exists('process_post'))
          *                              'data'  => '2005-01-08')
          *                      );
          */
-        $barFields = array(
-                                "barId",
-                                "state",
-                                "date"
-        );
+        $barFields = array("barId","state","date");
         
         foreach($required as $key=>$error) {
             if($value = $CI->input->post($key)) {
                 if(in_array($key,$barFields)) {
-                    $barFields = true;
                     $barArrays = array();
                     for($i=0;$i<count($value);$i++) {
-                        $barArrays[$i][$key] = $values[$i];
+                        $barArrays[$i][$key] = $value[$i];
                     }
                 } else {
                     $returnData[$key] = $value;
