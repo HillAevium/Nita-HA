@@ -40,13 +40,12 @@ if ( ! function_exists('process_post'))
 {
 	function process_post($required, $optional)
 	{
-	   
 		$CI =& get_instance();
 		$post = $_POST;
         $returnData = array();
         $errors = array();
         
-                /**
+        /**
          * If the form contains multiple fields for 
          * bar info, we need to handle those fields 
          * as a special case.
@@ -69,6 +68,9 @@ if ( ! function_exists('process_post'))
          *                      );
          */
         $barFields = array("barId","state","date");
+        // TODO
+        // We need to make sure the user has filled in 
+        // all 3 fields for each bar license
         foreach($barFields as $key) {
             if($value = $CI->input->post($key)) {
                 for($i=0;$i<count($value);$i++) {
@@ -90,7 +92,7 @@ if ( ! function_exists('process_post'))
                 $returnData[$key] = $value;
             }
         }
-        
+
         if(count($errors)) {
             $errorsOut = print_r($errors,true);
             log_message('debug', $errorsOut);
@@ -98,7 +100,6 @@ if ( ! function_exists('process_post'))
         }
         
         return $returnData;
-
 	}
 }
 
