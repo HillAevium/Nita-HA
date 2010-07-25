@@ -39,7 +39,6 @@ class UserProfile extends Model {
     public $zip              = '';
     
     private static $requiredContactFields = array (
-        'firstname'             => 'ERROR_FIRST_NAME',
         'firstName'             => 'ERROR_FIRST_NAME',
         'lastName'              => 'ERROR_LAST_NAME',
         'email'                 => 'ERROR_EMAIL',
@@ -57,7 +56,7 @@ class UserProfile extends Model {
         'shippingZip'           => 'ERROR_SHIP_ZIP',
         'shippingCountry'       => 'ERROR_SHIP_COUNTRY',
         'requireAccessibility'  => 'ERROR_REQ_ACCESS',
-        'haveScolarship'        => 'ERROR_SCOLARSHIP'
+        'haveScholarship'       => 'ERROR_SCOLARSHIP'
     );
     
     private static $optionalContactFields = array(
