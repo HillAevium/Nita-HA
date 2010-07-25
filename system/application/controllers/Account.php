@@ -1,7 +1,10 @@
 <?php
 
 require_once APPPATH.'/controllers/AbstractController.php';
-require_once APPPATH.'/models/userprofile.php';
+require_once APPPATH.'/models/accountprovider.php';
+require_once APPPATH.'/models/def/definition.php';
+require_once APPPATH.'/models/def/userprofile.php';
+require_once APPPATH.'/models/def/firmprofile.php';
 
 class Account extends AbstractController {
     
@@ -93,6 +96,7 @@ class Account extends AbstractController {
                 break;
             }
         } catch(Exception $e) {
+            throw $e;
             // TODO Setup AuthenticationException trap
         }
     }
@@ -121,7 +125,7 @@ class Account extends AbstractController {
     }
     
     public function doRegistration() {
-        // Validate form data    
+        // Validate form data
         
         // There's a config setting that we can set which will
         // automatically scrub all POST data for XSS and such
@@ -131,15 +135,17 @@ class Account extends AbstractController {
         $regType = $this->getArgument('regtype');
         
         if($regType == 'individual') {
-            $this->load->model('userProfile');
-            $requiredFields = $this->userProfile->getRequiredFields();
-            $optionalFields = $this->userProfile->getOptionalFields();
-            $profile = process_post($requiredFields,$optionalFields);
+            $this->load->model('accountProvider');
+            $profile = process_post(new UserProfileDefinition());
+            
+            $this->accountProvider->createUser($profile);
+            
+            echo "User Created";
+            echo "<pre>" . print_r($profile, true) . "</pre>";
             
             // FIXME Add in the cache for this so
             // we can do verification via email.
-            
-            $this->userProfile->insert($profile);
+            // huh?
         }
         
         // If this is a group registration

@@ -1,6 +1,7 @@
 <?php
 
 require_once APPPATH.'/models/def/definition.php';
+require_once APPPATH.'/models/def/hasdefinition.php';
 
 class UserProfile implements HasDefinition {
     
@@ -22,14 +23,23 @@ class UserProfileDefinition extends Definition {
     }
     
     private function initFields() {
+        $barDef = new ArrayField('bar', 1, 50);
+        
         /* Required Fields */
         /*                         Name             Type        Required  */
+        $barDef->addField(new Field('barId',            'array',    true));
+        $barDef->addField(new Field('state',            'array',    true));
+        $barDef->addField(new Field('date',             'array',    true));
+        $this->addField($barDef);
+        
         $this->addField(new Field('firstName',          'string',   true));
         $this->addField(new Field('lastName',           'string',   true));
         $this->addField(new Field('email',              'string',   true));
         $this->addField(new Field('password',           'string',   true));
         $this->addField(new Field('phone',              'string',   true));
         $this->addField(new Field('role',               'string',   true));
+        $this->addField(new Field('isAttendingClasses', 'boolean',  true));
+        $this->addField(new Field('badgeName',          'string',   true));
         $this->addField(new Field('billingAddress1',    'string',   true));
         $this->addField(new Field('billingAddress2',    'string',   true));
         $this->addField(new Field('billingCity',        'string',   true));
@@ -38,12 +48,12 @@ class UserProfileDefinition extends Definition {
         $this->addField(new Field('billingCountry',     'string',   true));
         $this->addField(new Field('shippingAddress1',   'string',   true));
         $this->addField(new Field('shippingAddress2',   'string',   true));
-        $this->addField(new Field('shipgingCity',       'string',   true));
+        $this->addField(new Field('shippingCity',       'string',   true));
         $this->addField(new Field('shippingState',      'string',   true));
         $this->addField(new Field('shippingZip',        'string',   true));
         $this->addField(new Field('shippingCountry',    'string',   true));
-        $this->addField(new Field('requireAccessibility','boolean', true));
-        $this->addField(new Field('haveScolarship',     'boolean',  true));
+        //$this->addField(new Field('requireAccessibility','boolean', true));
+        //$this->addField(new Field('haveScolarship',     'boolean',  true));
         
         /* Optional Fields */
         /*                         Name             Type        Required  */

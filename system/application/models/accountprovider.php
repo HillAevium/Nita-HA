@@ -2,7 +2,7 @@
 
 require_once BASEPATH.'/libraries/Model.php';
 
-class UserProfile extends Model {
+class AccountProvider extends Model {
     
     // FIXME - Unknown models parameters
     // Nita_isln
@@ -15,59 +15,9 @@ class UserProfile extends Model {
     // primarycustomerid
     // suffix
     
-    public $address          = ''; // Street Address, Could have upto 3 lines
-    public $city             = '';
-    public $country          = '';
-    public $creationTime     = '';
-    public $description      = '';
-    public $email            = '';
-    public $ethnicity        = '';
-    public $fax              = '';
-    public $firstName        = '';
-    public $gender           = '';
-    public $id               = '';
-    public $lastLoginTime    = '';
-    public $lastName         = '';
-    public $middleName       = '';
-    public $modificationTime = '';
-    public $password         = '';
-    public $phoneMobile      = '';
-    public $phoneOne         = '';
-    public $phoneTwo         = '';
-    public $state            = '';
-    public $username         = '';
-    public $zip              = '';
-    
-    private static $requiredContactFields = array (
-        'firstName'             => 'ERROR_FIRST_NAME',
-        'lastName'              => 'ERROR_LAST_NAME',
-        'email'                 => 'ERROR_EMAIL',
-        'password'              => 'ERROR_PASSWORD',
-        'phone'                 => 'ERROR_PHONE',
-        'role'                  => 'ERROR_ROLE',
-        'billingAddress1'       => 'ERROR_BILL_ADDRESS',
-        'billingCity'           => 'ERROR_BILL_ADDRESS',
-        'billingState'          => 'ERROR_BILL_STATE',
-        'billingZip'            => 'ERROR_BILL_ZIP',
-        'billingCountry'        => 'ERROR_BILL_COUNTRY',
-        'shippingAddress1'      => 'ERROR_SHIP_ADDRESS',
-        'shippingCity'          => 'ERROR_SHIP_CITY',
-        'shippingState'         => 'ERROR_SHIP_STATE',
-        'shippingZip'           => 'ERROR_SHIP_ZIP',
-        'shippingCountry'       => 'ERROR_SHIP_COUNTRY',
-        'requireAccessibility'  => 'ERROR_REQ_ACCESS',
-        'haveScholarship'       => 'ERROR_SCOLARSHIP'
-    );
-    
-    private static $optionalContactFields = array(
-        'accountId', 'salutation', 'middleInitial', 'suffix', 'title',
-        'phone2', 'fax', 'companyName', 'typeOfPractice', 'lawSchoolAttended',
-        'firmSize', 'ethnicity', 'lawInterests', 'trainingDirector'
-    );
-    
     private $errors = array();
     
-    public function UserProfile() {
+    public function AccountProvider() {
         parent::Model();
     }
     
@@ -89,21 +39,26 @@ class UserProfile extends Model {
      * @param int $id the user's id
      * @return UserProfile model for the account
      */
-    public function get($id) {
-        $this->soap->userGet($id);
+    public function getUserById($id) {
+        //$this->soap->userGet($id);
+        $this->selectUserById($id);
     }
     
-    public function insert(array $data) {
+    public function getUserByFirm($id) {
+        $this->selectUsersByFirm($id);
+    }
+    
+    public function getFirm($id) {
+        $this->selectFirm($id);
+    }
+    
+    public function createUser(array $data) {
         //$this->soap->userInsert($data);
         $this->insertUser($data);
     }
     
-    public function getRequiredFields() {
-        return self::$requiredContactFields;
-    }
-    
-    public function getOptionalFields() {
-        return self::$optionalContactFields;
+    public function createFirm(array $data) {
+        $this->insertFirm($data);
     }
     
     /**
@@ -111,11 +66,13 @@ class UserProfile extends Model {
      *
      * @param UserProfile $model model for the account
      */
-    public function update(UserProfile $model) {
-        $this->soap->userUpdate($model);
+    public function update($model) {
+        //$this->soap->userUpdate($model);
     }
     
-    private function selectAccount($id) {
+    ///////////////////////////////////////////////////////////////////////
+    
+    private function selectFirm($id) {
         $result = $this->db->from('account')
                            ->where(array('id' => $id))
                            ->get();
@@ -145,13 +102,12 @@ class UserProfile extends Model {
         }
         $user->bar = $result->result_array();
         
-        //TODO return (UserProfile) $user;
         return $user;
     }
     
-    private function selectUsersByAccount($accountId) {
+    private function selectUsersByFirm($firmId) {
         $result = array();
-        $ids = $this->getUserIdsForAccount($accountId);
+        $ids = $this->getUserIdsForFirm($firmId);
         foreach($ids as $id) {
             $result[] = $this->selectUserById($id);
         }
@@ -159,7 +115,7 @@ class UserProfile extends Model {
         return $result;
     }
     
-    private function getUserIdsForAccount($accountId) {
+    private function getUserIdsForFirm($accountId) {
         $result = $this->db->select('id')
                            ->from('contact')
                            ->where(array('accountId' => $accountId))
@@ -169,15 +125,18 @@ class UserProfile extends Model {
         }
     }
     
-    private function insertAccount($data) {
+    private function insertFirm(array $data) {
         return $this->insertInto('account', $data);
     }
     
-    private function insertUser($data) {
+    private function insertUser(array $data) {
         $bars = $data['bar'];
         unset($data['bar']);
         
+        log_message('debug', 'before insert');
+        log_message('debug', print_r($data, true));
         $userId = $this->insertInto('contact', $data);
+        log_message('debug', 'after insert');
         
         foreach($bars as $bar) {
             $bar['userId'] = $userId;
@@ -196,7 +155,7 @@ class UserProfile extends Model {
         return $this->db->insert_id();
     }
     
-    private function updateAccount($data, $id=0) {
+    private function updateFirm($data, $id=0) {
         // TODO
     }
     

@@ -35,72 +35,66 @@
  * @param	array     $required	the required fields
  * @param	array     $optional	the optional fields
  * @return	array
- */	
+ */
 if ( ! function_exists('process_post'))
 {
-	function process_post($required, $optional)
-	{
-		$CI =& get_instance();
-		$post = $_POST;
+    function process_post(Definition $definition) {
+        $CI =& get_instance();
         $returnData = array();
         $errors = array();
         
-        /**
-         * If the form contains multiple fields for 
-         * bar info, we need to handle those fields 
-         * as a special case.
-         * 
-         * $barFields is a list of array input field names
-         * in the POST that together constitute one of the
-         * user's bar licenses.
-         * 
-         * For the $returnData, we format
-         * bar info like this:
-         * $returnData['bar'] = array(
-         *                          [0] => array(
-         *                              'barId' => 123,
-         *                              'state' => 'CA',
-         *                              'data'  => '2010-07-20')
-         *                          [1] => array(
-         *                              'barId' => 345,
-         *                              'state' => 'AZ',
-         *                              'data'  => '2005-01-08')
-         *                      );
-         */
-        $barFields = array("barId","state","date");
-        // TODO
-        // We need to make sure the user has filled in 
-        // all 3 fields for each bar license
-        foreach($barFields as $key) {
-            if($value = $CI->input->post($key)) {
-                for($i=0;$i<count($value);$i++) {
-                    $returnData['bar'][$i][$key] = $value[$i];
+        foreach($definition->fields() as $field) {
+            log_message('debug', $field->name);
+            
+            if($field->type === 'array') {
+                // Loop through the sub fields for this array
+                foreach($field->fields() as $subField) {
+                    log_message('debug', ' - '.$subField->name);
+                    $value = $CI->input->post($subField->name);
+                    if($value === false) {
+                        if($field->required) {
+                            $errors[] = "Field Required: " . $subField->name;
+                        }
+                    }
+                    
+                    // Here we finally go through the form array
+                    for($i = 0; $i < count($value); $i++) {
+                        if(!__verify($subField, $value[$i])) {
+                            $errors[] = "Field Invalid: " . $subField->name;
+                        }
+                        $returnData[$field->name][$i][$subField->name] = $value[$i];
+                    }
                 }
-            }
-        }
-        
-        foreach($required as $key=>$error) {
-            if($value = $CI->input->post($key)) {
-                $returnData[$key] = $value;
             } else {
-                $errors[] = $error;
-            }
-        }
-        
-        foreach($optional as $key) {
-            if($value = $CI->input->post($key)) {
-                $returnData[$key] = $value;
+                $value = $CI->input->post($field->name);
+                if($value === false) {
+                    if($field->required) {
+                        $errors[] = "Field Required: " . $field->name;
+                    }
+                    // Optional unset values get ignored
+                } else {
+                    if(!__verify($field, $value)) {
+                        $error[] = "Field Invalid: " . $field->name;
+                    }
+                    // TODO Verification
+                    $returnData[$field->name] = $value;
+                }
             }
         }
 
         if(count($errors)) {
             $errorsOut = print_r($errors,true);
-            log_message('debug', $errorsOut);
+            log_message('debug', 'Errors: ' . $errorsOut);
             throw new RuntimeException($errorsOut);
         }
         
         return $returnData;
-	}
+    }
+    
+    function __verify(Field $field, $data) {
+        // TODO
+        return true;
+    }
 }
 
 /* End of file post_helper.php */

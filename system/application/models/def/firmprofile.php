@@ -1,6 +1,7 @@
 <?php
 
 require_once APPPATH.'/models/def/definition.php';
+require_once APPPATH.'/models/def/hasdefinition.php';
 
 class FirmProfile implements HasDefinition {
     
