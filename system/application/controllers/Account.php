@@ -131,13 +131,13 @@ class Account extends AbstractController {
         $regType = $this->getArgument('regtype');
         
         if($regType == 'individual') {
-            $profile = new UserProfile();
-            $requiredFields = $profile->getRequiredFields();
-            $optionalFields = $profile->getOptionalFields();
-            $profile = process_post($_POST);
+            $this->load->model('userProfile');
+            $requiredFields = $this->userProfile->getRequiredFields();
+            $optionalFields = $this->userProfile->getOptionalFields();
+            $profile = process_post($requiredFields,$optionalFields);
+            
             // FIXME Add in the cache for this so
             // we can do verification via email.
-            $this->load->model('userProfile');
             
             $this->userProfile->insert($profile);
         }
