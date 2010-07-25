@@ -38,7 +38,7 @@
  */	
 if ( ! function_exists('process_post'))
 {
-	function process_post($required = array(), $optional = array())
+	function process_post($required, $optional)
 	{
 	   
 		$CI =& get_instance();
@@ -46,7 +46,7 @@ if ( ! function_exists('process_post'))
         $returnData = array();
         $errors = array();
         
-        /**
+                /**
          * If the form contains multiple fields for 
          * bar info, we need to handle those fields 
          * as a special case.
@@ -69,17 +69,17 @@ if ( ! function_exists('process_post'))
          *                      );
          */
         $barFields = array("barId","state","date");
+        foreach($barFields as $key) {
+            if($value = $CI->input->post($key)) {
+                for($i=0;$i<count($value);$i++) {
+                    $returnData['bar'][$i][$key] = $value[$i];
+                }
+            }
+        }
         
         foreach($required as $key=>$error) {
             if($value = $CI->input->post($key)) {
-                if(in_array($key,$barFields)) {
-                    $barArrays = array();
-                    for($i=0;$i<count($value);$i++) {
-                        $barArrays[$i][$key] = $value[$i];
-                    }
-                } else {
-                    $returnData[$key] = $value;
-                }
+                $returnData[$key] = $value;
             } else {
                 $errors[] = $error;
             }
@@ -90,17 +90,13 @@ if ( ! function_exists('process_post'))
                 $returnData[$key] = $value;
             }
         }
-    
-        if(isset($barArrays)) {
-            $returnData['bar'] = $barArrays;
-        }
         
         if(count($errors)) {
             $errorsOut = print_r($errors,true);
             log_message('debug', $errorsOut);
             throw new RuntimeException($errorsOut);
         }
-
+        
         return $returnData;
 
 	}
