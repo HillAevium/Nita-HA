@@ -94,7 +94,8 @@ class UserProfile extends Model {
     }
     
     public function insert(array $data) {
-        $this->soap->userInsert($data);
+        //$this->soap->userInsert($data);
+        $this->insertUser($data);
     }
     
     public function getRequiredFields() {

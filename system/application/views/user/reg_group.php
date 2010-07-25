@@ -1,11 +1,10 @@
     <div id="content_main_inner">
-        <h1 class="page_title">Create New Account</h1>
+        <h1 class="page_title"><?php echo $title; ?></h1>
         <div id="sign_in" class="small">Already have an account? <a href="/account/login">Sign in!</a></div>
         <div class="gray_line"></div>
         <div class="form">
-            <form name="regForm" action="/account/register" method="POST">
+            <form name="regForm" action="/account/register/regtype/group" method="POST">
                 <?php echo $form; ?>
-                <input type="hidden" name="regType" value="individual" />
             </form>
         </div>
         <div class="gray_line"></div>

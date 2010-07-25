@@ -18,7 +18,7 @@ abstract class AbstractController extends Controller {
     protected $arguments = array();
     // options for the loadViews
     private $viewOptions = array();
-    private $titlePrefix = 'Nita - ';
+    private $titlePrefix = '';
     
     private $lipsum = array();
     

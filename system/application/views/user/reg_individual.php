@@ -1,5 +1,5 @@
     <div id="content_main_inner">
-        <h1 class="page_title">Create New Account</h1>
+        <h1 class="page_title"><?php echo $title; ?></h1>
         <div id="sign_in" class="small">Already have an account? <a href="/account/login">Sign in!</a></div>
         <div class="gray_line"></div>
         <div class="form">

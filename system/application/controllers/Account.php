@@ -313,6 +313,7 @@ class Account extends AbstractController {
                 );
                 
                 // Set up the view options
+                $this->setViewOption('pageTitle', 'Create A New Group Account');
                 $this->setViewOption('bodyClass', 'blue_short');
                 $this->setViewOption('mainNav', true);
                 $this->setViewOption('views', $views);
@@ -329,6 +330,7 @@ class Account extends AbstractController {
                 );
                 
                 // Set up the view options
+                $this->setViewOption('pageTitle', 'Create A New Individual Account');
                 $this->setViewOption('bodyClass', 'blue_short');
                 $this->setViewOption('mainNav', true);
                 $this->setViewOption('views', $views);
