@@ -250,7 +250,7 @@ $config['sess_time_to_update'] 	= 300;
 | 'cookie_path'   =  Typically will be a forward slash
 |
 */
-$config['cookie_prefix']	= "";
+$config['cookie_prefix']	= "nita_";
 $config['cookie_domain']	= "";
 $config['cookie_path']		= "/";
 

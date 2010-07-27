@@ -125,62 +125,81 @@ class Account extends AbstractController {
     }
     
     public function doRegistration() {
-        // Validate form data
-        
-        // There's a config setting that we can set which will
-        // automatically scrub all POST data for XSS and such
-        
         // If this is a single user registration
         // create a single user model.
         $regType = $this->getArgument('regtype');
         
         if($regType == 'individual') {
+            
+            // process the single user registration
             $this->load->model('accountProvider');
-            $profile = process_post(new UserProfileDefinition());
+            $profile = process_post(new UserProfileDefinition(true));
             
-            $this->accountProvider->createUser($profile);
+            // errors get sent back to the form
+            if(isset($profile['errors'])) {
+                return $this->sendErrors($profile['errors']);
+            }
             
-            echo "User Created";
-            echo "<pre>" . print_r($profile, true) . "</pre>";
+            // TODO Store the user account for verification
             
-            // FIXME Add in the cache for this so
-            // we can do verification via email.
-            // huh?
+            $insertStmt = $this->accountProvider->storeUser($profile);
+            $verifyCode = md5($insertStmt);
+            
+            $session = array(
+                'insert' => $insertStmt,
+            );
+            
+            // FIXME Needs to be private
+            $this->session->set_userdata($session);
+            
+            // TODO Send email
+            $this->load->library('email');
+            $this->email->from('accounts@nita.org');
+            $this->email->to($profile['email']);
+            $this->email->subject('Nita Verification');
+            $this->email->message('Insert: ' . $insertStmt . ' Code: ' . $verifyCode);
+            // $this->email->send();
+            
+            // Send a 202 ACCEPTED
+            $this->output->set_status_header(202);
+            
+            echo $verifyCode;
         }
         
         // If this is a group registration
         // create a firm model and a user model
         // with this user being the firm's superuser.
         else if ($regType == 'group') {
+            $this->load->model('accountProvider');
+            $firmProfile = process_post(new FirmProfileDefinition());
+            
+            // errors get sent back to the form
+            if(isset($firmProfile['errors'])) {
+                return $this->sendErrors($firmProfile['errors']);
+            }
+            
+            // FIXME
+            // We do a little hack here to see if the SU is going
+            // to need a full or partial profile
+            // In order to do this properly I need to make it such
+            // that fields can be required only if a dependency is
+            // set, gonna have to think about this
+            // FIXME
+            /*
+            $isFull = $this->input->post('isAttendingClasses');
+            
+            $userProfile = process_post(new UserProfileDefinition($isFull));
+            */
             // TODO
+            // we need to pull the profile data for the super user
+            // with the way the definitions are this will mean two
+            // rounds of process_post but, the su may have less info
+            // than the UPDef requires so we cant use it as is.
+            $this->accountProvider->createFirm($profile);
+            
+            // Send 202 ACCEPTED
+            $this->output->set_status_header(202);
         }
-        
-        // If this is a user being added to a firm
-        // create a user model and associate them
-        // with the firm.
-        
-        // If there was a referal page that the user
-        // was sent from then embed the referal into
-        // the model so we can reload it after validation.
-        
-        // Memcache the model awaiting the user to
-        // check their email for verification.
-        
-        /* NOTE:
-         * The model is only valid for a limited amount
-         * of time. We could use a pre-controller hook
-         * to check the cache for registration models
-         * that have expired and invalidate them. It
-         * potentially means a registration could live in
-         * the cache for an indeterminate amount of time, but
-         * if the user clicks the validate link after the
-         * expired amount of time, they will essentially be
-         * invalidating the model before this controller
-         * even gets to load.
-         */
-        
-        // Generate a unique link and send the link
-        // to the email provided in the registration.
     }
     
     private function doVerify() {
@@ -199,9 +218,23 @@ class Account extends AbstractController {
         // If the model is still valid then we can push the user
         // information to AccountService
         
-        // Since we cannot be 100% sure that the user that clicked
-        // the validate link is the user that registered we
-        // bounce them to the login screen for authentication.
+        // Grab the verify code
+        $verifyCode = $this->input->post('verify');
+        
+        // FIXME Needs to be kept private on the server
+        // Grab the INSERT
+        $insert = $this->session->userdata('insert');
+        
+        if($verifyCode === md5($insert)) {
+            // Valid ID - 201 CREATED
+            $this->load->model('accountProvider');
+            $id = $this->accountProvider->verifyUser($insert);
+            echo $id;
+            $this->output->set_status_header(201);
+        } else {
+            // Invalid ID - 400 BAD_REQUEST
+            $this->output->set_status_header(400);
+        }
     }
     
     public function doUserUpdate() {
@@ -275,14 +308,13 @@ class Account extends AbstractController {
         
         // Check for registration type in uri,
         // otherwise display funnel if not set
-        if(!$this->getArgument('type')) {
+        if(!$this->getArgument('regtype')) {
             $this->showRegistrationFunnel();
             return;
         } else {
-            $accountType = $this->getArgument('type');
+            $accountType = $this->getArgument('regtype');
             $this->showRegistrationForm($accountType);
         }
-        
     }
     
     /**
@@ -304,7 +336,7 @@ class Account extends AbstractController {
     }
     
     /**
-     * Display the user registration form
+     * Display the user registration form7
      *
      * @param string $accountType the user's account type, either 'group' or 'individual'
      */
@@ -328,8 +360,9 @@ class Account extends AbstractController {
                 $this->loadViews();
                 break;
             case 'individual':
-                // get the form template for individuals
-                $args['form'] = $this->load->view('user/form_individual', '', true);
+                // get the form templates for individuals
+                $args['verificationForm'] = $this->load->view('user/form_verify', '', true);
+                $args['registrationForm'] = $this->load->view('user/form_individual', '', true);
                 
                 $views = array(
                     array('name' => 'user/reg_individual', 'args' => $args)
@@ -418,9 +451,6 @@ class Account extends AbstractController {
             case 'register' :
                 $this->showRegistration();
             break;
-            case 'verify' :
-                $this->doVerify();
-            break;
             default :
                 show_404('/account/' . $method . '/');
             return;
@@ -441,11 +471,19 @@ class Account extends AbstractController {
             case 'register' :
                 $this->doRegistration();
             break;
+            case 'verify' :
+                $this->doVerify();
+            break;
             default :
                 // Since we're using remapping we have to handle the 404
                 show_404('/account/' . $method . '/');
             return;
         }
+    }
+    
+    private function sendErrors(array $errors) {
+        $this->output->set_status_header(400);
+        $this->load->view('errors', array('errors' => $errors));
     }
 }
 

@@ -18,7 +18,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="title" class="small"/>
+                        <input name="title" class="small" value="Mr."/>
                     </td>
                     <td></td>
                 </tr>
@@ -32,10 +32,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="firstName" class="small"/>
+                        <input name="firstName" class="small" value="John"/>
                     </td>
                     <td>
-                        <input name="lastName" class="small"/>
+                        <input name="lastName" class="small" value="Doe"/>
                     </td>
                 </tr>
                 <tr>
@@ -48,10 +48,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="middleInitial" class="small"/>
+                        <input name="middleInitial" class="small" value="B"/>
                     </td>
                     <td>
-                        <input name="suffix" class="small"/>
+                        <input name="suffix" class="small" value="Jr."/>
                     </td>
                 </tr>
                 <tr>
@@ -64,10 +64,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="phone" class="small"/>
+                        <input name="phone" class="small" value="+1(707)-555-4444"/>
                     </td>
                     <td>
-                        <input name="phone2" class="small"/>
+                        <input name="phone2" class="small" value="+32(231)-325-1234" >
                     </td>
                 </tr>
                 <tr>
@@ -80,7 +80,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="fax" class="small"/>
+                        <input name="fax" class="small" value="303-555-6789"/>
                     </td>
                     <td>
                        
@@ -100,10 +100,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="email" class="small"/>
+                        <input name="email" class="small" value="test@testdomain.com"/>
                     </td>
                     <td>
-                        <input name="password" type="password" class="small"/>
+                        <input name="password" type="password" class="small" value="abc123"/>
                     </td>
                 </tr>
             </table>
@@ -125,43 +125,43 @@
                 <tr>
                     <td style="width:242px;">
                         <label>Bar ID</label><br />
-                        <input name="barId[]" class="small"/>
+                        <input name="barId[]" class="small" value="123456"/>
                     </td>
                     <td style="width:242px;">
                         <label>State</label><br />
-                        <input name="state[]" class="small"/>
+                        <input name="state[]" class="small" value="CO"/>
                     </td>
                     <td>
                         <label>Date</label><br />
-                        <input name="date[]" class="small"/>
+                        <input name="date[]" class="small" value="2010-05-24"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width:242px;">
                         <label>Bar ID</label><br />
-                        <input name="barId[]" class="small"/>
+                        <input name="barId[]" class="small" value="6285375920"/>
                     </td>
                     <td style="width:242px;">
                         <label>State</label><br />
-                        <input name="state[]" class="small"/>
+                        <input name="state[]" class="small" value="NY"/>
                     </td>
                     <td>
                         <label>Date</label><br />
-                        <input name="date[]" class="small"/>
+                        <input name="date[]" class="small" value="2010-11-12"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width:242px;">
                         <label>Bar ID</label><br />
-                        <input name="barId[]" class="small"/>
+                        <input name="barId[]" class="small" value="a6fk4u3847"/>
                     </td>
                     <td style="width:242px;">
                         <label>State</label><br />
-                        <input name="state[]" class="small"/>
+                        <input name="state[]" class="small" value="CA"/>
                     </td>
                     <td>
                         <label>Date</label><br />
-                        <input name="date[]" class="small"/>
+                        <input name="date[]" class="small" value="1996-03-14"/>
                     </td>
                 </tr>
             </table>
@@ -189,7 +189,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="billingAddress1" class="large" />
+                        <input name="billingAddress1" class="large" value="123 Main St."/>
                     </td>
                 </tr>
                 <tr>
@@ -199,7 +199,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="billingAddress2" class="large" />
+                        <input name="billingAddress2" class="large" value="#23" />
                     </td>
                 </tr>
                 <tr>
@@ -212,10 +212,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="billingCity" class="small"/>
+                        <input name="billingCity" class="small" value="Boulder"/>
                     </td>
                     <td>
-                        <input name="billingState" class="small"/>
+                        <input name="billingState" class="small" value="CO">
                     </td>
                 </tr>
                 <tr>
@@ -228,10 +228,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="billingZip" class="small"/>
+                        <input name="billingZip" class="small" value="80302"/>
                     </td>
                     <td>
-                        <input name="billingCountry" class="small"/>
+                        <input name="billingCountry" class="small" value="United States"/>
                     </td>
                 </tr>
             </table>
@@ -245,7 +245,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="shippingAddress1" class="large" />
+                        <input name="shippingAddress1" class="large" value="PO Box 45"/>
                     </td>
                 </tr>
                 <tr>
@@ -268,10 +268,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="shippingCity" class="small"/>
+                        <input name="shippingCity" class="small" value="Los Angeles"/>
                     </td>
                     <td>
-                        <input name="shippingState" class="small"/>
+                        <input name="shippingState" class="small" value="CA"/>
                     </td>
                 </tr>
                 <tr>
@@ -284,10 +284,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="shippingZip" class="small"/>
+                        <input name="shippingZip" class="small" value="91360"/>
                     </td>
                     <td>
-                        <input name="shippingCountry" class="small"/>
+                        <input name="shippingCountry" class="small" value="United States"/>
                     </td>
                 </tr>
             </table>
@@ -326,7 +326,7 @@
                 <tr>
                     <td colspan="2">
                         <input name="isAttendingClasses" type="radio" value="0" /> No
-                        <input name="isAttendingClasses" type="radio" value="1" /> Yes
+                        <input name="isAttendingClasses" type="radio" value="1" checked="checked"/> Yes
                     </td>
                 </tr>
                 <tr>
@@ -337,7 +337,7 @@
                 <tr>
                     <td colspan="2">
                         <input name="haveScholarship" type="radio" value="0" /> No
-                        <input name="haveScholarship" type="radio" value="1" /> Yes
+                        <input name="haveScholarship" type="radio" value="1" checked="checked"/> Yes
                     </td>
                 </tr>
                 <tr>
@@ -348,7 +348,7 @@
                 <tr>
                     <td colspan="2">
                         <input name="requireAccessibility" type="radio" value="0" /> No
-                        <input name="requireAccessibility" type="radio" value="1" /> Yes
+                        <input name="requireAccessibility" type="radio" value="1" checked="checked"/> Yes
                     </td>
                 </tr>
                 <tr>
@@ -361,10 +361,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="badgeName" class="small"/>
+                        <input name="badgeName" class="small" value="Tony the Tiger"/>
                     </td>
                     <td>
-                        <input name="companyName" class="small"/>
+                        <input name="companyName" class="small" value="Kellogg"/>
                     </td>
                 </tr>
                 <tr>
@@ -377,10 +377,10 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="typeOfPractice" class="small"/>
+                        <input name="typeOfPractice" class="small" value="Bad Ass Practice"/>
                     </td>
                     <td>
-                        <input name="lawSchoolAttended" class="small"/>
+                        <input name="lawSchoolAttended" class="small" value="Harvard"/>
                     </td>
                 </tr>
             </table>
@@ -400,14 +400,14 @@
                         <select name="firmSize">
                             <option value="1">1</option>
                             <option value="2">2-9</option>
-                            <option value="10">10-19</option>
+                            <option value="10" selected>10-19</option>
                             <option value="20">20-49</option>
                             <option value="50">50-99</option>
                             <option value="100">100+</option>
                         </select>
                     </td>
                     <td>
-                        <input name="ethnicity" class="small"/>
+                        <input name="ethnicity" class="small" value="Eskimo"/>
                     </td>
                 </tr>
                 <tr>
@@ -420,7 +420,7 @@
                 </tr>
                 <tr>
                     <td>
-                        <input name="trainingDirector" class="small"/>
+                        <input name="trainingDirector" class="small" value="Mr. Director"/>
                     </td>
                     <td>
 
@@ -433,7 +433,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="lawInterests" class="small"/>
+                        <input name="lawInterests" class="small" value="Putting criminals in prison, especially drug offenders and hackers."/>
                     </td>
                 </tr>
             </table>

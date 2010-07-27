@@ -4,10 +4,10 @@
         <table class="reg_funnel">
             <tr>
                 <td align="left">
-                    <a href="/account/register/type/group"><img src="/resources/images/reg_funnel_button_group.png" alt="Group" title="Group" /></a>
+                    <a href="/account/register/regtype/group"><img src="/resources/images/reg_funnel_button_group.png" alt="Group" title="Group" /></a>
                 </td>
                 <td align="right">
-                    <a href="/account/register/type/individual"><img src="/resources/images/reg_funnel_button_individual.png" alt="Individual" title="Individual" /></a>
+                    <a href="/account/register/regtype/individual"><img src="/resources/images/reg_funnel_button_individual.png" alt="Individual" title="Individual" /></a>
                 </td>
             </tr>
         </table>

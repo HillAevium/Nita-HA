@@ -18,28 +18,28 @@ class UserProfile implements HasDefinition {
 
 class UserProfileDefinition extends Definition {
     
-    public function UserProfileDefinition() {
-        $this->initFields();
+    public function UserProfileDefinition($isFull) {
+        $this->initFields($isFull);
     }
     
-    private function initFields() {
-        $barDef = new ArrayField('bar', 1, 50);
+    private function initFields($isFull) {
+        $barDef = new ArrayField('bar', $isFull ? 1 : 0, 50);
         
         /* Required Fields */
         /*                         Name             Type        Required  */
-        $barDef->addField(new Field('barId',            'array',    true));
-        $barDef->addField(new Field('state',            'array',    true));
-        $barDef->addField(new Field('date',             'array',    true));
+        $barDef->addField(new Field('barId',            'bar',    true));
+        $barDef->addField(new Field('state',            'state',    true));
+        $barDef->addField(new Field('date',             'date',    true));
         $this->addField($barDef);
         
         $this->addField(new Field('firstName',          'string',   true));
         $this->addField(new Field('lastName',           'string',   true));
-        $this->addField(new Field('email',              'string',   true));
-        $this->addField(new Field('password',           'string',   true));
-        $this->addField(new Field('phone',              'string',   true));
-        $this->addField(new Field('role',               'string',   true));
+        $this->addField(new Field('email',              'email',    true));
+        $this->addField(new Field('password',           'password', true));
+        $this->addField(new Field('phone',              'phone',    true));
+        $this->addField(new Field('role',               'string',   $isFull));
         $this->addField(new Field('isAttendingClasses', 'boolean',  true));
-        $this->addField(new Field('badgeName',          'string',   true));
+        $this->addField(new Field('badgeName',          'string',   $isFull));
         $this->addField(new Field('billingAddress1',    'string',   true));
         $this->addField(new Field('billingAddress2',    'string',   true));
         $this->addField(new Field('billingCity',        'string',   true));
@@ -62,12 +62,12 @@ class UserProfileDefinition extends Definition {
         $this->addField(new Field('middleInitial',  'string',   false));
         $this->addField(new Field('suffix',         'string',   false));
         $this->addField(new Field('title',          'string',   false));
-        $this->addField(new Field('phone2',         'string',   false));
-        $this->addField(new Field('fax',            'string',   false));
+        $this->addField(new Field('phone2',         'phone',    false));
+        $this->addField(new Field('fax',            'phone',    false));
         $this->addField(new Field('companyName',    'string',   false));
         $this->addField(new Field('typeOfPractice', 'string',   false));
         $this->addField(new Field('lawSchoolAttended','string', false));
-        $this->addField(new Field('firmSize',       'int',      false));
+        $this->addField(new Field('firmSize',       'string',   false));
         $this->addField(new Field('ethnicity',      'string',   false));
         $this->addField(new Field('lawInterests',   'string',   false));
         $this->addField(new Field('trainingDirector','string',  false));

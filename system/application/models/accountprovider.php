@@ -52,9 +52,13 @@ class AccountProvider extends Model {
         $this->selectFirm($id);
     }
     
-    public function createUser(array $data) {
-        //$this->soap->userInsert($data);
-        $this->insertUser($data);
+    public function storeUser(array $data) {
+        // return the insert query
+        return $this->insertForUser($data);
+    }
+    
+    public function verifyUser($code) {
+        return $this->doInsert($code);
     }
     
     public function createFirm(array $data) {
@@ -125,8 +129,22 @@ class AccountProvider extends Model {
         }
     }
     
+    private function doInsert($insert) {
+        $this->db->query($insert);
+        return $this->db->insert_id();
+    }
+    
     private function insertFirm(array $data) {
         return $this->insertInto('account', $data);
+    }
+    
+    private function insertForUser(array $data) {
+        $bars = $data['bar'];
+        unset($data['bar']);
+        
+        $insert = $this->db->insert_string('contact', $data);
+        
+        return $insert;
     }
     
     private function insertUser(array $data) {

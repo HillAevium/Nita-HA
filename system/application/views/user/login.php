@@ -20,7 +20,7 @@
             <tr>
                 <td style="width:260px; vertical-align:middle; font-size:11pt; text-transform:uppercase; letter-spacing:0.5pt; ">I'm a <span class="blue">new customer</span></td>
                 <td align="left" style="padding:19px 0;">
-                    <div class="button_create_account"></div>
+                    <div class="button_create_account" onclick="window.location = '/account/register'"></div>
                 </td>
                 <td></td>
                 <td></td>

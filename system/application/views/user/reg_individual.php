@@ -2,9 +2,14 @@
         <h1 class="page_title"><?php echo $title; ?></h1>
         <div id="sign_in" class="small">Already have an account? <a href="/account/login">Sign in!</a></div>
         <div class="gray_line"></div>
-        <div class="form">
-            <form name="regForm" action="/account/register/regtype/individual" method="POST">
-                <?php echo $form; ?>
+        <div id="forms_container">
+            <div id="error_container"></div>
+            <div id="response_message"></div>
+            <form id="verification_form" name="verification_form" style="display:none;" action="/account/verify" method="POST">
+                <?php echo $verificationForm; ?>
+            </form>
+            <form id="registration_form" name="registration_form" action="/account/register/regtype/individual" method="POST">
+                <?php echo $registrationForm; ?>
             </form>
         </div>
         <div class="gray_line"></div>
@@ -12,7 +17,7 @@
             <label style="position:absolute; top:16px; left:3px;">Attach a NITA Application</label>
             <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
             <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
-            <div id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="document.forms['regForm'].submit();"></div>
+            <div id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;"></div>
         </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->

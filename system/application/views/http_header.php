@@ -7,4 +7,5 @@
   
   <script type="text/javascript" src="http://cdn.jquerytools.org/1.2.3/jquery.tools.min.js"></script>
   <script type="text/javascript" src="/resources/js/custom.js"></script>
+  <script type="text/javascript" src="/resources/js/jquery.forms.js"></script>
 </head>

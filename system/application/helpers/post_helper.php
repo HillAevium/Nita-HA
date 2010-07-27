@@ -83,15 +83,34 @@ if ( ! function_exists('process_post'))
         }
 
         if(count($errors)) {
+            $returnData['errors'] = $errors;
             $errorsOut = print_r($errors,true);
             log_message('debug', 'Errors: ' . $errorsOut);
-            throw new RuntimeException($errorsOut);
+            //throw new RuntimeException($errorsOut);
         }
         
         return $returnData;
     }
     
     function __verify(Field $field, $data) {
+        switch($field->type) {
+            case 'email' :
+                break;
+            case 'state' :
+                break;
+            case 'date' :
+                break;
+            case 'bar' :
+                break;
+            case 'password' :
+                break;
+            case 'boolean' :
+                break;
+            case 'phone' :
+                return true;
+            default :
+                return true;
+        }
         // TODO
         return true;
     }
