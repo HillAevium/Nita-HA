@@ -1,75 +1,69 @@
 <?php
 
-require_once APPPATH.'/models/def/definition.php';
-require_once APPPATH.'/models/def/hasdefinition.php';
+require_once APPPATH.'/models/core/model_definition.php';
+require_once APPPATH.'/models/core/array_field.php';
+require_once APPPATH.'/models/core/boolean_field.php';
+require_once APPPATH.'/models/core/date_field.php';
+require_once APPPATH.'/models/core/email_field.php';
+require_once APPPATH.'/models/core/enum_field.php';
+require_once APPPATH.'/models/core/int_field.php';
+require_once APPPATH.'/models/core/password_field.php';
+require_once APPPATH.'/models/core/string_field.php';
 
-class UserProfile implements HasDefinition {
+class UserProfileDefinition extends Model_Definition {
     
-    private static $definition;
-    
-    public function UserProfile() {
-        self::$definition = new UserProfileDefinition();
+    public function UserProfileDefinition() {
+        $this->initFields();
     }
     
-    public function getDefinition() {
-        return self::$definition;
-    }
-}
-
-class UserProfileDefinition extends Definition {
-    
-    public function UserProfileDefinition($isFull) {
-        $this->initFields($isFull);
-    }
-    
-    private function initFields($isFull) {
-        $barDef = new ArrayField('bar', $isFull ? 1 : 0, 50);
+    private function initFields() {
+        // Always Required
+        $this->startRequiredBlock();
+        $this->addField(new String_Field(  'firstName'));
+        $this->addField(new String_Field(  'lastName'));
+        $this->addField(new Email_Field(   'email'));
+        $this->addField(new Password_Field('password', '', 6, 20));
+        $this->addField(new String_Field(  'phone'));
+        $this->addField(new String_Field(  'role'));
+        $attendingField = new Boolean_Field('isAttendingClasses');
+        $this->addField($attendingField);
         
-        /* Required Fields */
-        /*                         Name             Type        Required  */
-        $barDef->addField(new Field('barId',            'bar',    true));
-        $barDef->addField(new Field('state',            'state',    true));
-        $barDef->addField(new Field('date',             'date',    true));
-        $this->addField($barDef);
+        // Optional unless the user is attending classes
+        $this->startDependantBlock($attendingField, '1');
+        $this->addField(new Array_Field(new String_Field('barId'), 0, 50));
+        $this->addField(new Array_Field(new String_Field('state'), 0, 50));
+        $this->addField(new Array_Field(new Date_Field('date'), 0, 50));
+        $this->addField(new String_Field(  'badgeName'));
+        $this->addField(new String_Field(  'billingAddress1'));
+        $this->addField(new String_Field(  'billingCity'));
+        $this->addField(new String_Field(  'billingState'));
+        $this->addField(new String_Field(  'billingZip'));
+        $this->addField(new String_Field(  'billingCountry'));
+        $this->addField(new String_Field(  'shippingAddress1'));
+        $this->addField(new String_Field(  'shippingCity'));
+        $this->addField(new String_Field(  'shippingState'));
+        $this->addField(new String_Field(  'shippingZip'));
+        $this->addField(new String_Field(  'shippingCountry'));
+        $this->addField(new Boolean_Field( 'requireAccessibility'));
+        $this->addField(new Boolean_Field( 'haveScholarship'));
         
-        $this->addField(new Field('firstName',          'string',   true));
-        $this->addField(new Field('lastName',           'string',   true));
-        $this->addField(new Field('email',              'email',    true));
-        $this->addField(new Field('password',           'password', true));
-        $this->addField(new Field('phone',              'phone',    true));
-        $this->addField(new Field('role',               'string',   $isFull));
-        $this->addField(new Field('isAttendingClasses', 'boolean',  true));
-        $this->addField(new Field('badgeName',          'string',   $isFull));
-        $this->addField(new Field('billingAddress1',    'string',   true));
-        $this->addField(new Field('billingAddress2',    'string',   true));
-        $this->addField(new Field('billingCity',        'string',   true));
-        $this->addField(new Field('billingState',       'state',    true));
-        $this->addField(new Field('billingZip',         'string',   true));
-        $this->addField(new Field('billingCountry',     'string',   true));
-        $this->addField(new Field('shippingAddress1',   'string',   true));
-        $this->addField(new Field('shippingAddress2',   'string',   true));
-        $this->addField(new Field('shippingCity',       'string',   true));
-        $this->addField(new Field('shippingState',      'string',   true));
-        $this->addField(new Field('shippingZip',        'string',   true));
-        $this->addField(new Field('shippingCountry',    'string',   true));
-        //$this->addField(new Field('requireAccessibility','boolean', true));
-        //$this->addField(new Field('haveScolarship',     'boolean',  true));
-        
-        /* Optional Fields */
-        /*                         Name             Type        Required  */
-        $this->addField(new Field('accountId',      'int',      false));
-        $this->addField(new Field('salutation',     'string',   false));
-        $this->addField(new Field('middleInitial',  'string',   false));
-        $this->addField(new Field('suffix',         'string',   false));
-        $this->addField(new Field('title',          'string',   false));
-        $this->addField(new Field('phone2',         'phone',    false));
-        $this->addField(new Field('fax',            'phone',    false));
-        $this->addField(new Field('companyName',    'string',   false));
-        $this->addField(new Field('typeOfPractice', 'string',   false));
-        $this->addField(new Field('lawSchoolAttended','string', false));
-        $this->addField(new Field('firmSize',       'string',   false));
-        $this->addField(new Field('ethnicity',      'string',   false));
-        $this->addField(new Field('lawInterests',   'string',   false));
-        $this->addField(new Field('trainingDirector','string',  false));
+        // Optional
+        $this->startOptionalBlock();
+        $this->addField(new Int_Field('accountId'));
+        $this->addField(new String_Field('salutation'));
+        $this->addField(new String_Field('middleInitial'));
+        $this->addField(new String_Field('suffix'));
+        $this->addField(new String_Field('title'));
+        $this->addField(new String_Field('phone2'));
+        $this->addField(new String_Field('fax'));
+        $this->addField(new String_Field('companyName'));
+        $this->addField(new String_Field('typeOfPractice'));
+        $this->addField(new String_Field('lawSchoolAttended'));
+        $this->addField(new String_Field('firmSize'));
+        $this->addField(new String_Field('ethnicity'));
+        $this->addField(new String_Field('lawInterests'));
+        $this->addField(new String_Field('trainingDirector'));
+        $this->addField(new String_Field('billingAddress2'));
+        $this->addField(new String_Field('shippingAddress2'));
     }
 }

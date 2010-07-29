@@ -38,81 +38,27 @@
  */
 if ( ! function_exists('process_post'))
 {
-    function process_post(Definition $definition) {
-        $CI =& get_instance();
+    function process_post(Model_Definition $definition) {
         $returnData = array();
         $errors = array();
         
         foreach($definition->fields() as $field) {
-            log_message('debug', $field->name);
-            
-            if($field->type === 'array') {
-                // Loop through the sub fields for this array
-                foreach($field->fields() as $subField) {
-                    log_message('debug', ' - '.$subField->name);
-                    $value = $CI->input->post($subField->name);
-                    if($value === false) {
-                        if($field->required) {
-                            $errors[] = "Field Required: " . $subField->name;
-                        }
-                    }
-                    
-                    // Here we finally go through the form array
-                    for($i = 0; $i < count($value); $i++) {
-                        if(!__verify($subField, $value[$i])) {
-                            $errors[] = "Field Invalid: " . $subField->name;
-                        }
-                        $returnData[$field->name][$i][$subField->name] = $value[$i];
-                    }
+            if($field->isEmpty()) {
+                if($definition->isRequired($field)) {
+                    $errors[] = "Missing required field: " . $field->name;
                 }
+            } else if(! $field->validate()) {
+                $errors[] = $field->error;
             } else {
-                $value = $CI->input->post($field->name);
-                if($value === false) {
-                    if($field->required) {
-                        $errors[] = "Field Required: " . $field->name;
-                    }
-                    // Optional unset values get ignored
-                } else {
-                    if(!__verify($field, $value)) {
-                        $error[] = "Field Invalid: " . $field->name;
-                    }
-                    // TODO Verification
-                    $returnData[$field->name] = $value;
-                }
+                $returnData[] = $field->process();
             }
         }
 
         if(count($errors)) {
             $returnData['errors'] = $errors;
-            $errorsOut = print_r($errors,true);
-            log_message('debug', 'Errors: ' . $errorsOut);
-            //throw new RuntimeException($errorsOut);
         }
         
         return $returnData;
-    }
-    
-    function __verify(Field $field, $data) {
-        switch($field->type) {
-            case 'email' :
-                break;
-            case 'state' :
-                break;
-            case 'date' :
-                break;
-            case 'bar' :
-                break;
-            case 'password' :
-                break;
-            case 'boolean' :
-                break;
-            case 'phone' :
-                return true;
-            default :
-                return true;
-        }
-        // TODO
-        return true;
     }
 }
 

@@ -1,8 +1,8 @@
 <div class="errors">
     <ul>
-<?php 
+<?php
 foreach($errors as $error){
-    echo "<li>" . $errors . "</li>";
+    echo "<li>" . $error . "</li>";
 }
 ?>
     </ul>

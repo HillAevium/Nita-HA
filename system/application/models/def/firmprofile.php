@@ -1,24 +1,9 @@
 <?php
 
-require_once APPPATH.'/models/def/definition.php';
-require_once APPPATH.'/models/def/hasdefinition.php';
-
-class FirmProfile implements HasDefinition {
-    
-    private static $definition;
-    
-    public function FirmProfile() {
-        self::$definition = new FirmProfileDefinition();
-    }
-    
-    public function getDefinition() {
-        return self::$definition;
-    }
-}
-
-class FirmProfileDefinition extends Definition {
+class FirmProfileDefinition extends Model_Definition {
     
     public function FirmProfileDefinition() {
+        parent::Model_Definition();
         $this->initFields();
     }
     

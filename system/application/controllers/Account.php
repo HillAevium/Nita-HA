@@ -2,7 +2,6 @@
 
 require_once APPPATH.'/controllers/AbstractController.php';
 require_once APPPATH.'/models/accountprovider.php';
-require_once APPPATH.'/models/def/definition.php';
 require_once APPPATH.'/models/def/userprofile.php';
 require_once APPPATH.'/models/def/firmprofile.php';
 
@@ -92,6 +91,7 @@ class Account extends AbstractController {
                 default :
                     // we really shouldn't end up here...
                     // FIXME but we still should handle it better
+                    // Send back a INVALID METHOD HTTP code
                     throw new RuntimeException("Invalid HTTP_REQUEST_METHOD");
                 break;
             }
@@ -130,18 +130,21 @@ class Account extends AbstractController {
         $regType = $this->getArgument('regtype');
         
         if($regType == 'individual') {
-            
             // process the single user registration
             $this->load->model('accountProvider');
-            $profile = process_post(new UserProfileDefinition(true));
             
-            // errors get sent back to the form
-            if(isset($profile['errors'])) {
-                return $this->sendErrors($profile['errors']);
+            // Process the form
+            $definition = new UserProfileDefinition(true);
+            
+            $profile = $definition->processPost('array');
+            
+            // Check for errors
+            if($profile === null) {
+                return $this->sendErrors($definition->errors());
             }
             
-            // TODO Store the user account for verification
-            
+            // preserve the users data so we can create the
+            // account after verification
             $insertStmt = $this->accountProvider->storeUser($profile);
             $verifyCode = md5($insertStmt);
             
@@ -149,47 +152,52 @@ class Account extends AbstractController {
                 'insert' => $insertStmt,
             );
             
-            // FIXME Needs to be private
             $this->session->set_userdata($session);
             
             // TODO Send email
+            // send the verification email
             $this->load->library('email');
             $this->email->from('accounts@nita.org');
             $this->email->to($profile['email']);
             $this->email->subject('Nita Verification');
-            $this->email->message('Insert: ' . $insertStmt . ' Code: ' . $verifyCode);
+            $this->email->message('Code: ' . $verifyCode);
             // $this->email->send();
             
-            // Send a 202 ACCEPTED
+            // Send 202 ACCEPTED
             $this->output->set_status_header(202);
             
-            echo $verifyCode;
+            log_message('error', "$verifyCode");
         }
         
         // If this is a group registration
         // create a firm model and a user model
         // with this user being the firm's superuser.
         else if ($regType == 'group') {
-            $this->load->model('accountProvider');
-            $firmProfile = process_post(new FirmProfileDefinition());
             
-            // errors get sent back to the form
-            if(isset($firmProfile['errors'])) {
-                return $this->sendErrors($firmProfile['errors']);
+            $this->load->model('accountProvider');
+            
+            // Process the form
+            $firmDef = new FirmProfileDefinition();
+            $userDef = new UserProfileDefinition(false);
+            
+            $firmProfile = $firmDef->processPost('array');
+            $userProfile = $userDef->processPost('array');
+            
+            // Check for errors
+            $errors = array();
+            if($firmProfile === null) {
+                array_push($errors, $firmDef->errors());
+            }
+            if($userProfile === null) {
+                array_push($errors, $userDef->errors());
             }
             
-            // FIXME
-            // We do a little hack here to see if the SU is going
-            // to need a full or partial profile
-            // In order to do this properly I need to make it such
-            // that fields can be required only if a dependency is
-            // set, gonna have to think about this
-            // FIXME
-            /*
-            $isFull = $this->input->post('isAttendingClasses');
+            if(count($errors) > 0) {
+                return $this->sendErrors($errors);
+            }
             
-            $userProfile = process_post(new UserProfileDefinition($isFull));
-            */
+            die("no No NO NO!!!");
+            
             // TODO
             // we need to pull the profile data for the super user
             // with the way the definitions are this will mean two
@@ -197,8 +205,10 @@ class Account extends AbstractController {
             // than the UPDef requires so we cant use it as is.
             $this->accountProvider->createFirm($profile);
             
-            // Send 202 ACCEPTED
+            
             $this->output->set_status_header(202);
+        } else {
+            throw new RuntimeException("Unknown regtype: " . $regType);
         }
     }
     
@@ -229,6 +239,7 @@ class Account extends AbstractController {
             // Valid ID - 201 CREATED
             $this->load->model('accountProvider');
             $id = $this->accountProvider->verifyUser($insert);
+            
             echo $id;
             $this->output->set_status_header(201);
         } else {

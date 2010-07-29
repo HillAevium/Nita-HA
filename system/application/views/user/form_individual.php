@@ -315,7 +315,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <input name="role" class="large" />
+                        <input name="role" class="large" value="Stuff" />
                     </td>
                 </tr>
                 <tr>

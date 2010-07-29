@@ -139,8 +139,9 @@ class AccountProvider extends Model {
     }
     
     private function insertForUser(array $data) {
-        $bars = $data['bar'];
-        unset($data['bar']);
+        unset($data['barId']);
+        unset($data['state']);
+        unset($data['date']);
         
         $insert = $this->db->insert_string('contact', $data);
         
