@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 25, 2010 at 12:34 AM
+-- Generation Time: Jul 29, 2010 at 04:33 AM
 -- Server version: 5.1.37
 -- PHP Version: 5.3.0
 
@@ -22,12 +22,14 @@ SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 CREATE TABLE IF NOT EXISTS `Account` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `billingAddress` varchar(255) NOT NULL,
+  `billingAddress1` varchar(255) NOT NULL,
+  `billingAddress2` varchar(255) DEFAULT NULL,
   `billingCity` varchar(255) NOT NULL,
   `billingState` varchar(255) NOT NULL,
   `billingZip` varchar(255) NOT NULL,
   `billingCountry` varchar(255) NOT NULL,
-  `shippingAddress` varchar(255) NOT NULL,
+  `shippingAddress1` varchar(255) NOT NULL,
+  `shippingAddress2` varchar(255) DEFAULT NULL,
   `shippingCity` varchar(255) NOT NULL,
   `shippingState` varchar(255) NOT NULL,
   `shippingZip` varchar(255) NOT NULL,
@@ -40,10 +42,20 @@ CREATE TABLE IF NOT EXISTS `Account` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `Account`
+-- Table structure for table `ci_sessions`
 --
 
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+  `session_id` varchar(40) NOT NULL DEFAULT '0',
+  `ip_address` varchar(16) NOT NULL DEFAULT '0',
+  `user_agent` varchar(50) NOT NULL,
+  `last_activity` int(10) unsigned NOT NULL DEFAULT '0',
+  `user_data` text NOT NULL,
+  PRIMARY KEY (`session_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -53,6 +65,7 @@ CREATE TABLE IF NOT EXISTS `Account` (
 
 CREATE TABLE IF NOT EXISTS `Contact` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `accountId` int(11) DEFAULT NULL,
   `salutation` varchar(30) DEFAULT NULL,
   `firstName` varchar(50) NOT NULL,
   `middleInitial` varchar(10) DEFAULT NULL,
@@ -65,6 +78,7 @@ CREATE TABLE IF NOT EXISTS `Contact` (
   `phone2` varchar(255) DEFAULT NULL,
   `fax` varchar(255) DEFAULT NULL,
   `role` varchar(30) NOT NULL,
+  `isAttendingClasses` tinyint(1) NOT NULL,
   `badgeName` varchar(100) NOT NULL,
   `companyName` varchar(255) DEFAULT NULL,
   `typeOfPractice` varchar(255) DEFAULT NULL,
@@ -88,12 +102,7 @@ CREATE TABLE IF NOT EXISTS `Contact` (
   `requireAccessibility` tinyint(1) NOT NULL,
   `haveScholarship` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
-
---
--- Dumping data for table `Contact`
---
-
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 -- --------------------------------------------------------
 
@@ -107,9 +116,3 @@ CREATE TABLE IF NOT EXISTS `ContactBarInfo` (
   `state` varchar(255) DEFAULT NULL,
   `date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `ContactBarInfo`
---
-
-
