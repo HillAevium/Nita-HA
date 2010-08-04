@@ -17,7 +17,7 @@ class AccountProvider extends Model {
     
     private $errors = array();
     
-    private $expireWindow = 3600; // 1 Hour
+//    private $expireWindow = 3600; // 1 Hour
     
     public function AccountProvider() {
         parent::Model();
@@ -31,8 +31,13 @@ class AccountProvider extends Model {
      * @return UserProfile model for the account
      * @throws AuthenticationException if there was a problem
      */
-    public function authenticate($username, $password) {
-        $this->soap->userAuthenticate();
+    public function authenticate($email, $password) {
+        //$this->soap->userAuthenticate($email, $password);
+        return $this->doAuthenticate($email, $password);
+    }
+    
+    public function getUserByEmail($email) {
+        return $this->selectUserByEmail($email);
     }
     
     /**
@@ -43,15 +48,15 @@ class AccountProvider extends Model {
      */
     public function getUserById($id) {
         //$this->soap->userGet($id);
-        $this->selectUserById($id);
+        return $this->selectUserById($id);
     }
     
-    public function getUserByFirm($id) {
-        $this->selectUsersByFirm($id);
+    public function getUsersByFirm($id) {
+        return $this->selectUsersByFirm($id);
     }
     
     public function getFirm($id) {
-        $this->selectFirm($id);
+        return $this->selectFirm($id);
     }
     
     public function storeUser(array $data) {
@@ -120,12 +125,41 @@ class AccountProvider extends Model {
     
     ///////////////////////////////////////////////////////////////////////
     
+    private function doAuthenticate($email, $password) {
+        $result = $this->db  ->  select('password')
+                             ->  from('contact')
+                             ->  where(array('email' => $email))
+                             ->  get();
+        
+        if($result->num_rows() != 1) {
+            return AUTH_NO_ACCOUNT;
+        }
+        
+        if($password !== $result->row()->password) {
+            return AUTH_BAD_PASS;
+        }
+        
+        return AUTH_OK;
+    }
+    
     private function selectFirm($id) {
         $result = $this->db->from('account')
                            ->where(array('id' => $id))
                            ->get();
         if($result->num_rows() != 1) {
             throw new RuntimeException("Account does not exist");
+        }
+        
+        return $result->row();
+    }
+    
+    private function selectUserByEmail($email) {
+        $result = $this->db->from('contact')
+                           ->where(array('email' => $email))
+                           ->get();
+        
+        if($result->num_rows() != 1) {
+            throw new RuntimeException("User does not exist Email=".$email);
         }
         
         return $result->row();

@@ -7,7 +7,7 @@ class Password_Field extends String_Field {
     
     private $matchName;
     
-    public function Password_Field($name, $matchName, $min, $max) {
+    public function Password_Field($name, $matchName = '', $min = 0, $max = 255) {
         parent::String_Field($name, 'password', $min, $max);
         $this->matchName = $matchName;
     }
@@ -37,5 +37,9 @@ class Password_Field extends String_Field {
         }
         
         return parent::doValidate($password);
+    }
+    
+    public function doProcess($password) {
+        return md5($password);
     }
 }
