@@ -2,8 +2,17 @@
 
 require_once APPPATH.'/controllers/AbstractController.php';
 require_once APPPATH.'/models/accountprovider.php';
+require_once APPPATH.'/models/core/md5_field.php';
 require_once APPPATH.'/models/def/userprofile.php';
 require_once APPPATH.'/models/def/firmprofile.php';
+
+define('HTTP_OK',          200);
+define('HTTP_CREATED',     201);
+define('HTTP_ACCEPTED',    202);
+
+define('HTTP_BAD_REQUEST', 400);
+define('HTTP_NOT_FOUND',   404);
+define('HTTP_TIMEOUT',     408);
 
 class Account extends AbstractController {
     
@@ -138,7 +147,7 @@ class Account extends AbstractController {
         $username = $username->process();
         $password = $password->process();
         $this->load->model('accountProvider');
-        $this->accountProvider->authenticate($email,$password);
+        $this->accountProvider->authenticate($username, $password);
         
         
         // If successful set the user to authenticated
@@ -169,15 +178,9 @@ class Account extends AbstractController {
             
             // preserve the users data so we can create the
             // account after verification
-            $insertStmt = $this->accountProvider->storeUser($profile);
-            $verifyCode = md5($insertStmt);
+            $this->accountProvider->storeUser($profile);
             
-            $session = array(
-                'insert' => $insertStmt,
-            );
-            
-            $this->session->set_userdata($session);
-            
+            /*
             // TODO Send email
             // send the verification email
             $this->load->library('email');
@@ -187,10 +190,12 @@ class Account extends AbstractController {
             $this->email->message('Code: ' . $verifyCode);
             // $this->email->send();
             
-            // Send 202 ACCEPTED
-            $this->output->set_status_header(202);
+            $this->output->set_status_header(HTTP_ACCEPTED);
+            */
+            $this->output->set_status_header(HTTP_CREATED);
             
-            log_message('error', "$verifyCode");
+            //echo $verifyCode;
+            //log_message('error', "$verifyCode");
         }
         
         // If this is a group registration
@@ -230,12 +235,13 @@ class Account extends AbstractController {
             $this->accountProvider->createFirm($profile);
             
             
-            $this->output->set_status_header(202);
+            $this->output->set_status_header(HTTP_ACCEPTED);
         } else {
             throw new RuntimeException("Unknown regtype: " . $regType);
         }
     }
     
+    /* Scrapped by NITA
     private function doVerify() {
         // Get the unique identifier from the URI
         
@@ -252,24 +258,18 @@ class Account extends AbstractController {
         // If the model is still valid then we can push the user
         // information to AccountService
         
-        // Grab the verify code
-        $verifyCode = $this->input->post('verify');
-        
-        // FIXME Needs to be kept private on the server
-        // Grab the INSERT
-        $insert = $this->session->userdata('insert');
-        
-        if($verifyCode === md5($insert)) {
-            // Valid ID - 201 CREATED
-            $this->load->model('accountProvider');
-            $id = $this->accountProvider->verifyUser($insert);
-            
-            $this->output->set_status_header(201);
-        } else {
-            // Invalid ID - 400 BAD_REQUEST
-            $this->output->set_status_header(400);
+        $verifyField = new MD5_Field('verify');
+        if(!$verifyField->validate()) {
+            // 400 BAD REQUEST
+            $this->output->set_status_header(HTTP_BAD_REQUEST);
         }
+        $verifyCode = $verifyField->process();
+        
+        $this->load->model('accountProvider');
+        $status = $this->accountProvider->verifyUser($verifyCode);
+        $this->output->set_status_header($status);
     }
+    */
     
     public function doUserUpdate() {
         // Validate form data

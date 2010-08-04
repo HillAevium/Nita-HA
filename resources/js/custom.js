@@ -55,16 +55,6 @@ function handleItemHover() {
  * @param event the click event
  */
 function handleItemClick(event) {
-    /* Not using ajax page loads yet
-    var id = event.currentTarget.id;
-    var requestUrl = 'http://127.0.0.1:8082/shop/program/id/' + id + '/request/ajax';
-    var listPanel = "#list_panel";
-    var callback = addTabHandler;
-    
-    // Swap the list for the details
-    doContainerSwap(requestUrl, listPanel, addTabHandler);
-    */
-    
     // If the cart was clicked divert to the event handler
     // for that. We do this here to make it easier to find
     // which item was clicked without embedding it into the
@@ -87,110 +77,7 @@ function handleSearchboxToggle() {
     $("div#search_open").toggleClass("hide");
 }
 
-// takes a jQuery object as a param
-function prepareFormForAjax(form) {
-    form.submit(function(event) {
-        // inside event callbacks 'this' is the DOM element so we first 
-        // wrap it in a jQuery object and then invoke ajaxSubmit 
-        $(this).ajaxSubmit(); 
- 
-        // !!! Important !!! 
-        // always return false to prevent standard browser submit and page navigation 
-        return false; 
-    });
-}
-
-function addAjaxHandler() {
-    prepareFormForAjax($("#registration_form"));
-    prepareFormForAjax($("#verification_form"));
-    prepareFormForAjax($("#login_form"));
-    $("#continue").click(function(event) {
-        if(ajaxHandler.state == 'form') {
-            $('#registration_form').submit();
-        } else if(ajaxHandler.state == 'verify'){
-            $('#verification_form').submit();
-        }
-    });
-    ajaxHandler();
-}
-
-function ajaxHandler() {
-    /**
-     * Login
-     */
-    $("#login_form").ajaxComplete(function(e, xhr, setting) {
-        switch(xhr.status) {
-            case 201 : // ACCEPTED
-                ajaxHandler.state = 'done';
-                // Display a message to the user
-                // Redirect them to referrer or profile page
-                window.location = '/account/user';
-                break;
-            case 400 : // BAD REQUEST
-                // The verify ID was not found, redirect to home page
-                $("#error_container").html(xhr.responseText);
-                break;
-        }
-    });
-    
-    /**
-     * Registration / Verification
-     */
-    // Remember the state that our forms are in
-    // and handle the AJAX response.
-    // There are 2 states: form, verify
-    $('#forms_container').ajaxComplete(function(e, xhr, settings) {
-        if(typeof ajaxHandler.state == undefined) {
-            ajaxHandler.state = 'form';
-        }
-        // get the http status code from the response headers
-        if(ajaxHandler.state == 'form') {
-            switch(xhr.status) {
-                case 202 : // ACCEPTED
-                    // Valid data
-                    ajaxHandler.state = 'verify';
-                    $("#registration_form").hide();
-                    
-                    // FIXME Remove
-                    $("#error_container").html(xhr.responseText);
-                    
-                    $("#verification_form").show();
-                    break;
-                case 400 : // BAD REQUEST
-                    // Invalid data
-                    $("#error_container").html(xhr.responseText);
-                    break;
-            }
-        } else if(ajaxHandler.state == 'verify') {
-            switch(xhr.status) {
-                case 201 : // ACCEPTED
-                    ajaxHandler.state = 'done';
-                    // Display a message to the user
-                    // Redirect them to referrer or profile page
-                    $("#verification_form").hide();
-                    $("#error_container").html(xhr.responseText);
-                    $("#response_message").html('Your account is now verified. Go forth and have loads of fun. And always...ALWAYS...be safe.');
-                    window.location = '/account/login';
-                    break;
-                case 400 : // BAD REQUEST
-                    // The verify ID was not found, redirect to home page
-                    $("#error_container").html(xhr.responseText);
-                    $("#response_message").html('The verification code is invalid.');
-                    break;
-                case 408 : // REQUEST TIMEOUT
-                    // The form data will be removed and no user will be created
-                    $("#error_container").html(xhr.responseText);
-                    $("#response_message").html('The verification code you entered is no longer valid. You will need to fill out the registration form again in order to receive a new verification code.');
-                    break;
-            }
-        }
-    });
-}
-ajaxHandler.state = 'form';
-
 function handleSearchboxType(event) {
-    //dumpHeights();
-    
     var selected = $("select#search_type option:selected").text();
     
     showAllRows();
@@ -200,20 +87,10 @@ function handleSearchboxType(event) {
     }
     
     setWindowHeight($("body").height());
-    
-    dumpHeights();
 }
 
 function setWindowHeight(value) {
-    $(document).height(3000);
-}
-
-function dumpHeights() {
-    //var window = $(window).height();
-    var dh = $(document).height();
-    var bh = $(document.body).height();
-    var hh = $("html").height();
-    alert("Document: " + dh + "\nBody: " + bh + "\nHTML: " + hh);
+    $(document).height(value);
 }
 
 function hideRows(columnIndex, text) {
@@ -263,58 +140,7 @@ function addSearchboxHandler() {
     $("select#search_type").change(handleSearchboxType);
 }
 
-function addDebugBox() {
-    addDebugBox.scroll = $(document).scrollTop();
-    $("body").append("<div id='debug' style='position:absolute;right:0;top:533;'>Debug</div>");
-    $(document).scroll(
-        function(event) {
-            var position = $(document).scrollTop();
-            var move = position - addDebugBox.scroll;
-            if(position > 533) {
-                $("#debug").animate({top:'+='+move},0);
-            }
-            addDebugBox.scroll = position;
-        }
-    );
-    $("#debug").click(
-        function() {
-            $("#debug").addClass("hide");
-        }
-    );
-}
 
-function addDebugHandlers() {
-    $(document).mousemove(
-        function(event) {
-            debug.mouseX = event.pageX;
-            debug.mouseY = event.pageY;
-            debug();
-        }
-    );
-    $(document).scroll(
-        function(event) {
-            debug.scrollLeft = $(document).scrollLeft();
-            debug.scrollTop  = $(document).scrollTop();
-            debug();
-        }
-    );
-}
-
-function debug() {
-    if(typeof debug.mouseX == undefined) {
-        debug.mouseX = 0;
-        debug.mouseY = 0;
-        debug.scrollTop = 0;
-        debug.scrollLeft = 0;
-    }
-    var text = "Debug<br/>"
-             + "Mouse X: " + debug.mouseX + "<br />"
-             + "Mouse Y: " + debug.mouseY + "<br />"
-             + "Scroll Top: " + debug.scrollTop + "<br />"
-             + "Scroll Left: " + debug.scrollLeft + "<br />";
-    $("#debug").html(text);
-    
-}
 /*
  * bootstrap
  */
@@ -323,9 +149,6 @@ function init() {
     addTabHandler();
     addBreadcrumbHandler();
     addSearchboxHandler();
-    addDebugBox();
-    addDebugHandlers();
-    addAjaxHandler();
 }
 
 $(init);

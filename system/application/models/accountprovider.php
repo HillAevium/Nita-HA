@@ -17,6 +17,8 @@ class AccountProvider extends Model {
     
     private $errors = array();
     
+    private $expireWindow = 3600; // 1 Hour
+    
     public function AccountProvider() {
         parent::Model();
     }
@@ -53,13 +55,55 @@ class AccountProvider extends Model {
     }
     
     public function storeUser(array $data) {
-        // return the insert query
-        return $this->insertForUser($data);
+        $this->insertUser($data);
+    }
+    
+    /* Scrapped by NITA
+    public function storeUser(array $data) {
+        // Store the current time in the data
+        // so we can check if the data is still
+        // valid
+        $data['__time__'] = time() + $this->expireWindow;
+        
+        // Serialize the data structure
+        $serial = serialize($data);
+        
+        log_message('error', 'strlen('. strlen($serial) .')');
+        
+        // MD5 for verify code and store the data in the session
+        $code = md5($serial);
+        $this->session->set_userdata(array($code => $serial));
+        
+        return $code;
     }
     
     public function verifyUser($code) {
-        return $this->doInsert($code);
+        // Lookup the session for this code
+        $serial = $this->session->userdata($code);
+        
+        // If the code does not exist, abort
+        if(!$serial) {
+            return HTTP_BAD_REQUEST;
+        }
+        
+        $data = unserialize($serial);
+        
+        // Check the time, if we're past the expire
+        // window, abort
+        $expiryTime = $data['__time__'];
+        $timeNow    = time();
+        
+        
+        if($timeNow > $expiryTime) {
+            return HTTP_TIMEOUT;
+        }
+        unset($data['__time__']);
+        
+        $id = $this->insertUser($data);
+        
+        return HTTP_CREATED;
     }
+    */
     
     public function createFirm(array $data) {
         $this->insertFirm($data);
@@ -129,38 +173,29 @@ class AccountProvider extends Model {
         }
     }
     
-    private function doInsert($insert) {
-        $this->db->query($insert);
-        return $this->db->insert_id();
-    }
-    
     private function insertFirm(array $data) {
         return $this->insertInto('account', $data);
     }
     
-    private function insertForUser(array $data) {
-        unset($data['barId']);
-        unset($data['state']);
-        unset($data['date']);
-        
-        $insert = $this->db->insert_string('contact', $data);
-        
-        return $insert;
-    }
-    
     private function insertUser(array $data) {
-        $bars = $data['bar'];
-        unset($data['bar']);
+        $barId = $data['barId']; unset($data['barId']);
+        $state = $data['state']; unset($data['state']);
+        $date  = $data['date'];  unset($data['date']);
         
-        log_message('debug', 'before insert');
-        log_message('debug', print_r($data, true));
         $userId = $this->insertInto('contact', $data);
-        log_message('debug', 'after insert');
         
-        foreach($bars as $bar) {
-            $bar['userId'] = $userId;
+        // Create the bar entries
+        for($i = 0; $i < count($barId); $i++) {
+            $bar = array(
+                'userId'  => $userId,
+                'barId'   => $barId[$i],
+                'state'   => $state[$i],
+                'date'    => $date[$i]
+            );
             $this->insertInto('contactbarinfo', $bar);
         }
+        
+        return $userId;
     }
     
     private function insertInto($table, array $data) {

@@ -5,9 +5,11 @@
         <div id="forms_container">
             <div id="error_container"></div>
             <div id="response_message"></div>
+            <!--
             <form id="verification_form" name="verification_form" style="display:none;" action="/account/verify" method="POST">
-                <?php echo $verificationForm; ?>
+                <?php //echo $verificationForm; ?>
             </form>
+             -->
             <form id="registration_form" name="registration_form" action="/account/register/regtype/individual" method="POST">
                 <?php echo $registrationForm; ?>
             </form>
