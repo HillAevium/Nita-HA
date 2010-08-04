@@ -114,8 +114,32 @@ class Account extends AbstractController {
     
     public function doLogin() {
         // Validate form data
+        log_message('error',print_r($_POST,true));
+        $username = new Email_Field('username');
+        $password = new String_Field('password');
+        
+        if(!$username->validate()) {
+            $errors[] = $username->error();
+        }
+        if(!$password->validate()) {
+            $errors[] = $password->error();
+        }
+               
+        if(isset($errors)) {
+            // Invalid ID - 400 BAD_REQUEST
+            $this->output->set_status_header(400);
+            return $this->sendErrors($errors);
+        }
+        
+        // Send 202 ACCEPTED
+        $this->output->set_status_header(202);
         
         // Send authentication request to AccountService
+        $username = $username->process();
+        $password = $password->process();
+        $this->load->model('accountProvider');
+        $this->accountProvider->authenticate($email,$password);
+        
         
         // If successful set the user to authenticated
         
@@ -240,7 +264,6 @@ class Account extends AbstractController {
             $this->load->model('accountProvider');
             $id = $this->accountProvider->verifyUser($insert);
             
-            echo $id;
             $this->output->set_status_header(201);
         } else {
             // Invalid ID - 400 BAD_REQUEST
@@ -456,8 +479,8 @@ class Account extends AbstractController {
             case 'user' :
                 $this->showUserProfile();
             break;
-            case 'firm' :
-                $this->showFirmProfile();
+            case 'group' :
+                $this->showGroupProfile();
             break;
             case 'register' :
                 $this->showRegistration();

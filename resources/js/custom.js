@@ -103,6 +103,7 @@ function prepareFormForAjax(form) {
 function addAjaxHandler() {
     prepareFormForAjax($("#registration_form"));
     prepareFormForAjax($("#verification_form"));
+    prepareFormForAjax($("#login_form"));
     $("#continue").click(function(event) {
         if(ajaxHandler.state == 'form') {
             $('#registration_form').submit();
@@ -114,6 +115,27 @@ function addAjaxHandler() {
 }
 
 function ajaxHandler() {
+    /**
+     * Login
+     */
+    $("#login_form").ajaxComplete(function(e, xhr, setting) {
+        switch(xhr.status) {
+            case 201 : // ACCEPTED
+                ajaxHandler.state = 'done';
+                // Display a message to the user
+                // Redirect them to referrer or profile page
+                window.location = '/account/user';
+                break;
+            case 400 : // BAD REQUEST
+                // The verify ID was not found, redirect to home page
+                $("#error_container").html(xhr.responseText);
+                break;
+        }
+    });
+    
+    /**
+     * Registration / Verification
+     */
     // Remember the state that our forms are in
     // and handle the AJAX response.
     // There are 2 states: form, verify

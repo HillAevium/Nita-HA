@@ -73,6 +73,8 @@ class Soap {
     }
     
     public function userAuthenticate($username, $password) {
+        log_message('error','test');
+        die();
         return $this->doContactServiceAuthenticate($username, $password);
     }
     
