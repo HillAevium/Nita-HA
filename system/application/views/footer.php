@@ -47,5 +47,8 @@
         </div>
     </div> <!-- #footer_inner -->
 </div> <!-- #footer -->
+<div> <!-- Auth debug -->
+    <?php echo $this->mod_auth; ?>
+</div>
 </body>
 </html>

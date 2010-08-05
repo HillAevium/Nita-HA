@@ -133,6 +133,7 @@ class Account extends AbstractController {
         $email = new Email_Field('email');
         $password = new Password_Field('password');
         
+        // CHeck for errors
         if(!$email->validate()) {
             $errors[] = $email->error();
         }
@@ -172,21 +173,23 @@ class Account extends AbstractController {
         if(!$user) {
             throw new RuntimeException("no user");
         }
-        // If successful set the user to authenticated
-        $authData = array(
-            'authenticated' => true,
-            'id' => $user->id,
-        );
         
-        $this->session->set_userdata($authData);
+        // If successful set the user to authenticated
+        $this->mod_auth->grant($user->id);
         
         // Send 202 ACCEPTED
         $this->output->set_status_header(HTTP_ACCEPTED);
         
-        
         // If there is a referral page they came from
         // send them back there. Otherwise send them
         // to the home page
+        // FIXME
+        echo "/";
+    }
+    
+    public function doLogout() {
+        // TODO
+        $this->mod_auth->revoke();
     }
     
     public function doRegistration() {
