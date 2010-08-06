@@ -5,6 +5,10 @@ require_once APPPATH.'/models/core/field.php';
 
 abstract class Model_Definition implements Has_Fields {
     
+    public static function runtimeInstance() {
+        return new Runtime_Definition();
+    }
+    
     // A list of fields
     protected $fields = array();
     
@@ -123,6 +127,7 @@ abstract class Model_Definition implements Has_Fields {
             $this->processResult = $returnData;
         }
         
+        // FIXME check for 'object' return type
         return $returnData;
     }
     
@@ -145,4 +150,8 @@ abstract class Model_Definition implements Has_Fields {
         $this->state = 'optional';
         $this->depedant = null;
     }
+}
+
+class Runtime_Definition extends Model_Definition {
+    
 }

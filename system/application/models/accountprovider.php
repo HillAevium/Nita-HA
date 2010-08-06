@@ -51,7 +51,7 @@ class AccountProvider extends Model {
         return $this->selectUserById($id);
     }
     
-    public function getUsersByFirm($id) {
+    public function getUsersByAccount($id) {
         return $this->selectUsersByFirm($id);
     }
     
