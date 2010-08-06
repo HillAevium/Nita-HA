@@ -4,20 +4,7 @@ require_once BASEPATH.'/libraries/Model.php';
 
 class AccountProvider extends Model {
     
-    // FIXME - Unknown models parameters
-    // Nita_isln
-    // nita_web_ip
-    // nita_web_level
-    // nita_web_log_count
-    // nita_web_login_try
-    // nita_web_type
-    // nita_web_uncode
-    // primarycustomerid
-    // suffix
-    
     private $errors = array();
-    
-//    private $expireWindow = 3600; // 1 Hour
     
     public function AccountProvider() {
         parent::Model();
@@ -36,8 +23,8 @@ class AccountProvider extends Model {
         return $this->doAuthenticate($email, $password);
     }
     
-    public function getUserByEmail($email) {
-        return $this->selectUserByEmail($email);
+    public function getProfileByEmail($email) {
+        return $this->selectProfileByEmail($email);
     }
     
     /**
@@ -46,81 +33,25 @@ class AccountProvider extends Model {
      * @param int $id the user's id
      * @return UserProfile model for the account
      */
-    public function getUserById($id) {
+    public function getProfileById($id) {
         //$this->soap->userGet($id);
-        return $this->selectUserById($id);
+        return $this->selectProfileById($id);
     }
     
-    public function getUsersByAccount($id) {
-        return $this->selectUsersByFirm($id);
+    public function getProfilesByAccount($id) {
+        return $this->selectProfilesByAccount($id);
     }
     
-    public function getFirm($id) {
-        return $this->selectFirm($id);
+    public function getAccount($id) {
+        return $this->selectAccount($id);
     }
     
-    public function storeUser(array $data) {
-        $this->insertUser($data);
+    public function storeProfile(array $data) {
+        $this->insertProfile($data);
     }
     
-    /* Scrapped by NITA
-    public function storeUser(array $data) {
-        // Store the current time in the data
-        // so we can check if the data is still
-        // valid
-        $data['__time__'] = time() + $this->expireWindow;
-        
-        // Serialize the data structure
-        $serial = serialize($data);
-        
-        log_message('error', 'strlen('. strlen($serial) .')');
-        
-        // MD5 for verify code and store the data in the session
-        $code = md5($serial);
-        $this->session->set_userdata(array($code => $serial));
-        
-        return $code;
-    }
-    
-    public function verifyUser($code) {
-        // Lookup the session for this code
-        $serial = $this->session->userdata($code);
-        
-        // If the code does not exist, abort
-        if(!$serial) {
-            return HTTP_BAD_REQUEST;
-        }
-        
-        $data = unserialize($serial);
-        
-        // Check the time, if we're past the expire
-        // window, abort
-        $expiryTime = $data['__time__'];
-        $timeNow    = time();
-        
-        
-        if($timeNow > $expiryTime) {
-            return HTTP_TIMEOUT;
-        }
-        unset($data['__time__']);
-        
-        $id = $this->insertUser($data);
-        
-        return HTTP_CREATED;
-    }
-    */
-    
-    public function createFirm(array $data) {
-        $this->insertFirm($data);
-    }
-    
-    /**
-     * Update the user's profile.
-     *
-     * @param UserProfile $model model for the account
-     */
-    public function update($model) {
-        //$this->soap->userUpdate($model);
+    public function storeAccount(array $data) {
+        $this->insertAccount($data);
     }
     
     ///////////////////////////////////////////////////////////////////////
@@ -142,7 +73,7 @@ class AccountProvider extends Model {
         return AUTH_OK;
     }
     
-    private function selectFirm($id) {
+    private function selectAccount($id) {
         $result = $this->db->from('account')
                            ->where(array('id' => $id))
                            ->get();
@@ -153,7 +84,7 @@ class AccountProvider extends Model {
         return $result->row();
     }
     
-    private function selectUserByEmail($email) {
+    private function selectProfileByEmail($email) {
         $result = $this->db->from('contact')
                            ->where(array('email' => $email))
                            ->get();
@@ -165,7 +96,7 @@ class AccountProvider extends Model {
         return $result->row();
     }
     
-    private function selectUserById($id) {
+    private function selectProfileById($id) {
         // Get the user info
         $result = $this->db->from('contact')
                            ->where(array('id' => $id))
@@ -187,7 +118,7 @@ class AccountProvider extends Model {
         return $user;
     }
     
-    private function selectUsersByFirm($firmId) {
+    private function selectProfilesByAccount($firmId) {
         $result = array();
         $ids = $this->getUserIdsForFirm($firmId);
         foreach($ids as $id) {
@@ -197,7 +128,7 @@ class AccountProvider extends Model {
         return $result;
     }
     
-    private function getUserIdsForFirm($accountId) {
+    private function getUserIdsForAccount($accountId) {
         $result = $this->db->select('id')
                            ->from('contact')
                            ->where(array('accountId' => $accountId))
@@ -207,11 +138,11 @@ class AccountProvider extends Model {
         }
     }
     
-    private function insertFirm(array $data) {
+    private function insertAccount(array $data) {
         return $this->insertInto('account', $data);
     }
     
-    private function insertUser(array $data) {
+    private function insertProfile(array $data) {
         $barId = $data['barId']; unset($data['barId']);
         $state = $data['state']; unset($data['state']);
         $date  = $data['date'];  unset($data['date']);
@@ -241,14 +172,6 @@ class AccountProvider extends Model {
         }
         
         return $this->db->insert_id();
-    }
-    
-    private function updateFirm($data, $id=0) {
-        // TODO
-    }
-    
-    private function updateUser($data, $id=0) {
-        // TODO
     }
 }
 

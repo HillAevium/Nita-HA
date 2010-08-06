@@ -14,6 +14,7 @@ define('HTTP_BAD_REQUEST', 400);
 define('HTTP_UNAUTHORIZED',401);
 define('HTTP_FORBIDDEN',   403);
 define('HTTP_NOT_FOUND',   404);
+define('HTTP_METHOD_NOT_ALLOWED', 405);
 define('HTTP_TIMEOUT',     408);
 
 define('AUTH_OK',         0);
@@ -21,72 +22,6 @@ define('AUTH_NO_ACCOUNT', 1);
 define('AUTH_BAD_PASS',   2);
 
 class Account extends AbstractController {
-    
-    /* Notes:
-     *
-     * This controller is our main source of authentiation
-     * negotiation and we need to plan the interaction here
-     * carefully. Ideally, almost everything that happens
-     * through this controller should be performed over SSL
-     * as there is alot of data being transmitted that is
-     * sensitive. User information, firm information, passwords
-     * and other information needs to be properly protected.
-     *
-     * CI has Encryption support in their custom session
-     * implementation and maybe that will help eliviate some
-     * of the concern. Also the Encryption library itself
-     * could be used directly to some effect. But really none
-     * of this is a substitue for SSL especially when the
-     * user is submitting information.
-     *
-     * Handling referal pages.
-     *
-     * When an unauthenticated session attempts to perform
-     * an action that requires authentication we need to
-     * route them off to the login page, and potentially
-     * the registration page.
-     *
-     * If the user has an account then they can simply login
-     * and we can bounce them back to where they came from.
-     * If the user needs to register first, then we can store
-     * the referal page along with the registration model.
-     *
-     * Once they come back after verifying their registration
-     * we can pull the referal page out of the model and send
-     * it with them on their way to the login screen. When
-     * they login sucessfully, they get bounced to where they
-     * originally came from allowing them to clean.
-     *
-     * Another way to handle the referal page would be to stash
-     * it in a cookie var. After the login has been authenticated
-     * we can use the cookie var to send the user back to where they
-     * came from. If the user requires registration then this becomes
-     * even more helpful as we dont need to stash the ref page in
-     * the model cache to bounce them after verification and login.
-     *
-     * Handling user/firm page views.
-     *
-     * The user interface will only provide means for the currently
-     * logged in user to access their own account profile pages.
-     * This however does not prevent someone from reverse engineering
-     * the protocol used here and attempting to access those pages
-     * in a more forceful manner.
-     *
-     * If the session is not one that is authenticated then we can
-     * simply bounce them off to the login page. If the session is
-     * authenticated and the user is trying to access pages not belonging
-     * to them we should probably display a 401 Unauthorized page.
-     *
-     * If such requests are repeated in sucession than we can block the IP.
-     * When an IP is blocked in this fashion it would be a good idea to have
-     * a configuration setup where an admin is informed of the
-     * intrustion detection being tripped off. Although this is probably
-     * a topic that is better explored in its own discussion and
-     * implemented in a more global manner (via hooks).
-     *
-     * There is probably more here that needs discussion but thats all
-     * i have for now...
-     */
     
     public function Account() {
         parent::AbstractController();
@@ -104,10 +39,8 @@ class Account extends AbstractController {
                     $this->handleGet($method);
                 break;
                 default :
-                    // we really shouldn't end up here...
-                    // FIXME but we still should handle it better
-                    // Send back a INVALID METHOD HTTP code
-                    throw new RuntimeException("Invalid HTTP_REQUEST_METHOD");
+                    $this->output->set_status_header(HTTP_METHOD_NOT_ALLOWED);
+                    throw new Request_Exception("The request method is not supported.");
                 break;
             }
         } catch(Exception $e) {
@@ -129,14 +62,14 @@ class Account extends AbstractController {
     
     public function doLogin() {
         // Validate form data
-        log_message('error',print_r($_POST,true));
         $email = new Email_Field('email');
         $password = new Password_Field('password');
         
-        // CHeck for errors
+        // Check for errors
         if(!$email->validate()) {
             $errors[] = $email->error();
         }
+        
         if(!$password->validate()) {
             $errors[] = $password->error();
         }
@@ -201,16 +134,14 @@ class Account extends AbstractController {
                 $this->session->set_userdata('registration_firm_info', $_POST);
                 $this->output->set_status_header(HTTP_ACCEPTED);
                 echo 'FIXME: This shows that the firm form was accepted and stored in the session';
-                return;
-                break;
+            return;
             case 'profile':
                 // TODO
                 // validate form data
                 $this->session->set_userdata('registration_profile_info', $_POST);
                 $this->output->set_status_header(HTTP_ACCEPTED);
                 echo 'FIXME: This shows that the profile form was accepted and stored in the session';
-                return;
-                break;
+            return;
         }
         
         // If this is a single user registration
@@ -354,7 +285,6 @@ class Account extends AbstractController {
         
         // ... and go
         $this->loadViews();
-
     }
     
     public function showFirmProfile() {
@@ -422,7 +352,6 @@ class Account extends AbstractController {
         $this->loadViews();
 
     }
-
     
     /**
      * User registration pages
@@ -577,25 +506,6 @@ class Account extends AbstractController {
 
     }
     
-    private function checkUserId($userId) {
-        // Covers false, 0, '' and null
-        if($userId == false) {
-            return false;
-        }
-        // TODO What more checking should be done here?
-        return true;
-    }
-    
-    private function checkUserAuthentication($userId) {
-        $this->checkUserId($userId);
-        // TODO
-        // This is just a session check, not a check
-        // that goes to the ContactService.Authenticate()
-        // We mostly need to know that the requested user
-        // page is that of the session user
-        return true;
-    }
-    
     private function handleGet($method) {
         switch($method) {
             case 'login' :
@@ -636,11 +546,7 @@ class Account extends AbstractController {
             case 'register' :
                 $this->doRegistration();
             break;
-//            case 'verify' :
-//                $this->doVerify();
-//            break;
             default :
-                // Since we're using remapping we have to handle the 404
                 show_404('/account/' . $method . '/');
             return;
         }
