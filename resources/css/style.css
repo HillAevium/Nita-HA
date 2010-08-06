@@ -1,6 +1,6 @@
 html, body                    { margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
 #main_container               { width:977px; margin:0 auto; text-align:left; }
-
+.clear                        { clear:both; }
 /* Header */
 #header                       { width:100%; height:210px; }
 #header_inner                 { position:relative; width:100%; height:164px; }  
@@ -69,6 +69,7 @@ a.search_bar_print:hover      { background-image:url(../images/search_bar_print_
 
 /* Typography */
 h1.page_title                 { padding:50px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
+p                             { font-size:11pt; line-height:14pt; }
 .small                        { font-size:8pt; }  
 span.blue                     { color:#0f4964; }
 .todo                         { color:#ff0000; }
@@ -81,11 +82,10 @@ a.teal                        { color:#66ae98; }
 a.light_blue                  { color:#6897be; }
 
 /* Forms */
-div.form                      { margin:10px 0 0 1px; }
-div.form table                { width:100%; }
-div.form table.header td      { height:28px; color:#fff; line-height:28px; }
-div.form table.header td.pad  { padding-left:8px; }
-div.form table thead td       { color:#fff; line-height:28px; }
+table                { width:100%; }
+table.header td      { height:28px; color:#fff; line-height:28px; }
+table.header td.pad  { padding-left:8px; }
+table thead td       { color:#fff; line-height:28px; }
 
 /* Labels */
 label                         { color:#575757; font-size:9pt; }
