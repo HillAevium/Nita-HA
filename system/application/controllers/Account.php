@@ -11,8 +11,14 @@ define('HTTP_CREATED',     201);
 define('HTTP_ACCEPTED',    202);
 
 define('HTTP_BAD_REQUEST', 400);
+define('HTTP_UNAUTHORIZED',401);
+define('HTTP_FORBIDDEN',   403);
 define('HTTP_NOT_FOUND',   404);
 define('HTTP_TIMEOUT',     408);
+
+define('AUTH_OK',         0);
+define('AUTH_NO_ACCOUNT', 1);
+define('AUTH_BAD_PASS',   2);
 
 class Account extends AbstractController {
     
@@ -124,33 +130,59 @@ class Account extends AbstractController {
     public function doLogin() {
         // Validate form data
         log_message('error',print_r($_POST,true));
-        $username = new Email_Field('username');
-        $password = new String_Field('password');
+        $email = new Email_Field('email');
+        $password = new Password_Field('password');
         
-        if(!$username->validate()) {
-            $errors[] = $username->error();
+        if(!$email->validate()) {
+            $errors[] = $email->error();
         }
         if(!$password->validate()) {
             $errors[] = $password->error();
         }
-               
+        
         if(isset($errors)) {
             // Invalid ID - 400 BAD_REQUEST
-            $this->output->set_status_header(400);
+            $this->output->set_status_header(HTTP_BAD_REQUEST);
             return $this->sendErrors($errors);
         }
         
-        // Send 202 ACCEPTED
-        $this->output->set_status_header(202);
-        
         // Send authentication request to AccountService
-        $username = $username->process();
+        $email = $email->process();
         $password = $password->process();
         $this->load->model('accountProvider');
-        $this->accountProvider->authenticate($username, $password);
+        $status = $this->accountProvider->authenticate($email, $password);
         
+        if($status !== AUTH_OK) {
+            $this->output->set_status_header(HTTP_UNAUTHORIZED);
+            switch($status) {
+                case AUTH_NO_ACCOUNT :
+                    $errors[] = 'No account for this email exists.';
+                    break;
+                case AUTH_BAD_PASS :
+                    $errors[] = 'The password is not valid for this account.';
+                    break;
+                default :
+                    throw new RuntimeException('Invalid AUTH status');
+            }
+            return $this->sendErrors($errors);
+        }
         
+        $user = $this->accountProvider->getUserByEmail($email);
+        
+        if(!$user) {
+            throw new RuntimeException("no user");
+        }
         // If successful set the user to authenticated
+        $authData = array(
+            'authenticated' => true,
+            'id' => $user->id,
+        );
+        
+        $this->session->set_userdata($authData);
+        
+        // Send 202 ACCEPTED
+        $this->output->set_status_header(HTTP_ACCEPTED);
+        
         
         // If there is a referral page they came from
         // send them back there. Otherwise send them
@@ -193,6 +225,7 @@ class Account extends AbstractController {
             
             // Check for errors
             if($profile === null) {
+                $this->output->set_status_header(HTTP_BAD_REQUEST);
                 return $this->sendErrors($definition->errors());
             }
             
@@ -600,9 +633,9 @@ class Account extends AbstractController {
             case 'register' :
                 $this->doRegistration();
             break;
-            case 'verify' :
-                $this->doVerify();
-            break;
+//            case 'verify' :
+//                $this->doVerify();
+//            break;
             default :
                 // Since we're using remapping we have to handle the 404
                 show_404('/account/' . $method . '/');
@@ -611,7 +644,6 @@ class Account extends AbstractController {
     }
     
     private function sendErrors(array $errors) {
-        $this->output->set_status_header(400);
         $this->load->view('errors', array('errors' => $errors));
     }
 }

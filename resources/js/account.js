@@ -1,3 +1,17 @@
+const HTTP_OK = 200;
+const HTTP_CREATED = 201;
+const HTTP_ACCEPTED = 202;
+
+const HTTP_NOT_MODIFIED = 304;
+
+const HTTP_BAD_REQUEST = 400;
+const HTTP_UNAUTHORIZED = 401;
+const HTTP_FORBIDDEN = 403;
+const HTTP_NOT_FOUND = 404;
+const HTTP_TIMEOUT = 408;
+
+const HTTP_INTERNAL_ERROR = 500;
+
 // takes a jQuery object as a param
 function prepareFormForAjax(form) {
     form.submit(function(event) {
@@ -31,17 +45,26 @@ function ajaxHandler() {
      * Login
      */
     $("#login_form").ajaxComplete(function(e, xhr, setting) {
+        alert('ajaxComplete');
         switch(xhr.status) {
-            case 201 : // ACCEPTED
+            case HTTP_ACCEPTED : // ACCEPTED
+                alert('HTTP_ACCEPTED');
                 ajaxHandler.state = 'done';
                 // Display a message to the user
                 // Redirect them to referrer or profile page
-                window.location = '/account/user';
+                doPageLoad(xhr.responseText, false, true);
                 break;
-            case 400 : // BAD REQUEST
-                // The verify ID was not found, redirect to home page
+            case HTTP_BAD_REQUEST : // BAD REQUEST
+                // The form info was invalid
                 $("#error_container").html(xhr.responseText);
                 break;
+            case HTTP_UNAUTHORIZED : // UNAUTHORIZED
+                // The authorization failed
+                $("#error_container").html(xhr.responseText);
+                break;
+            default :
+                // Unhandled code
+                $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
         }
     });
     
@@ -52,13 +75,14 @@ function ajaxHandler() {
     // and handle the AJAX response.
     // There are 2 states: form, verify
     $('#forms_container').ajaxComplete(function(e, xhr, settings) {
+        alert('ajaxComplete2');
 //        if(typeof ajaxHandler.state == undefined) {
 //            ajaxHandler.state = 'form';
 //        }
         // get the http status code from the response headers
 //        if(ajaxHandler.state == 'form') {
         switch(xhr.status) {
-            case 201 : // CREATED
+            case HTTP_CREATED : // CREATED
                 // FIXME 2nd param is for https, needs to be true for
                 // login page
                 doPageLoad('/account/login', false, true);
@@ -71,7 +95,7 @@ function ajaxHandler() {
                 
 //                    $("#verification_form").show();
                 break;
-            case 400 : // BAD REQUEST
+            case HTTP_BAD_REQUEST : // BAD REQUEST
                 // Invalid data
                 $("#error_container").html(xhr.responseText);
                 break;
