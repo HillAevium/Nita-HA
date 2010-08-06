@@ -22,7 +22,7 @@ class Session_Authenticator implements Authenticator {
         
         // New session that has not been initialized
         if($authStatus === false) {
-            $this->authenticate(false);
+            $this->revoke();
         } else {
             switch($authStatus) {
                 case AUTH_NOT_AUTHENTICATED :
@@ -53,7 +53,7 @@ class Session_Authenticator implements Authenticator {
     }
     
     public function isAuthenticated() {
-        $authStatus = (int) $this->session->get_userdata('authStatus');
+        $authStatus = (int) $this->session->userdata('authStatus');
         
         return $authStatus === AUTH_AUTHENTICATED;
     }
@@ -65,7 +65,7 @@ class Session_Authenticator implements Authenticator {
         
         // FIXME
         $credentials = new stdClass();
-        $credentials->id = $this->session->get_userdata('id');
+        $credentials->id = $this->session->userdata('id');
         
         return $credentials;
     }

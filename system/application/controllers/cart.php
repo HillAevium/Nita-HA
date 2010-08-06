@@ -11,6 +11,30 @@ class Cart extends AbstractController {
         $this->load->library('cart');
     }
     
+    public function _remap($method) {
+        $requestMethod = $_SERVER['REQUEST_METHOD'];
+        try {
+            switch($requestMethod) {
+                case 'POST' :
+                    $this->load->helper('post');
+                    $this->handlePost($method);
+                break;
+                case 'GET' :
+                    $this->handleGet($method);
+                break;
+                default :
+                    // we really shouldn't end up here...
+                    // FIXME but we still should handle it better
+                    // Send back a INVALID METHOD HTTP code
+                    throw new RuntimeException("Invalid HTTP_REQUEST_METHOD");
+                break;
+            }
+        } catch(Exception $e) {
+            throw $e;
+            // TODO Setup AuthenticationException trap
+        }
+    }
+
     // Ajax Entry Points
     
     public function addItem() {
@@ -65,10 +89,6 @@ class Cart extends AbstractController {
     // HTML View Entry Points
     
     public function showCart() {
-        $views = array(
-            array('name' => 'cart/show_cart', 'args' => null)
-        );
-        
         if($this->mod_auth->isAuthenticated()) {
             switch($this->mod_auth->credentials()->userType) {
                 case USER_NORMAL :
@@ -89,7 +109,13 @@ class Cart extends AbstractController {
             $this->setViewOption('checkout', '/account/login');
         }
         
+        $views = array(
+            array('name' => 'cart/cart', 'args' => array('title' => 'Your Cart'))
+        );
+        
+        // TODO add checkout to view
         $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'Your Cart');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
         
@@ -116,9 +142,10 @@ class Cart extends AbstractController {
         $args['users'] = $this->accountProvider->getUsersByAccount();
         
         $views = array(
-            array('name' => 'cart/manager', 'args' => $args)
+            array('name' => 'cart/enrollment', 'args' => array('title' => 'Enroll Profiles in Programs'))
         );
         
+        $this->setViewOption('pageTitle', 'Enroll Profiles in Programs');
         $this->setViewOption('bodyClass', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
@@ -127,7 +154,11 @@ class Cart extends AbstractController {
     }
     
     public function showCartReview() {
+        $views = array(
+            array('name' => 'cart/enrollment_review', 'args' => array('title' => 'Enrollment Review'))
+        );
         
+        $this->setViewOption('pageTitle', 'Enrollment Review');
         $this->setViewOption('bodyClass', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
@@ -136,11 +167,34 @@ class Cart extends AbstractController {
     }
     
     public function showBilling() {
+        $views = array(
+            array('name' => 'cart/billing', 'args' => array('title' => 'Billing Information'))
+        );
         
+        
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'Billing Information');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
     }
     
     public function showFinalOrder() {
+        $views = array(
+            array('name' => 'cart/thankyou', 'args' => array('title' => 'Thank you!'))
+        );
         
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'Thank you!');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
     }
     
     private function getProgramId() {
@@ -166,6 +220,7 @@ class Cart extends AbstractController {
         
         return $rowid;
     }
+    
     
     private function handleGet($method) {
         switch($method) {
@@ -207,6 +262,9 @@ class Cart extends AbstractController {
             case 'billing' :
                 $this->doBilling();
             break;
+            default :
+                show_404('/account/' . $method . '/');
+            return;
         }
     }
 }
