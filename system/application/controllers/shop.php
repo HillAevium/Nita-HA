@@ -87,6 +87,7 @@ class Shop extends AbstractController {
         );
         
         $this->setViewOption('bodyClass', 'orange');
+        $this->setViewOption('pageTitle', 'My Profile');
         $this->setViewOption('views', $views);
         
         // ... and go

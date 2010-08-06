@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <div id="content_top">
     <div class="image"></div>
     <div class="content_top_content">
