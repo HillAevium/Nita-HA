@@ -158,6 +158,26 @@ class Account extends AbstractController {
     }
     
     public function doRegistration() {
+        $form = $this->getArgument('form');
+        switch($form) {
+            case 'firm':
+                // TODO
+                // validate form data
+                $this->session->set_userdata('registration_firm_info', $_POST);
+                $this->output->set_status_header(HTTP_ACCEPTED);
+                echo 'FIXME: This shows that the firm form was accepted and stored in the session';
+                return;
+                break;
+            case 'profile':
+                // TODO
+                // validate form data
+                $this->session->set_userdata('registration_profile_info', $_POST);
+                $this->output->set_status_header(HTTP_ACCEPTED);
+                echo 'FIXME: This shows that the profile form was accepted and stored in the session';
+                return;
+                break;
+        }
+        
         // If this is a single user registration
         // create a single user model.
         $regType = $this->getArgument('regtype');
@@ -282,6 +302,25 @@ class Account extends AbstractController {
         // and bounce back to the users's profile page
     }
     
+    public function showAccount() {
+        // TODO
+        // get the account id of the authenticated user
+        // and handle permissions or accessing this area
+        $views = array(
+            array('name' => 'user/account', 'args' => array('title' => 'My Account'))
+        );
+        
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'My Account');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+
+    }
+    
     public function showFirmProfile() {
         // Get the firm ID (from a cookie?)
         
@@ -329,6 +368,26 @@ class Account extends AbstractController {
         $this->loadViews();
     }
     
+    public function showOrders() {
+        // TODO
+        // get the account id of the authenticated user
+        // and handle permissions or accessing this area
+        $views = array(
+            array('name' => 'user/orders', 'args' => array('title' => 'Previous Orders'))
+        );
+        
+        // Set the view options
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'Pervious Orders');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+
+    }
+
+    
     /**
      * User registration pages
      *
@@ -346,8 +405,11 @@ class Account extends AbstractController {
             $this->showRegistrationFunnel();
             return;
         } else {
-            $accountType = $this->getArgument('regtype');
-            $this->showRegistrationForm($accountType);
+            $regType = $this->getArgument('regtype');
+            // TODO
+            // Change this to use authentication library to set session vars
+            $this->session->set_userdata('regType', $regType);
+            $this->showRegistrationForm();
         }
     }
     
@@ -374,48 +436,48 @@ class Account extends AbstractController {
      *
      * @param string $accountType the user's account type, either 'group' or 'individual'
      */
-    private function showRegistrationForm($accountType) {
-        switch($accountType) {
+    private function showRegistrationForm() {
+        // TODO
+        // Change this to use authentication library to get session vars
+        $regType = $this->session->userdata('regType');
+        
+        $this->setViewOption('regType', $regType);
+                
+        switch($regType) {
             case 'group':
-                // get the form template for groups
-                $args['form'] = $this->load->view('user/form_group', '', true);
-                
-                $views = array(
-                    array('name' => 'user/reg_group', 'args' => $args)
-                );
-                
                 // Set up the view options
                 $this->setViewOption('pageTitle', 'Create A New Group Account');
                 $this->setViewOption('bodyClass', 'blue_short');
                 $this->setViewOption('mainNav', true);
                 $this->setViewOption('views', $views);
                 
-                // ... and go
-                $this->loadViews();
+                $data['instructions'] = "<p>To enroll others, you'll need to create an account. You can then create proles for each attendee.</p>";
+                $args['firmForm'] = $this->load->view('user/form_firm', $data, true);
+                $args['profileForm'] = $this->load->view('user/form_profile', null, true);
+
                 break;
             case 'individual':
                 // get the form templates for individuals
-                $args['verificationForm'] = $this->load->view('user/form_verify', '', true);
-                $args['registrationForm'] = $this->load->view('user/form_individual', '', true);
-                
-                $views = array(
-                    array('name' => 'user/reg_individual', 'args' => $args)
-                );
+                //$args['verificationForm'] = $this->load->view('user/form_verify', '', true);
                 
                 // Set up the view options
                 $this->setViewOption('pageTitle', 'Create A New Individual Account');
                 $this->setViewOption('bodyClass', 'blue_short');
                 $this->setViewOption('mainNav', true);
-                $this->setViewOption('views', $views);
                 
-                // ... and go
-                $this->loadViews($views, 'blue_short');
-                break;
-            default:
-                // the uri is invalid, so send the user back to the funnel
-                $this->showRegistrationFunnel();
+                $args['firmForm'] = $this->load->view('user/form_firm', null, true);
+                $args['profileForm'] = $this->load->view('user/form_profile', null, true);
+                
                 break;
         }
+        
+        $views = array(
+                    array('name' => 'user/reg_form', 'args' => $args)
+                );
+                
+        $this->setViewOption('views', $views);
+                
+        $this->loadViews($views);
     }
     
     public function showUserProfile() {
@@ -425,31 +487,58 @@ class Account extends AbstractController {
         // Make sure the user has access.
         if(!$this->checkUserAuthentication($userId)) {
             // Return a 401 UNAUTHORIZED
-            log_message('error', "Unauthroized UserProfile Access Attempt");
-            show_error("You are not authorized to access this profile.", 401);
+            //log_message('error', "Unauthroized UserProfile Access Attempt");
+            //show_error("You are not authorized to access this profile.", 401);
             // TODO This may simply be an expired session which is no
             // reason to sound off any alarm bells. We should still do something
             // here to track intrusion attempts.
         }
         
         // Load the profile model and request the account.
-        $this->load->model('userprofile');
-        $model = $this->userprofile->get($userId);
+        //$this->load->model('userprofile');
+        //$model = $this->userprofile->get($userId);
         
-        if(is_null($model)) {
+        //if(is_null($model)) {
             // Apparently the user does not exist.
             // FIXME What to do here ?
-            show_404('/account/user/');
-        }
-        
-        $views = array(
-            array('name' => 'user/profile', 'args' => $model)
+            //show_404('/account/user/');
+        //}
+
+        $content[] = $this->load->view('user/profile/home',  null, true);
+        $content[] = $this->load->view('user/profile/cle_credits',  null, true);
+        $content[] = $this->load->view('user/profile/enrollment_history', null, true);
+               
+        // Setup the tab panel
+        $tabs = array(
+            array('name' => 'Home',               'id' => 'home',               'content' => $content[0]),
+            array('name' => 'CLE Credits',        'id' => 'cle_credits',        'content' => $content[1]),
+            array('name' => 'Enrollment History', 'id' => 'enrollment_history', 'content' => $content[2])
         );
         
-        $this->viewOption('bodyClass', 'blue_short');
-        $this->viewOption('mainNav', true);
-        $this->viewOption('views', $views);
+        // And the tabs classes
+        $class['tabs']   = 'orange_tabs';
+        $class['border'] = 'orange_border';
+        
+        // Populate args for the view
+        $args['tabs']  = $tabs;
+        $args['class'] = $class;
+        
+        // Setup the views
+        $title = "My Profile";
+        $views = array(
+            array('name' => 'user/profile/top', 'args' => array('title' => $title)),
+            array('name' => 'tab_panel', 'args' => $args),
+            array('name' => 'user/profile/bottom', 'args' => null)
+        );
+        
+        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('pageTitle', 'My Profile');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('views', $views);
+        
+        // ... and go
         $this->loadViews();
+
     }
     
     private function checkUserId($userId) {
@@ -478,6 +567,12 @@ class Account extends AbstractController {
             break;
             case 'user' :
                 $this->showUserProfile();
+            break;
+            case 'company' :
+                $this->showAccount();
+            break;
+            case 'orders' :
+                $this->showOrders();
             break;
             case 'group' :
                 $this->showGroupProfile();
