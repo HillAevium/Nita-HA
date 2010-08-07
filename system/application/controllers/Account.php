@@ -17,6 +17,8 @@ define('HTTP_NOT_FOUND',   404);
 define('HTTP_METHOD_NOT_ALLOWED', 405);
 define('HTTP_TIMEOUT',     408);
 
+define('HTTP_INTERNAL_ERROR', 500);
+
 define('AUTH_OK',         0);
 define('AUTH_NO_ACCOUNT', 1);
 define('AUTH_BAD_PASS',   2);
@@ -127,136 +129,59 @@ class Account extends AbstractController {
     
     public function doRegistration() {
         $form = $this->getArgument('form');
+        $regType = $this->session->userdata('regType');
+        $isSuper = $regType === 'group';
+        
         switch($form) {
             case 'firm':
-                // TODO
-                // validate form data
-                $this->session->set_userdata('registration_firm_info', $_POST);
+                // Validate the firm information and stash
+                // it in the session.
+                $firmDef = new FirmProfileDefinition($isSuper);
+                $firm = $firmDef->processPost('array');
+                
+                if($firm === null) {
+                    $this->output->set_status_header(HTTP_BAD_REQUEST);
+                    $this->sendErrors($firmDef->errors());
+                    return;
+                }
+                
+                $this->session->set_userdata('registration_firm_info', serialize($firm));
                 $this->output->set_status_header(HTTP_ACCEPTED);
-                echo 'FIXME: This shows that the firm form was accepted and stored in the session';
             return;
             case 'profile':
+                // Validate the profile information and push it
+                // along with the firm info to persistant storage
+                
+                $profileDef = new UserProfileDefinition();
+                $profile = $profileDef->processPost('array');
+                
+                if($profile === null) {
+                    $this->output->set_status_header(HTTP_BAD_REQUEST);
+                    $this->sendErrors($profileDef->errors());
+                    return;
+                }
+                
+                $firm = unserialize($this->session->userdata('registration_firm_info'));
+                
+                $this->load->model('accountProvider');
+                try {
+                    $this->accountProvider->storeAccount($firm);
+                    $this->accountProvider->storeProfile($profile);
+                } catch(Exception $e) {
+                    $this->output->set_status_header(HTTP_INTERAL_ERROR);
+                    // FIXME
+                    echo $e->getMessage();
+                    echo $e->getTraceAsString();
+                }
+                
+                $this->output->set_status_header(HTTP_CREATED);
+                
                 // TODO
-                // validate form data
-                $this->session->set_userdata('registration_profile_info', $_POST);
-                $this->output->set_status_header(HTTP_ACCEPTED);
-                echo 'FIXME: This shows that the profile form was accepted and stored in the session';
+                // Send client a referrer URI
+                echo "/account/login";
             return;
         }
-        
-        // If this is a single user registration
-        // create a single user model.
-        $regType = $this->getArgument('regtype');
-        
-        if($regType == 'individual') {
-            // process the single user registration
-            $this->load->model('accountProvider');
-            
-            // Process the form
-            $definition = new UserProfileDefinition(true);
-            
-            $profile = $definition->processPost('array');
-            
-            // Check for errors
-            if($profile === null) {
-                $this->output->set_status_header(HTTP_BAD_REQUEST);
-                return $this->sendErrors($definition->errors());
-            }
-            
-            // preserve the users data so we can create the
-            // account after verification
-            $this->accountProvider->storeUser($profile);
-            
-            /*
-            // TODO Send email
-            // send the verification email
-            $this->load->library('email');
-            $this->email->from('accounts@nita.org');
-            $this->email->to($profile['email']);
-            $this->email->subject('Nita Verification');
-            $this->email->message('Code: ' . $verifyCode);
-            // $this->email->send();
-            
-            $this->output->set_status_header(HTTP_ACCEPTED);
-            */
-            $this->output->set_status_header(HTTP_CREATED);
-            
-            //echo $verifyCode;
-            //log_message('error', "$verifyCode");
-        }
-        
-        // If this is a group registration
-        // create a firm model and a user model
-        // with this user being the firm's superuser.
-        else if ($regType == 'group') {
-            
-            $this->load->model('accountProvider');
-            
-            // Process the form
-            $firmDef = new FirmProfileDefinition();
-            $userDef = new UserProfileDefinition(false);
-            
-            $firmProfile = $firmDef->processPost('array');
-            $userProfile = $userDef->processPost('array');
-            
-            // Check for errors
-            $errors = array();
-            if($firmProfile === null) {
-                array_push($errors, $firmDef->errors());
-            }
-            if($userProfile === null) {
-                array_push($errors, $userDef->errors());
-            }
-            
-            if(count($errors) > 0) {
-                return $this->sendErrors($errors);
-            }
-            
-            die("no No NO NO!!!");
-            
-            // TODO
-            // we need to pull the profile data for the super user
-            // with the way the definitions are this will mean two
-            // rounds of process_post but, the su may have less info
-            // than the UPDef requires so we cant use it as is.
-            $this->accountProvider->createFirm($profile);
-            
-            
-            $this->output->set_status_header(HTTP_ACCEPTED);
-        } else {
-            throw new RuntimeException("Unknown regtype: " . $regType);
-        }
     }
-    
-    /* Scrapped by NITA
-    private function doVerify() {
-        // Get the unique identifier from the URI
-        
-        // Find the serialized model corresponding to
-        // the users account details.
-        
-        // If the model has been invalidated we need them
-        // to re-register. We cannot use the model to
-        // repopulate the form for them. As much of a convenience
-        // as this may be for the user, its also a security risk
-        // and a breach of user privacy if a 3rd party has gained
-        // access to the link.
-        
-        // If the model is still valid then we can push the user
-        // information to AccountService
-        
-        $verifyField = new MD5_Field('verify');
-        if(!$verifyField->validate()) {
-            // 400 BAD REQUEST
-            $this->output->set_status_header(HTTP_BAD_REQUEST);
-        }
-        $verifyCode = $verifyField->process();
-        
-        $this->load->model('accountProvider');
-        $status = $this->accountProvider->verifyUser($verifyCode);
-        $this->output->set_status_header($status);
-    }
-    */
     
     public function doUserUpdate() {
         // Validate form data

@@ -2,30 +2,36 @@
 
 class FirmProfileDefinition extends Model_Definition {
     
-    public function FirmProfileDefinition() {
+    public function FirmProfileDefinition($isSuper) {
         parent::Model_Definition();
-        $this->initFields();
+        $this->initFields($isSuper);
     }
     
-    private function initFields() {
-        $this->addField(new Field('name',               'string',   true));
-        $this->addField(new Field('billingAddress1',    'string',   true));
-        $this->addField(new Field('billingCity',        'string',   true));
-        $this->addField(new Field('billingState',       'string',   true));
-        $this->addField(new Field('billingZip',         'string',   true));
-        $this->addField(new Field('billingCountry',     'string',   true));
-        $this->addField(new Field('shippingAddress1',   'string',   true));
-        $this->addField(new Field('shippingCity',       'string',   true));
-        $this->addField(new Field('shippingState',      'string',   true));
-        $this->addField(new Field('shippingZip',        'string',   true));
-        $this->addField(new Field('shippingCountry',    'string',   true));
-        $this->addField(new Field('primaryPhone',       'string',   true));
-        $this->addField(new Field('primaryFax',         'string',   true));
-        $this->addField(new Field('practiceType',       'string',   true));
-        $this->addField(new Field('firmSize',           'int',      true));
-        $this->addField(new Field('trainingDirector',   'string',   true));
+    private function initFields($isSuper) {
+        if($isSuper) {
+            $this->startRequiredBlock();
+        } else {
+            $this->startOptionalBlock();
+        }
+        $this->addField(new String_Field('name'));
+        $this->addField(new String_Field('billingAddress1'));
+        $this->addField(new String_Field('billingCity'));
+        $this->addField(new String_Field('billingState'));
+        $this->addField(new String_Field('billingZip'));
+        $this->addField(new String_Field('billingCountry'));
+        $this->addField(new String_Field('shippingAddress1'));
+        $this->addField(new String_Field('shippingCity'));
+        $this->addField(new String_Field('shippingState'));
+        $this->addField(new String_Field('shippingZip'));
+        $this->addField(new String_Field('shippingCountry'));
+        $this->addField(new String_Field('phone1'));
+        $this->addField(new String_Field('fax'));
+        $this->addField(new String_Field('firmSize'));
         
-        $this->addField(new Field('billingAddress2',    'string',   false));
-        $this->addField(new Field('shippingAddress2',   'string',   false));
+        $this->startOptionalBlock();
+        $this->addField(new String_Field('practiceType'));
+        $this->addField(new String_Field('trainingDirector'));
+        $this->addField(new String_Field('billingAddress2'));
+        $this->addField(new String_Field('shippingAddress2'));
     }
 }

@@ -122,7 +122,7 @@ $(document).ready(
         $('#firm_form').ajaxComplete(
             function(e, xhr, setting) {
                 switch(xhr.status) {
-                    case 202 : // ACCEPTED
+                    case HTTP_ACCEPTED :
                         // FIXME
                         $("#response_message").html(xhr.responseText);
                         initForm($('#profile_form'));
@@ -134,9 +134,9 @@ $(document).ready(
         $('#profile_form').ajaxComplete(
             function(e, xhr, setting) {
                 switch(xhr.status) {
-                    case 202 : // ACCEPTED
-                        // FIXME
-                        $("#response_message").html(xhr.responseText);
+                    case HTTP_CREATED :
+                        // FIXME - Needs to be https (2nd param true)
+                        doPageLoad(xhr.responseText, false, true);
                         break;
                 }
             }

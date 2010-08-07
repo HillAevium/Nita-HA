@@ -54,7 +54,7 @@ class AccountProvider extends Model {
         $this->insertAccount($data);
     }
     
-    ///////////////////////////////////////////////////////////////////////
+    // TEMPORARY SANDBOX CODE ///////////////////////////////////////////////////////////////////////
     
     private function doAuthenticate($email, $password) {
         $result = $this->db  ->  select('password')
@@ -118,9 +118,9 @@ class AccountProvider extends Model {
         return $user;
     }
     
-    private function selectProfilesByAccount($firmId) {
+    private function selectProfilesByAccount($accountId) {
         $result = array();
-        $ids = $this->getUserIdsForFirm($firmId);
+        $ids = $this->getUserIdsForFirm($accountId);
         foreach($ids as $id) {
             $result[] = $this->selectUserById($id);
         }

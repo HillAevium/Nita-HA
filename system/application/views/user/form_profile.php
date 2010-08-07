@@ -82,7 +82,7 @@
             <label>Will you be attending NITA programs?</label><br />
             <select id="isAttendingClasses" name="isAttendingClasses" onchange="toggleIsAttendingDependentFields();">
                 <option value="0">No</option>
-                <option value="1" selected="true">Yes</option>
+                <option value="1" selected="selected">Yes</option>
             </select>
         </td>
     </tr>
@@ -195,6 +195,8 @@
             </td>
             <td>
                 <label>Date</label><br />
+                <input name="date[]">
+                <!--
                 <select name="dateMonth[]">
                     <option value="0"></option>
                     <option value="01">01</option>
@@ -208,6 +210,7 @@
                     <option value="1983">1983</option>
                     <option value="1984">1984</option>
                 </select>
+                -->
             </td>
         </tr>
     </table>

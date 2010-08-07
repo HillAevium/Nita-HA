@@ -22,9 +22,8 @@ class UserProfileDefinition extends Model_Definition {
         $this->addField(new String_Field(  'firstName'));
         $this->addField(new String_Field(  'lastName'));
         $this->addField(new Email_Field(   'email'));
-        $this->addField(new Password_Field('password', '', 6, 20));
+        $this->addField(new Password_Field('password', 'password2', 6, 20));
         $this->addField(new String_Field(  'phone'));
-        $this->addField(new String_Field(  'role'));
         $attendingField = new Boolean_Field('isAttendingClasses');
         $this->addField($attendingField);
         
@@ -44,6 +43,7 @@ class UserProfileDefinition extends Model_Definition {
         $this->addField(new String_Field(  'shippingState'));
         $this->addField(new String_Field(  'shippingZip'));
         $this->addField(new String_Field(  'shippingCountry'));
+        $this->addField(new String_Field(  'role'));
         $this->addField(new Boolean_Field( 'requireAccessibility'));
         $this->addField(new Boolean_Field( 'haveScholarship'));
         
