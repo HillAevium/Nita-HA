@@ -1,18 +1,26 @@
 <?php
 
+require_once APPPATH.'/libraries/core/auth/session/user_credentials.php';
+
 class FirmProfileDefinition extends Model_Definition {
     
-    public function FirmProfileDefinition($isSuper) {
+    private static $userTypes = array (
+        'group' => USER_SUPER,
+        'individual' => USER_NORMAL
+    );
+    
+    public function FirmProfileDefinition() {
         parent::Model_Definition();
-        $this->initFields($isSuper);
+        $this->initFields();
     }
     
-    private function initFields($isSuper) {
-        if($isSuper) {
-            $this->startRequiredBlock();
-        } else {
-            $this->startOptionalBlock();
-        }
+    private function initFields() {
+        $userTypeField = new Enum_Field('userType', self::$userTypes);
+        
+        $this->startRequiredBlock();
+        $this->addField($userTypeField);
+        
+        $this->startDependantBlock($userTypeField, 'group');
         $this->addField(new String_Field('name'));
         $this->addField(new String_Field('billingAddress1'));
         $this->addField(new String_Field('billingCity'));

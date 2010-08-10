@@ -110,8 +110,9 @@ class Account extends AbstractController {
         }
         
         // If successful set the user to authenticated
-        // FIXME - Get user type from persistence
-        $this->mod_auth->grant($user->id, array('type' => USER_DEBUG));
+        $creds['type'] = $user->userType;
+        $creds['accountId'] = $user->accountId;
+        $this->mod_auth->grant($user->id, $creds);
         
         // Send 202 ACCEPTED
         $this->output->set_status_header(HTTP_ACCEPTED);
@@ -138,14 +139,12 @@ class Account extends AbstractController {
     
     public function doRegistration() {
         $form = $this->getArgument('form');
-        $regType = $this->session->userdata('regType');
-        $isSuper = $regType === 'group';
         
         switch($form) {
             case 'firm':
                 // Validate the firm information and stash
                 // it in the session.
-                $firmDef = new FirmProfileDefinition($isSuper);
+                $firmDef = new FirmProfileDefinition();
                 $firm = $firmDef->processPost('array');
                 
                 if($firm === null) {
@@ -171,6 +170,12 @@ class Account extends AbstractController {
                 }
                 
                 $firm = unserialize($this->session->userdata('registration_firm_info'));
+                
+                // We pulled in the user type in the firm form to use as a
+                // dependant field, but it needs to be submitted to the
+                // contact table with the user info.
+                $profile['userType'] = $firm['userType'];
+                unset($firm['userType']);
                 
                 $this->load->model('accountProvider');
                 try {

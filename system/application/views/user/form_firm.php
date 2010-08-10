@@ -1,3 +1,5 @@
+<input type="hidden" name="userType" value="" />
+
 <div class="header_bar_blue_full">
     <table class="header">
         <tr>

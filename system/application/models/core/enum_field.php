@@ -1,8 +1,7 @@
 <?php
 
 require_once APPPATH.'/models/core/field.php';
-// FIXME Needs more work to deal with
-// multiples properly
+
 final class Enum_Field extends Field {
     
     private $values;
@@ -26,13 +25,14 @@ final class Enum_Field extends Field {
     }
     
     protected function doValidate($data) {
-        if(! in_array($data, $this->values)) {
+        if(! array_key_exists($data, $this->values)) {
             $this->error = "Not a valid selection: " . $data;
             return false;
         }
+        return true;
     }
     
     protected function doProcess($data) {
-        return $data;
+        return $this->values[$data];
     }
 }

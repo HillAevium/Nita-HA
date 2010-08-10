@@ -92,6 +92,7 @@ function selectRegType(event) {
             $("#page_title").html('Create A New Individual Account');
         break;
     }
+    $('input[name="userType"]').val(type);
     $('#content_reg_form').fadeIn();
 }
 

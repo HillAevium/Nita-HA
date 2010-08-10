@@ -64,9 +64,11 @@ class Session_Authenticator implements Authenticator {
     public function __toString() {
         $auth = $this->credentials->auth['status'] === AUTH_AUTHENTICATED;
         $id   = $this->credentials->auth['id'];
+        $type = $this->credentials->user['type'];
         
         $string = 'Authenticated: ' . ($auth ? 'Yes' : 'No') . '<br />';
-        $string.= 'ID: ' . $id;
+        $string.= 'ID: ' . $id . '<br />';
+        $string.= 'Type: ' . $type;
         return $string;
     }
     

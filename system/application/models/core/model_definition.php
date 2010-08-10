@@ -123,11 +123,14 @@ abstract class Model_Definition implements Has_Fields {
             log_message('error', 'There be errors!' . print_r($errors, true));
             $this->processErrors = $errors;
             $this->processResult = null;
+            return null;
         } else {
+            // FIXME check for 'object' return type
             $this->processResult = $returnData;
         }
         
-        // FIXME check for 'object' return type
+        // FIXME Uncomment this when forms are fixed
+        //return $this->processResult;
         return $returnData;
     }
     
@@ -137,9 +140,6 @@ abstract class Model_Definition implements Has_Fields {
     }
     
     protected function startDependantBlock(Field $field, $value) {
-        if(! $field instanceof Boolean_Field) {
-            throw new RuntimeException("Only boolean dependants allowed.");
-        }
         $this->state = 'dependant';
         $this->dependant = $field;
         $this->storedDependants[$field->name()] = $field;

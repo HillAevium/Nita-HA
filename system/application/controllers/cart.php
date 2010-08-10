@@ -115,7 +115,7 @@ class Cart extends AbstractController {
         $userType = $this->mod_auth->credentials()->user['type'];
         switch($userType) {
             case USER_SUPER :
-                $this->displaySuperCart();
+                $this->showSuperCart();
             break;
             case USER_ANON :
             case USER_NORMAL :
@@ -163,8 +163,9 @@ class Cart extends AbstractController {
     // Page 8
     // Reachable by authenticated super users
     private function showSuperCart() {
+        $accountId = $this->mod_auth->credentials->user['accountId'];
         $this->load->model('accountProvider');
-        $args['users'] = $this->accountProvider->getUsersByAccount();
+        $args['users'] = $this->accountProvider->getProfilesByAccount($accountId);
         
         $views = array(
             array('name' => 'cart/super', 'args' => array('title' => 'Enroll Profiles in Programs'))
