@@ -139,7 +139,7 @@ if (window.location.pathname == '/account/register/regtype/individual' || window
                     switch(xhr.status) {
                         case HTTP_CREATED :
                             // FIXME - Needs to be https (2nd param true)
-                            doPageLoad(xhr.responseText, false, true);
+                            doPageLoad('/account/login', false, true);
                             break;
                     }
                 }

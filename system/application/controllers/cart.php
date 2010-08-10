@@ -112,28 +112,19 @@ class Cart extends AbstractController {
         
         // We change the display to super for a super user
         // and none for a child user
-        if($this->mod_auth->isAuthenticated()) {
-            $auth = true;
-            switch($this->mod_auth->credentials()->user['type']) {
-                case USER_SUPER :
-                    $display = 'super';
-                break;
-                case USER_CHILD :
-                    $display = 'none';
-                break;
-            }
-        }
-        
-        switch($display) {
-            case 'normal' :
-                $this->showNormalCart($auth);
+        $userType = $this->mod_auth->credentials()->user['type'];
+        switch($userType) {
+            case USER_SUPER :
+                $this->displaySuperCart();
             break;
-            case 'super' :
-                $this->showSuperCart();
+            case USER_ANON :
+            case USER_NORMAL :
+                $this->showNormalCart($userType);
             break;
-            case 'none' :
+            case USER_CHILD :
                 // FIXME - What to do for child users ?
                 die("Cart support for child user not implemented.");
+            break;
         }
     }
     
@@ -142,15 +133,18 @@ class Cart extends AbstractController {
     //   Show Login/Register buttons
     // Reachable by authenticated normal users
     //   Show Checkout button
-    private function showNormalCart($auth) {
+    private function showNormalCart($userType) {
         // We display different buttons depending on the user type
         // Anonymous users see Login/Register
         // Normal users see Checkout
-        if($auth) {
-            $args['buttons'] = 'checkout';
-        } else {
-            $this->session->set_userdata('referrer', '/cart/display');
-            $args['buttons'] = 'login';
+        switch($userType) {
+            case USER_NORMAL :
+                $args['buttons'] = 'checkout';
+            break;
+            case USER_ANON :
+                $args['buttons'] = 'login';
+                $this->session->set_userdata('login.href', '/cart/display');
+            break;
         }
         
         $args['title'] = 'Your Cart';
@@ -206,7 +200,6 @@ class Cart extends AbstractController {
             array('name' => 'cart/billing', 'args' => array('title' => 'Billing Information'))
         );
         
-        
         // Set the view options
         $this->setViewOption('bodyClass', 'blue_short');
         $this->setViewOption('pageTitle', 'Billing Information');
@@ -257,7 +250,6 @@ class Cart extends AbstractController {
         
         return $rowid;
     }
-    
     
     private function handleGet($method) {
         switch($method) {

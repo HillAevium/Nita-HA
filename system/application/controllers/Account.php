@@ -120,7 +120,17 @@ class Account extends AbstractController {
         // send them back there. Otherwise send them
         // to the home page
         // FIXME
-        echo "/";
+        $uri = $this->session->userdata('login.href');
+        if($uri === false) {
+            $uri = "/";
+        }
+        
+        // Send the referrer uri back to the client
+        // so it can load the appropiate page.
+        echo $uri;
+        
+        // Cleanup the session
+        $this->session->unset_userdata('login.href');
     }
     
     public function doLogout() {
@@ -173,13 +183,15 @@ class Account extends AbstractController {
                     // FIXME
                     echo $e->getMessage();
                     echo $e->getTraceAsString();
+                    return;
                 }
                 
+                // Client side will load the login page when
+                // recieving this code
                 $this->output->set_status_header(HTTP_CREATED);
                 
-                // TODO
-                // Send client a referrer URI
-                echo "/account/login";
+                // Cleanup the session
+                $this->session->unset_userdata('registration_firm_info');
             return;
         }
     }
@@ -348,9 +360,6 @@ class Account extends AbstractController {
 
                 break;
             case 'individual':
-                // get the form templates for individuals
-                //$args['verificationForm'] = $this->load->view('user/form_verify', '', true);
-                
                 // Set up the view options
                 $this->setViewOption('pageTitle', 'Create A New Individual Account');
                 $this->setViewOption('bodyClass', 'blue_short');

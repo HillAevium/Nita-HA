@@ -1,15 +1,14 @@
 <?php
 
-function makeButton($id, $text) {
-    $htmlButton = '<div style="float:right;margin:20px 0;width:100px;height:40px;line-height:40px;font-size:16px;background:#ccc;color:#fff;text-align:center;" id="{id}">{text}</div>';
-    return str_replace('{text}', $text,
-           str_replace('{id}', $id, $htmlButton)
-   );
+function makeButton($uri, $text) {
+    $htmlButton = '<div style="float:right;margin:20px 0;width:100px;height:40px;line-height:40px;font-size:16px;background:#ccc;color:#fff;text-align:center;"
+                        onclick="window.location = \''. $uri . '\'">' . $text . '</div>';
+    return $htmlButton;
 }
 
 switch($buttons) {
     case 'checkout' :
-        $button = makeButton('/cart/review', 'Checkout');
+        $button  = makeButton('/cart/review', 'Checkout');
     break;
     case 'login' :
         $button  = makeButton('/account/login', 'Login');
