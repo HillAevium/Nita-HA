@@ -79,9 +79,16 @@ class Program extends Model {
      * @return an array of Programs
      */
     public function getAll() {
-        $programs = $this->soap->getAllPrograms();
-
-        return $programs;
+        //$programs = $this->soap->getAllPrograms();
+        
+        $data = json_decode(file_get_contents("http://72.54.98.142/sql.php?view=program&format=json"));
+        /*
+        echo "<pre>";
+        print_r($data);
+        echo "</pre>";
+        die();
+        */
+        return $data;
     }
     
     /**

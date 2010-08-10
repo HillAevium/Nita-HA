@@ -13,13 +13,14 @@
             </thead>
             <tbody>
                 <?php foreach($models as $model): ?>
+                <?php $model->dates = $model->startDate . " - " . $model->endDate; ?>
                 <tr id="<?php echo $model->id; ?>">
                     <td width="25%"><?php echo $model->title; ?></td>
-                    <td width="18%"><?php echo $model->typeId; ?></td>
+                    <td width="18%"><?php echo $model->typeIdName; ?></td>
                     <td width="18%"><?php echo $model->dates; ?></td>
-                    <td width="19%"><?php echo $model->location . '<br/>' . $model->city . ', ' . $model->state; ?></td>
+                    <td width="19%"><?php echo $model->facilityName . '<br/>' . $model->city . ', ' . $model->state; ?></td>
                     <td width="15%">$<?php echo $model->price; ?></td>
-                    <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></a></td>
+                    <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></div></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
