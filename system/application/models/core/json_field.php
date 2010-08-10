@@ -1,5 +1,7 @@
 <?php
 
+require_once APPPATH.'/models/core/string_field.php';
+
 class Json_Field extends String_Field {
     
     private $jsonResult;

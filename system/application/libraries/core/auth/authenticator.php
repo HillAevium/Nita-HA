@@ -1,5 +1,10 @@
 <?php
 
+define('AUTH_NOT_AUTHENTICATED', 0);
+define('AUTH_AUTHENTICATED', 1);
+
+require_once APPPATH.'/libraries/core/auth/credentials.php';
+
 interface Authenticator {
     
     /**
@@ -15,7 +20,7 @@ interface Authenticator {
      *
      * @param string $id
      */
-    public function grant($id);
+    public function grant($id, array $user);
     
     /**
      * Revokes authentication for an entity.

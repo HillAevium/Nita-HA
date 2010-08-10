@@ -103,14 +103,15 @@ class Account extends AbstractController {
             return $this->sendErrors($errors);
         }
         
-        $user = $this->accountProvider->getUserByEmail($email);
+        $user = $this->accountProvider->getProfileByEmail($email);
         
         if(!$user) {
             throw new RuntimeException("no user");
         }
         
         // If successful set the user to authenticated
-        $this->mod_auth->grant($user->id);
+        // FIXME - Get user type from persistence
+        $this->mod_auth->grant($user->id, array('type' => USER_DEBUG));
         
         // Send 202 ACCEPTED
         $this->output->set_status_header(HTTP_ACCEPTED);

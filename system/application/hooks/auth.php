@@ -2,7 +2,6 @@
 
 class Auth {
     public function init() {
-        log_message('error', __METHOD__);
         // Load the authenication module
         
         $CI =& get_instance();
