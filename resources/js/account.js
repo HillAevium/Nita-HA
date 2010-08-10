@@ -79,6 +79,56 @@ function initForm(form) {
     form.fadeIn();
 }
 
+function selectRegType(event) {
+    $('#content_reg_funnel').fadeOut();
+    bindForms();
+    var type = event.currentTarget.id;
+    switch(type) {
+        case 'group' :
+            $("#page_title").html('Create A New Group Account');
+            $("#instructions").html("<p>To enroll others, you'll need to create an account. You can then create profiles for each attendee.</p>");
+        break;
+        case 'individual' :
+            $("#page_title").html('Create A New Individual Account');
+        break;
+    }
+    $('#content_reg_form').fadeIn();
+}
+
+// FIXME
+// Somewhere we stopped handling errors
+// from form validation...
+function bindForms() {
+    initForm($('#firm_form'));
+    $("form").submit(function(event) { return false; });
+    // FIXME
+    // Remove for production
+    addTestValues();
+    
+    $('#firm_form').ajaxComplete(
+        function(e, xhr, setting) {
+            switch(xhr.status) {
+                case HTTP_ACCEPTED :
+                    // FIXME
+                    $("#response_message").html(xhr.responseText);
+                    initForm($('#profile_form'));
+                    break;
+            }
+        }
+    );
+    
+    $('#profile_form').ajaxComplete(
+        function(e, xhr, setting) {
+            switch(xhr.status) {
+                case HTTP_CREATED :
+                    // FIXME - Needs to be https (2nd param true)
+                    doPageLoad('/account/login', false, true);
+                    break;
+            }
+        }
+    );
+}
+
 if(window.location.pathname == '/account/login') {
     // Initialize Login
     $(document).ready(
@@ -112,38 +162,11 @@ if(window.location.pathname == '/account/login') {
     );
 }
 
-if (window.location.pathname == '/account/register/regtype/individual' || window.location.pathname == '/account/register/regtype/group') {
-    // Initialize Registration forms
+if (window.location.pathname == '/account/register') {
     $(document).ready(
         function() {
-            initForm($('#firm_form'));
-            $("form").submit(function(event) { return false; });
-            // FIXME
-            // Remove for production
-            addTestValues();
-            
-            $('#firm_form').ajaxComplete(
-                function(e, xhr, setting) {
-                    switch(xhr.status) {
-                        case HTTP_ACCEPTED :
-                            // FIXME
-                            $("#response_message").html(xhr.responseText);
-                            initForm($('#profile_form'));
-                            break;
-                    }
-                }
-            );
-            
-            $('#profile_form').ajaxComplete(
-                function(e, xhr, setting) {
-                    switch(xhr.status) {
-                        case HTTP_CREATED :
-                            // FIXME - Needs to be https (2nd param true)
-                            doPageLoad('/account/login', false, true);
-                            break;
-                    }
-                }
-            );
+            $('#group').click(selectRegType);
+            $('#individual').click(selectRegType);
         }
     );
 }

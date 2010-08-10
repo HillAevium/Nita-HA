@@ -116,10 +116,6 @@ class Account extends AbstractController {
         // Send 202 ACCEPTED
         $this->output->set_status_header(HTTP_ACCEPTED);
         
-        // If there is a referral page they came from
-        // send them back there. Otherwise send them
-        // to the home page
-        // FIXME
         $uri = $this->session->userdata('login.href');
         if($uri === false) {
             $uri = "/";
@@ -134,8 +130,10 @@ class Account extends AbstractController {
     }
     
     public function doLogout() {
-        // TODO
         $this->mod_auth->revoke();
+        
+        // Send a redirect to the home page
+        // TODO
     }
     
     public function doRegistration() {
@@ -246,21 +244,8 @@ class Account extends AbstractController {
     }
     
     public function showLogin() {
-        // If the user was directed here from some
-        // page that required login before continuing
-        // e.g. clicking checkout, then we need to
-        // know where they came from.
-        
-        // Get the referal page, make the default the
-        // home page if there is no referal
-        $refPage = $this->getArgument('refPage', '/');
-        
-        // TODO - Session
-        // Add the referal page to the session
-        
-        $args['refPage'] = $refPage;
         $views = array(
-            array('name' => 'user/login', 'args' => $args)
+            array('name' => 'user/login', 'args' => null)
         );
         
         // Set the view options
@@ -292,37 +277,21 @@ class Account extends AbstractController {
     }
     
     /**
-     * User registration pages
+     * User registration pages.
      *
-     * @param string $step the step in the registration process
-     * @param string $accountType the user's account type, either 'group' or 'individual'
+     * Displays an initial page that allows the user to choose whether they
+     * want to signup for a group or as an individual. The forms are then
+     * presented and validation occurs over ajax post requests.
+     *
+     * @see Account::doRegistration()
      */
     public function showRegistration() {
-        // TODO
-        // Set referral page in session, or pass through
-        // to next page.
+        $args['firmForm'] = $this->load->view('user/form_firm', null, true);
+        $args['profileForm'] = $this->load->view('user/form_profile', null, true);
         
-        // Check for registration type in uri,
-        // otherwise display funnel if not set
-        if(!$this->getArgument('regtype')) {
-            $this->showRegistrationFunnel();
-            return;
-        } else {
-            $regType = $this->getArgument('regtype');
-            // TODO
-            // Change this to use authentication library to set session vars
-            $this->session->set_userdata('regType', $regType);
-            $this->showRegistrationForm();
-        }
-    }
-    
-    /**
-     * Loads the funnel page which asks the user to
-     * choose individual or group registration.
-     */
-    private function showRegistrationFunnel() {
         $views = array(
-            array('name' => 'user/reg_funnel', 'args' => null)
+            array('name' => 'user/reg_funnel', 'args' => null),
+            array('name' => 'user/reg_form', 'args' => $args)
         );
         
         // Set the view options
@@ -332,52 +301,6 @@ class Account extends AbstractController {
         
         // ... and go
         $this->loadViews();
-    }
-    
-    /**
-     * Display the user registration form7
-     *
-     * @param string $accountType the user's account type, either 'group' or 'individual'
-     */
-    private function showRegistrationForm() {
-        // TODO
-        // Change this to use authentication library to get session vars
-        $regType = $this->session->userdata('regType');
-        
-        $this->setViewOption('regType', $regType);
-                
-        switch($regType) {
-            case 'group':
-                // Set up the view options
-                $this->setViewOption('pageTitle', 'Create A New Group Account');
-                $this->setViewOption('bodyClass', 'blue_short');
-                $this->setViewOption('mainNav', true);
-                $this->setViewOption('views', $views);
-                
-                $data['instructions'] = "<p>To enroll others, you'll need to create an account. You can then create proles for each attendee.</p>";
-                $args['firmForm'] = $this->load->view('user/form_firm', $data, true);
-                $args['profileForm'] = $this->load->view('user/form_profile', null, true);
-
-                break;
-            case 'individual':
-                // Set up the view options
-                $this->setViewOption('pageTitle', 'Create A New Individual Account');
-                $this->setViewOption('bodyClass', 'blue_short');
-                $this->setViewOption('mainNav', true);
-                
-                $args['firmForm'] = $this->load->view('user/form_firm', null, true);
-                $args['profileForm'] = $this->load->view('user/form_profile', null, true);
-                
-                break;
-        }
-        
-        $views = array(
-                    array('name' => 'user/reg_form', 'args' => $args)
-                );
-                
-        $this->setViewOption('views', $views);
-                
-        $this->loadViews($views);
     }
     
     public function showUserProfile() {
@@ -445,6 +368,9 @@ class Account extends AbstractController {
         switch($method) {
             case 'login' :
                 $this->showLogin();
+            break;
+            case 'logout' :
+                $this->doLogout();
             break;
             case 'user' :
                 $this->showUserProfile();

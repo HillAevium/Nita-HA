@@ -46,6 +46,8 @@ a.search_bar_print:hover      { background-image:url(../images/search_bar_print_
 #content_top_short            { width:100%; height:170px; }
 #content_main                 { width:945px; margin:0 auto; }
 #content_main_inner           { position:relative; width:100%; padding-top:80px; }
+#content_reg_form             { position:relative; width:100%; padding-top:80px; }
+#content_reg_funnel           { position:relative; width:100%; padding-top:80px; }
 
 /* Footer */
 #footer                       { width:100%; height:87px; text-align:center; margin-top:50px; border-top:3px solid #d9d9d9; background:url(../images/footer_bg.png) repeat-x; }
