@@ -14,7 +14,7 @@
                     <label class="light">Password:</label>&nbsp;&nbsp;<input name="password" type="password" class="extra_small" />
                 </td>
                 <td align="right" style="padding:22px 0;">
-                    <div class="button_sign_in" onclick="$('#login_form').submit();"></div>
+                    <div id="submit_form" class="button_sign_in" onclick="$('#login_form').submit();"></div>
                 </td>
             </tr>
         </table>

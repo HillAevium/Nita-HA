@@ -69,8 +69,8 @@ function toggleIsAttendingDependentFields() {
 function initForm(form) {
     $('#error_container').html('');
     $('#response_message').html('');
-    $("#continue").unbind('click');
-    $("#continue").click(
+    $("#submit_form").unbind('click');
+    $("#submit_form").click(
         function(event) {
             form.ajaxSubmit();
         }
@@ -79,67 +79,71 @@ function initForm(form) {
     form.fadeIn();
 }
 
-// Initialize Login
-$(document).ready(
-    function() {
-        initForm($('#login_form'));
-        $("form").submit(function(event) { return false; });
-        
-        $('#login_form').ajaxComplete(
-            function(e, xhr, setting) {
-                switch(xhr.status) {
-                    case HTTP_ACCEPTED :
-                        // Display a message to the user
-                        // Redirect them to referrer or profile page
-                        doPageLoad(xhr.responseText, false, true);
-                        break;
-                    case HTTP_BAD_REQUEST :
-                        // The form info was invalid
-                        $("#error_container").html(xhr.responseText);
-                        break;
-                    case HTTP_UNAUTHORIZED :
-                        // The authorization failed
-                        $("#error_container").html(xhr.responseText);
-                        break;
-                    default :
-                        // Unhandled code
-                        $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
+if(window.location.pathname == '/account/login') {
+    // Initialize Login
+    $(document).ready(
+        function() {
+            initForm($('#login_form'));
+            $("form").submit(function(event) { return false; });
+            
+            $('#login_form').ajaxComplete(
+                function(e, xhr, setting) {
+                    switch(xhr.status) {
+                        case HTTP_ACCEPTED :
+                            // Display a message to the user
+                            // Redirect them to referrer or profile page
+                            doPageLoad(xhr.responseText, false, true);
+                            break;
+                        case HTTP_BAD_REQUEST :
+                            // The form info was invalid
+                            $("#error_container").html(xhr.responseText);
+                            break;
+                        case HTTP_UNAUTHORIZED :
+                            // The authorization failed
+                            $("#error_container").html(xhr.responseText);
+                            break;
+                        default :
+                            // Unhandled code
+                            $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
+                    }
                 }
-            }
-        );
-    }
-);
+            );
+        }
+    );
+}
 
-// Initialize Registration forms
-$(document).ready(
-    function() {
-        initForm($('#firm_form'));
-        $("form").submit(function(event) { return false; });
-        // FIXME
-        // Remove for production
-        addTestValues();
-        
-        $('#firm_form').ajaxComplete(
-            function(e, xhr, setting) {
-                switch(xhr.status) {
-                    case HTTP_ACCEPTED :
-                        // FIXME
-                        $("#response_message").html(xhr.responseText);
-                        initForm($('#profile_form'));
-                        break;
+if (window.location.pathname == '/account/register/regtype/individual' || window.location.pathname == '/account/register/regtype/group') {
+    // Initialize Registration forms
+    $(document).ready(
+        function() {
+            initForm($('#firm_form'));
+            $("form").submit(function(event) { return false; });
+            // FIXME
+            // Remove for production
+            addTestValues();
+            
+            $('#firm_form').ajaxComplete(
+                function(e, xhr, setting) {
+                    switch(xhr.status) {
+                        case HTTP_ACCEPTED :
+                            // FIXME
+                            $("#response_message").html(xhr.responseText);
+                            initForm($('#profile_form'));
+                            break;
+                    }
                 }
-            }
-        );
-        
-        $('#profile_form').ajaxComplete(
-            function(e, xhr, setting) {
-                switch(xhr.status) {
-                    case HTTP_CREATED :
-                        // FIXME - Needs to be https (2nd param true)
-                        doPageLoad(xhr.responseText, false, true);
-                        break;
+            );
+            
+            $('#profile_form').ajaxComplete(
+                function(e, xhr, setting) {
+                    switch(xhr.status) {
+                        case HTTP_CREATED :
+                            // FIXME - Needs to be https (2nd param true)
+                            doPageLoad(xhr.responseText, false, true);
+                            break;
+                    }
                 }
-            }
-        );
-    }
-);
+            );
+        }
+    );
+}

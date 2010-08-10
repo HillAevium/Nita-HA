@@ -13,7 +13,7 @@
             <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
             <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
             <div id="add_account" class="button_add_account" style="position:absolute; top:34px; right:119px;" onclick="addAccount();"></div>
-            <div id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="document.forms['regForm'].submit();"></div>
+            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="document.forms['regForm'].submit();"></div>
         </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->
