@@ -166,6 +166,7 @@ class Cart extends AbstractController {
         $accountId = $this->mod_auth->credentials->user['accountId'];
         $this->load->model('accountProvider');
         $args['users'] = $this->accountProvider->getProfilesByAccount($accountId);
+        log_message('error', print_r($args, true));
         
         $views = array(
             array('name' => 'cart/super', 'args' => array('title' => 'Enroll Profiles in Programs'))

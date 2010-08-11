@@ -119,23 +119,10 @@ class AccountProvider extends Model {
     }
     
     private function selectProfilesByAccount($accountId) {
-        $result = array();
-        $ids = $this->getUserIdsForFirm($accountId);
-        foreach($ids as $id) {
-            $result[] = $this->selectUserById($id);
-        }
-        
-        return $result;
-    }
-    
-    private function getUserIdsForAccount($accountId) {
-        $result = $this->db->select('id')
-                           ->from('contact')
+        $result = $this->db->from('contact')
                            ->where(array('accountId' => $accountId))
                            ->get();
-        if($result->num_rows() === 0) {
-            throw new RuntimeException("No users found for account id. ID=".$accountId);
-        }
+        return $result->result();
     }
     
     private function insertAccount(array $data) {

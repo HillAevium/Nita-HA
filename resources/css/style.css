@@ -166,6 +166,14 @@ div#search_header .close:hover { background:#bbb; cursor:pointer; }
 div#search_body label         { }
 div#search_body input         { }
 
+/* Super user cart */
+div#super_cart_list           { border:1px solid #0F0; }
+div#super_cart_list > div     { border:1px solid #F00; }
+div#add_attendee_button       { width:200px; height:50px; }
+div#super_cart_list select    { width:200px; }
+
+div#super_cart_list           { position:relative; top:0px; }
+div#super_cart_list > div     { margin:5px; padding:5px; background:#eee; }
 
 div.tab_panel {
     width:765px;

@@ -42,6 +42,7 @@ class Session_Authenticator implements Authenticator {
         $this->credentials->auth['status'] = AUTH_AUTHENTICATED;
         $this->credentials->auth['id'] = $id;
         $this->credentials->user['type'] = $user['type'];
+        $this->credentials->user['accountId'] = $user['accountId'];
         $this->storeCredentials($this->credentials);
     }
     
@@ -49,6 +50,7 @@ class Session_Authenticator implements Authenticator {
         $this->credentials->auth['status'] = AUTH_NOT_AUTHENTICATED;
         $this->credentials->auth['id'] = -1;
         $this->credentials->user['type'] = USER_ANON;
+        $this->credentials->user['accountId'] = -1;
         $this->storeCredentials($this->credentials);
     }
     
@@ -65,10 +67,12 @@ class Session_Authenticator implements Authenticator {
         $auth = $this->credentials->auth['status'] === AUTH_AUTHENTICATED;
         $id   = $this->credentials->auth['id'];
         $type = $this->credentials->user['type'];
+        $account = $this->credentials->user['accountId'];
         
         $string = 'Authenticated: ' . ($auth ? 'Yes' : 'No') . '<br />';
         $string.= 'ID: ' . $id . '<br />';
-        $string.= 'Type: ' . $type;
+        $string.= 'Type: ' . $type . '<br />';
+        $string.= 'Account: ' . $account;
         return $string;
     }
     
@@ -83,6 +87,7 @@ class Session_Authenticator implements Authenticator {
         $credentials->auth['status'] = AUTH_NOT_AUTHENTICATED;
         $credentials->auth['id'] = -1;
         $credentials->user['type'] = USER_ANON;
+        $credentials->user['accountId'] = -1;
         
         $this->credentials = $credentials;
         $this->storeCredentials($credentials);
