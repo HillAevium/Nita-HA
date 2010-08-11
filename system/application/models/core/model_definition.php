@@ -42,7 +42,7 @@ abstract class Model_Definition implements Has_Fields {
                 break;
             case 'dependant' :
                 $this->dependantFields[$this->dependant->name()][] = $field->name();
-                break;
+                 break;
         }
         $this->fields[] = $field;
     }
@@ -129,9 +129,7 @@ abstract class Model_Definition implements Has_Fields {
             $this->processResult = $returnData;
         }
         
-        // FIXME Uncomment this when forms are fixed
-        //return $this->processResult;
-        return $returnData;
+        return $this->processResult;
     }
     
     protected function startRequiredBlock() {

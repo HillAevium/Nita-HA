@@ -1,3 +1,11 @@
+<!-- FIXME - These form fields are required by the validator.
+If they are going to be omitted from the form and perhaps
+calculated based on the State/Province then we need to change
+the definition.
+ -->
+<input type="hidden" name="shippingCountry" value="USA" />
+<input type="hidden" name="billingCountry" value="USA" />
+
 <div class="header_bar_blue_full">
     <table class="header">
         <tr>
@@ -91,6 +99,35 @@
 <table style="width:941px;margin-bottom:18px;">
     <tr>
         <td width="25%">
+            <label>Billing Address<br />No P.O. Boxes please</label>
+            <input name="billingAddress1" />
+        </td>
+        <td width="25%">
+            <label>City</label>
+            <input name="billingCity" />
+        </td>
+        <td width="25%">
+            <label>State</label><br />
+            <select name="billingState">
+                <option value="CA">CA</option>
+                <option value="NY">NY</option>
+                <option value="WA">WA</option>
+            </select>
+        </td>
+        <td width="25%">
+            <label>Zip</label><br />
+            <input name="billingZip" />
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <input name="_sameAsFirmBilling" type="checkbox" /> Same as Firm's Billing Address
+        </td>
+    </tr>
+</table>
+<table style="width:941px;margin-bottom:18px;">
+    <tr>
+        <td width="25%">
             <label>Shipping Address (for course materials)<br />No P.O. Boxes please</label><br />
             <input name="shippingAddress1" />
         </td>
@@ -160,12 +197,20 @@
     </tr>
 </table>
 
+<!-- FIXME What should we be setting these to by default -->
 <table class="isAttendingDependent" style="width:941px;margin-bottom:18px;">
     <tr>
         <td>
             <label>Will you require handicap access to facilities or assistance at our programs?</label><br />
             <input name="requireAccessibility" type="radio" value="0" /> No
             <input name="requireAccessibility" type="radio" value="1" checked="checked"/> Yes
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <label>Do you have a scholarship.</label>
+            <input name="haveScholarship" type="radio" value="0" /> No
+            <input name="haveScholarship" type="radio" value="1" checked="checked" /> Yes
         </td>
     </tr>
 </table>

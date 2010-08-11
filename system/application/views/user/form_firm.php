@@ -1,3 +1,11 @@
+<!-- FIXME - These form fields are required by the validator.
+If they are going to be omitted from the form and perhaps
+calculated based on the State/Province then we need to change
+the definition.
+ -->
+<input type="hidden" name="shippingCountry" value="USA" />
+<input type="hidden" name="billingCountry" value="USA" />
+
 <input type="hidden" name="userType" value="" />
 
 <div class="header_bar_blue_full">

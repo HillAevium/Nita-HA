@@ -30,6 +30,10 @@ function addTestValues() {
     $('#firm_form input[name="practiceType"]').val('Type 4');
     $('#firm_form input[name="trainingDirector"]').val('Bruce Willis');
     
+    $('#profile_form input[name="billingAddress1"]').val('345 Broadway');
+    $('#profile_form input[name="billingCity"]').val('Walla Walla');
+    $('#profile_form input[name="billingState"]').val('WA');
+    $('#profile_form input[name="billingZip"]').val('97450');
     $('#profile_form input[name="shippingAddress1"]').val('345 Broadway');
     $('#profile_form input[name="shippingCity"]').val('Walla Walla');
     $('#profile_form input[name="shippingState"]').val('WA');
@@ -48,7 +52,10 @@ function addTestValues() {
     $('#profile_form input[name="role"]').val('Doe');
     $('#profile_form input[name="badgeName"]').val('Doe');
     $('#profile_form input[name="requireAccessibility"]').val("0");
+    $('#profile_form input[name="haveScholarship"]').val("0");
     $('#profile_form input[name="etnicity"]').val('Doe');
+    $('#profile_form input[name="barId[]"]').val('1111111');
+    $('#profile_form input[name="date[]"]').val('1341');
 }
 
 function addBarRow() {
@@ -114,6 +121,9 @@ function bindForms() {
                     $("#response_message").html(xhr.responseText);
                     initForm($('#profile_form'));
                     break;
+                case HTTP_BAD_REQUEST :
+                    $('#error_container').html(xhr.responseText);
+                    break;
             }
         }
     );
@@ -124,6 +134,9 @@ function bindForms() {
                 case HTTP_CREATED :
                     // FIXME - Needs to be https (2nd param true)
                     doPageLoad('/account/login', false, true);
+                    break;
+                case HTTP_BAD_REQUEST :
+                    $('#error_container').html(xhr.responseText);
                     break;
             }
         }

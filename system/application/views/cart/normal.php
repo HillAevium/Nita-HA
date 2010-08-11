@@ -20,10 +20,12 @@ switch($buttons) {
         <h1 class="page_title"><?php echo $title; ?></h1>
         <table id="items" class="program_list">
             <thead>
-                <th align="left">Program</th>
-                <th align="left">Program Status</th>
-                <th align="left">Price</th>
-                <th></th>
+                <tr>
+                    <th align="left">Program</th>
+                    <th align="left">Program Status</th>
+                    <th align="left">Price</th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
                 <?php foreach($this->cart->contents() as $item): ?>
