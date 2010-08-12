@@ -209,14 +209,23 @@ div#search_header .close:hover { background:#bbb; cursor:pointer; }
 div#search_body label         { }
 div#search_body input         { }
 
-/* Super user cart */
+/* Shopping Cart */
 div#cart_container           { border:1px solid #0F0; }
 div#cart_container > div     { border:1px solid #F00; }
-div#add_attendee_button       { width:200px; height:50px; }
+
+div#billing_container        { border:1px solid #0F0; }
+tbody#billing_totals         { border:1px solid #00F; }
+tbody#billing_totals > tr    { border:1px solid #F00; }
+td#company_info              { border:1px solid #00F; }
+
+div#add_attendee_button      { width:200px; height:50px; }
 div#cart_container select    { width:200px; }
 
 div#cart_container           { position:relative; top:0px; }
 div#cart_container > div     { margin:5px; padding:5px; background:#eee; }
+
+td#company_info { padding:10px; 0px; 10px; 10px; }
+tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
 
 /* Overlay */
 #profile_box { background: #fff; display:none; width:941px; border:10px solid #666; }

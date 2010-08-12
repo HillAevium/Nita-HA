@@ -108,6 +108,7 @@ class Cart extends AbstractController {
         // Add the profiles to the cart options
         // and load details for review
         $details = array();
+        $billing = array();
         foreach($this->cart->contents() as $item) {
             if(!isset($profileMap[$item['id']])) {
                 // TODO What do we do if the user has a program
@@ -121,7 +122,6 @@ class Cart extends AbstractController {
             $profiles = $profileMap[$item['id']];
             
             // Persist the choices in the cart options
-            log_message('error', 'Adding ' . count($profiles));
             $this->cart->update(
                 array(
                     'rowid' => $item['rowid'],
@@ -129,6 +129,8 @@ class Cart extends AbstractController {
                     'options' => $profiles
                 )
             );
+            $cart = $this->cart->contents();
+            $item = $cart[$item['rowid']];
             
             // Loop through the profiles to send back details
             // for the review widget
@@ -147,11 +149,21 @@ class Cart extends AbstractController {
             }
             $details[] = $users;
             unset($users);
+            
+            // FIXME For some reason the cart info is stale that
+            // we have. The cart update above works but it doesn't
+            // show up in $item
+            $billing[] = array(
+                'programTitle' => $item['name'],
+                'numAttendees' => $item['qty'] . ' Attendees',
+                'price'        => $item['price'],
+                'subTotal'     => $item['subtotal']
+            );
         }
         
         // FIXME - Try using $this->output->set_output();
         $this->output->set_status_header(202);
-        echo json_encode($details);
+        echo json_encode(array('details' => $details, 'billing' => $billing));
     }
     
     public function doBilling() {

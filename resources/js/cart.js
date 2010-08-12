@@ -10,10 +10,12 @@ if(window.location.pathname == '/cart/display') {
                 login:      '#login',
                 register:   '#register',
                 review:     '#review',
-                billing:    '#biling',
+                billing:    '#billing',
                 finish:     '#finish',
+                print:      '#print',
                 addProfile: '#add_profile',
-                container:  '#cart_container'
+                container:  '#cart_container',
+                billContainer: '#billing_container'
             });
             controller.go();
         }
@@ -70,6 +72,10 @@ function Controller(bindings) {
         }
     };
     
+    this.onReviewComplete = function() {
+        this.cart.renderBilling();
+    };
+    
     this.onSelectAttendee = function(list, selectionModel, event) {
         var val = $(event.target).val();
         var lastVal = $(event.target).children(':nth-child(2)').val();
@@ -102,12 +108,13 @@ function Controller(bindings) {
                 items.push({ programId: programId , profiles: profiles});
             }
         }
-        // TODO Send POST to the server
+        
         $.post('/cart/process', {json: JSON.stringify(items)}, function(data, status, xhr) {
             switch(xhr.status) {
                 case 202 : // ACCEPTED
-                    var details = JSON.parse(data);
-                    controller.cart.renderReview(details);
+                    var json = JSON.parse(data);
+                    controller.billing = json.billing;
+                    controller.cart.renderReview(json.details);
                     break;
                 case 400 : // BAD_REQUEST
                     alert("Errors");
@@ -120,17 +127,17 @@ function Controller(bindings) {
 // ShoppingCart Composite
 
 function ShoppingCart() {
-    this.options = null;
+    this.bindings = null;
     this.container = null;
     this.view = 'display';
     
-    this.bind = function(options) {
-        this.options = options;
+    this.bind = function(bindings) {
+        this.bindings = bindings;
         
         // First we setup the cart container
         // and bind an AttendeeList widget to each
         // program and render the widget
-        this.container = $(options.container);
+        this.container = $(bindings.container);
         this.container.children().each(function() {
             var element = $(this).find('#attendees');
             controller.addProgram(this.id, element);
@@ -141,28 +148,33 @@ function ShoppingCart() {
         // respective pages. An authenticated user will have
         // a Checkout button that shows them their order
         // for review.
-        if($(options.login).length) {
-            $(options.login).click(function() {
+        if($(bindings.login).length) {
+            $(bindings.login).click(function() {
                 // Make true for https
                 doPageLoad('/account/login', false, true);
             });
         }
-        if($(options.register).length) {
-            $(options.register).click(function() {
+        if($(bindings.register).length) {
+            $(bindings.register).click(function() {
                 // Make true for https
                 doPageLoad('/account/register', false, true);
             });
         }
-        if($(options.review).length) {
-            $(options.review).click(function() {
+        if($(bindings.review).length) {
+            $(bindings.review).click(function() {
                 controller.onSubmitSelections();
+            });
+        }
+        if($(bindings.billing).length) {
+            $(bindings.billing).click(function() {
+                controller.onReviewComplete();
             });
         }
         
         // Bind the addProfile button so the super user
         // can add new profiles on the fly.
-        if($(options.addProfile).length) {
-            $(options.addProfile).click(function() {
+        if($(bindings.addProfile).length) {
+            $(bindings.addProfile).click(function() {
                 controller.onAddProfile();
             });
         }
@@ -193,6 +205,58 @@ function ShoppingCart() {
             list.renderDetails(details[i]);
         }
         this.view = 'review';
+        
+        // Change the buttons
+        $("#review").hide();
+        $("#billing").show();
+    };
+    
+    this.renderBilling = function() {
+        if(this.view == 'billing') {
+            alert('called billing on billing');
+            return;
+        }
+        $(controller.bindings.container).hide();
+        $(controller.bindings.billContainer).show();
+        
+        // TODO - Have the server-side send the comapny
+        //        info on load
+        $("#company_info").empty();
+        $("#company_info").append("<h4>Company Name</h4><br />");
+        $("#company_info").append("<p>");
+        $("#company_info").append([
+            "Jen's Law Firm",
+            "1667 W. Alimosa Ave.",
+            "Denver, CO",
+            "80219<br />",
+            "P: 303-824-2789",
+            "F: 303-824-2291"
+        ].join("<br />"));
+        $("#company_info").append("</p>");
+        
+        // TODO - Need this info from when we did the review
+        var billing = controller.billing;
+        var row;
+        $("#billing_totals").empty();
+        var itemTotal = 0;
+        for(var i in billing) {
+            row = $("<tr></tr>");
+            row.append("<td class='program_title' width='50%'>" + billing[i].programTitle + "</td>");
+            row.append("<td width='25%'>" + billing[i].numAttendees + " @ " + billing[i].price + "ea.</td>");
+            row.append("<td width='25%' align='right'>$" + billing[i].subTotal + "</td>");
+            $("#billing_totals").append(row);
+            itemTotal += billing[i].subTotal;
+        }
+        
+        $(controller.bindings.billContainer + " #item_total").html('$' + itemTotal);
+        
+        this.view = 'billing';
+        $("#billing").hide();
+        $("#finish").show();
+    };
+    
+    this.renderFinish = function() {
+        
     };
 }
 
@@ -256,11 +320,12 @@ function AttendeeList(selectionModel, element) {
             // Add the items to the container
             $(element).append(items);
         }
-
         
         // Stick an add button to the bottom to trigger a new attendee slot
         var button = $('<div class="add_attendee_button">Add Attendee</div>');
         var attendees = this;
+        
+        // FIXME Fix the logic with the boxes so this button can be removed.
         button.click(function() {
             if(attendees.length >= attendees.selectionModel.masterList.length) {
                 alert('maxlength reached');

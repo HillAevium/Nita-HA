@@ -11,10 +11,13 @@ $profiles = array (
 
 echo '<script type="text/javascript">var profiles = JSON.parse(\'' . json_encode($profiles) . '\')</script>';
 ?>
-
+    
     <div id="content_main_inner">
         <h1 class="page_title"><?php echo $title; ?></h1>
         <div class="gray_line"></div>
+        <div id="billing_container" style="display:none;">
+            <?php echo $this->load->view('cart/billing')?>
+        </div>
         <div id="cart_container">
             <?php foreach($this->cart->contents() as $item): ?>
             <div id="<?php echo $item['id']; ?>">
@@ -45,5 +48,8 @@ echo '<script type="text/javascript">var profiles = JSON.parse(\'' . json_encode
         <!-- TODO - Fix buttons -->
         <div id="review" class="button_generic">Review</div>
         <div id="billing" class="button_generic" style="display:none;">Billing</div>
+        <div id="finish" class="button_generic" style="display:none;">Finish</div>
+        <div id="print" class="button_generic" style="display:none;">Print</div>
         <div class="clear"></div>
     </div> <!-- #content_main_inner -->
+    
