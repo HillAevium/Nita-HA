@@ -40,16 +40,16 @@ class Soap {
         );
     }
     
-    public function getContent($id) {
-        // TODO
+    public function getPage($guid) {
+        return $this->doWebPageServiceGet($guid);
     }
     
-    public function getContentByNavName($navName) {
-        // TODO
+    public function getPagesByNavName($navName) {
+        return $this->doWebPageServiceGetPagesByNavName($navName);
     }
     
-    public function getContentTree($id) {
-        // TODO
+    public function getPagesByParentId($guid) {
+        return $this->doWebPageServiceGetPagesByParentId($guid);
     }
     
     public function getAllPrograms() {
@@ -86,6 +86,90 @@ class Soap {
         return $this->doContactServiceUpdate($model);
     }
     
+    //----------------------------------------------------------------------------//
+    //                               WebPageService                               //
+    //----------------------------------------------------------------------------//
+    
+    private function doWebPageServiceGet($guid) {
+        // Create the soap client for the WebPage service
+        $soapClient = new SoapClient($this->soapUrl.$this->webPageUri);
+        
+        // Create the arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('id', $guid);
+
+        // Send the get request
+        $soapResult = $soapClient->Get($soapArgs)->GetResult;
+
+        // FIXME - It is not clear what is returned if the navName is invalid
+        if(!isset($soapResult) OR is_null($soapResult) OR ($soapResult == false)) {
+            // The caller is expecting null on failure
+            return null;
+        } else {
+            return $soapResult; 
+        }
+        
+        // Convert the model
+        //$webPage = $this->convertWebPage($soapResult);
+        
+        // Return the profile
+        //return $webPage;
+    }
+    
+    private function doWebPageServiceGetPagesByNavName($navName) {
+        // Create the soap client for the WebPage service
+        $soapClient = new SoapClient($this->soapUrl.$this->webPageUri);
+        
+        // Create the arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('name', $navName);
+        
+        // Send the get request
+        $soapResult = $soapClient->GetPagesByNavName($soapArgs)->GetPagesByNavNameResult;
+        print_r($soapResult);
+        die();
+        // FIXME - It is not clear what is returned if the navName is invalid
+        if(!isset($soapResult) OR is_null($soapResult) OR ($soapResult == false)) {
+            // The caller is expecting null on failure
+            return null;
+        } else {
+            return $soapResult->WebPageModel; 
+        }
+        
+        // Convert the model
+        //$webPage = $this->convertWebPage($soapResult);
+        
+        // Return the profile
+        //return $webPage;
+    }
+
+    private function doWebPageServiceGetPagesByParentId($guid) {
+        // Create the soap client for the WebPage service
+        $soapClient = new SoapClient($this->soapUrl.$this->webPageUri);
+        
+        // Create the arguments for the soap client
+        $soapArgs = new SoapArguments();
+        $soapArgs->addStringArgument('parentId', $guid);
+        
+        // Send the get request
+        $soapResult = $soapClient->GetPagesByParentId($soapArgs)->GetPagesByParentIdResult;
+        
+        // FIXME - It is not clear what is returned if the navName is invalid
+        if(!isset($soapResult->WebPageModel) OR is_null($soapResult) OR ($soapResult == false)) {
+            // The caller is expecting null on failure
+            return null;
+        } else {
+            return $soapResult->WebPageModel; 
+        }
+        
+        // Convert the model
+        //$webPage = $this->convertWebPage($soapResult);
+        
+        // Return the profile
+        //return $webPage;
+    }
+
+
     //----------------------------------------------------------------------------//
     //                               ContactService                               //
     //----------------------------------------------------------------------------//

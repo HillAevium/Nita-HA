@@ -4,24 +4,24 @@
         <div id="footer_menu1">
             <ul class="menu">
                 <li><a class="orange" href="/shop/programs">programs</a></li> /
-                <li><a class="red" href="/shop/publications">publications</a></li> /
-                <li><a class="purple" href="/shop/customprograms">custom programs</a></li> /
-                <li><a class="dark_blue" href="/lawschools">law schools</a></li> /
-                <li><a class="green" href="/shop/donate">donate</a></li> /
-                <li><a class="teal" href="/about">about</a></li> /
-                <li><a class="light_blue" href="/contact">contact</a></li>
+                <li><a class="red" href="/main/webpage/alias/publications">publications</a></li> /
+                <li><a class="purple" href="/main/webpage/alias/customize">custom programs</a></li> /
+                <li><a class="dark_blue" href="/main/webpage/alias/law_school">law schools</a></li> /
+                <li><a class="green" href="/main/webpage/alias/donate">donate</a></li> /
+                <li><a class="teal" href="/main/webpage/alias/about">about</a></li> /
+                <li><a class="light_blue" href="/main/webpage/alias/contact">contact</a></li>
             </ul>
         </div>
         <div id="footer_menu2">
             <ul class="menu">
                 <li><a href="/shop/cart">shopping cart</a></li> /
-                <li><a href="/user/account">my account</a></li> /
+                <li><a href="/account">my account</a></li> /
                 <li><a href="/careers">careers</a></li> /
-                <li><a href="/links">links</a></li> /
-                <li><a href="/privacy">privacy policy</a></li> /
+                <li><a href="/main/webpage/alias/links">links</a></li> /
+                <li><a href="/main/webpage/alias/privacy">privacy policy</a></li> /
                 <li><a href="/news_room">news room</a></li> /
                 <li><a href="/e-newsletter">e-newsletter</a></li> /
-                <li><a href="/sitemap">sitemap</a></li>
+                <li><a href="/main/webpage/alias/sitemap">sitemap</a></li>
             </ul>
         </div>
         <div id="copyright">
