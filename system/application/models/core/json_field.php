@@ -7,11 +7,13 @@ class Json_Field extends String_Field {
     private $jsonResult;
     
     public function Json_Field($name) {
-        parent::String_Field($name, 'json');
+        // Allow upto 2kb of json text
+        // TODO Decide on a good amount for this
+        parent::String_Field($name, 'json', 0, 2048);
     }
     
     public function doValidate($data) {
-        if(!parent::doValidate()) {
+        if(!parent::doValidate($data)) {
             return false;
         }
         
@@ -35,7 +37,6 @@ class Json_Field extends String_Field {
             log_message('error', $this->error);
             return false;
         }
-        
         return true;
     }
     

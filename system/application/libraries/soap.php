@@ -1,6 +1,7 @@
 <?php
 
 require_once APPPATH.'/config/soap.php';
+require_once APPPATH.'/models/program.php';
 
 /**
  * API for interacting with the CRM backend.
@@ -106,7 +107,7 @@ class Soap {
             // The caller is expecting null on failure
             return null;
         } else {
-            return $soapResult; 
+            return $soapResult;
         }
         
         // Convert the model
@@ -133,7 +134,7 @@ class Soap {
             // The caller is expecting null on failure
             return null;
         } else {
-            return $soapResult->WebPageModel; 
+            return $soapResult->WebPageModel;
         }
         
         // Convert the model
@@ -159,7 +160,7 @@ class Soap {
             // The caller is expecting null on failure
             return null;
         } else {
-            return $soapResult->WebPageModel; 
+            return $soapResult->WebPageModel;
         }
         
         // Convert the model
@@ -493,32 +494,32 @@ class Soap {
      */
     private function convertProgramModel($soapModel) {
         $programModel = new Program();
-        $programModel->address          = $soapModel->NITA_FacilityAddr1 . ":" .
-                                          $soapModel->NITA_FacilityAddr2 . ":" .
-                                          $soapModel->NITA_FacilityAddr3 . ":" .
-                                          $soapModel->NITA_FacilityAddr4;
-        $programModel->capacityMax      = $soapModel->NITA_MaxCapacity;
-        $programModel->capacityMin      = $soapModel->NITA_MinCapacity;
-        $programModel->city             = $soapModel->NITA_FacilityCity;
-        $programModel->description      = $soapModel->NITA_Description;
-        $programModel->descriptor       = $soapModel->NITA_Descriptor;
-        $programModel->dinnerDate       = $soapModel->NITA_FacultyDinnerDate;
-        $programModel->dinnerLocation   = $soapModel->NITA_FacultyDinnerLocation;
+        $programModel->address          = $soapModel->nita_FacilityAddr1 . ":" .
+                                          $soapModel->nita_FacilityAddr2 . ":" .
+                                          $soapModel->nita_FacilityAddr3 . ":" .
+                                          $soapModel->nita_FacilityAddr4;
+        $programModel->capacityMax      = $soapModel->nita_MaxCapacity;
+        $programModel->capacityMin      = $soapModel->nita_MinCapacity;
+        $programModel->city             = $soapModel->nita_FacilityCity;
+        $programModel->description      = $soapModel->nita_Description;
+        $programModel->descriptor       = $soapModel->nita_Descriptor;
+        $programModel->dinnerDate       = $soapModel->nita_FacultyDinnerDate;
+        $programModel->dinnerLocation   = $soapModel->nita_FacultyDinnerLocation;
         $programModel->director;    // Not in ProgramModel
         $programModel->discounts;   // Not in ProgramModel
-        $programModel->duration         = $soapModel->NITA_Duration;
-        $programModel->endDate          = $soapModel->NITA_EndDate;
-        $programModel->id               = $soapModel->NITA_ProgramId;
-        $programModel->location         = $soapModel->NITA_FacilityName;
-        $programModel->name             = $soapModel->NITA_name;
-        $programModel->price            = $soapModel->NITA_TuitionPriceStandard;
-        $programModel->registerEnd      = $soapModel->NITA_RegistrationEndDate;
-        $programModel->registerStart    = $soapModel->NITA_RegistrationBeginDate;
-        $programModel->startDate        = $soapModel->NITA_StartDate;
-        $programModel->state            = $soapModel->NITA_FacilityState;
-        $programModel->title            = $soapModel->NITA_Title;
+        $programModel->duration         = $soapModel->nita_Duration;
+        $programModel->endDate          = $soapModel->nita_EndDate;
+        $programModel->id               = $soapModel->nita_ProgramId;
+        $programModel->location         = $soapModel->nita_FacilityName;
+        $programModel->name             = $soapModel->nita_name;
+        $programModel->price            = $soapModel->nita_TuitionPriceStandard;
+        $programModel->registerEnd      = $soapModel->nita_RegistrationEndDate;
+        $programModel->registerStart    = $soapModel->nita_RegistrationBeginDate;
+        $programModel->startDate        = $soapModel->nita_StartDate;
+        $programModel->state            = $soapModel->nita_FacilityState;
+        $programModel->title            = $soapModel->nita_Title;
         $programModel->typeId           = $soapModel->nita_programtypeid;
-        $programModel->zip              = $soapModel->NITA_FacilityZip;
+        $programModel->zip              = $soapModel->nita_FacilityZip;
         
         // Format dates
         $programModel->endDate       = $this->formatDate($programModel->endDate);

@@ -15,7 +15,7 @@ echo '<script type="text/javascript">var profiles = JSON.parse(\'' . json_encode
     <div id="content_main_inner">
         <h1 class="page_title"><?php echo $title; ?></h1>
         <div class="gray_line"></div>
-        <div id="super_cart_list">
+        <div id="cart_container">
             <?php foreach($this->cart->contents() as $item): ?>
             <div id="<?php echo $item['id']; ?>">
                 <table>
@@ -36,7 +36,14 @@ echo '<script type="text/javascript">var profiles = JSON.parse(\'' . json_encode
             <?php endforeach; ?>
         </div>
         <div class="gray_line"></div>
-        <div id="add_new_profile" style="float:left;margin:10px 0;">Add New Profile +</div>
-        <div id="super_continue" style="float:right;margin:20px 0;width:100px;height:40px;line-height:40px;font-size:16px;background:#ccc;color:#fff;text-align:center;">Continue</div>
+        <div id="add_profile" style="float:left;margin:10px 0;">Add New Profile +</div>
+        <div id="profile_box">
+            <h1 class="page_title" style="margin-top:-40px;">Create a New Profile</h1>
+            <button class="close">Close</button>
+            <?php //echo $this->load->view('user/form_profile', null, true); ?>
+        </div>
+        <!-- TODO - Fix buttons -->
+        <div id="review" class="button_generic">Review</div>
+        <div id="billing" class="button_generic" style="display:none;">Billing</div>
         <div class="clear"></div>
     </div> <!-- #content_main_inner -->

@@ -86,8 +86,72 @@ class Cart extends AbstractController {
     // Process the cart display pages before moving on
     // to review
     public function doCart() {
-        // TODO
-        $jsonField = new Json_Field('selection_model');
+        $jsonField = new Json_Field('json');
+        
+        if(!$jsonField->validate()) {
+            $error = $jsonField->error();
+            log_message('error', $error);
+            $this->output->set_status_header(400);
+            return;
+        }
+        
+        $programs = $jsonField->process();
+        
+        // Remap the profiles to an assoc array
+        $profileMap = array();
+        foreach($programs as $program) {
+            $profileMap[$program->programId] = $program->profiles;
+        }
+        
+        $this->load->model('accountProvider');
+        
+        // Add the profiles to the cart options
+        // and load details for review
+        $details = array();
+        foreach($this->cart->contents() as $item) {
+            if(!isset($profileMap[$item['id']])) {
+                // TODO What do we do if the user has a program
+                // in the cart but does not add attendees?
+                $msg = new stdClass();
+                $msg->msg = "No Attendees Selected";
+                $details[] = array($msg);
+                continue;
+            }
+            
+            $profiles = $profileMap[$item['id']];
+            
+            // Persist the choices in the cart options
+            log_message('error', 'Adding ' . count($profiles));
+            $this->cart->update(
+                array(
+                    'rowid' => $item['rowid'],
+                    'qty' => count($profiles),
+                    'options' => $profiles
+                )
+            );
+            
+            // Loop through the profiles to send back details
+            // for the review widget
+            foreach($profiles as $profile) {
+                //$user = $this->accountProvider->getProfile($profile->id);
+                //FIXME
+                $user = new stdClass();
+                $user->name = $profile->name;
+                $user->id   = $profile->id;
+                $user->address = "123 2nd Ave SE";
+                $user->city = "Calgary";
+                $user->state = "AB";
+                $user->zip = "T1A 4B7";
+                $user->country = "Canada";
+                $users[] = $user;
+            }
+            $details[] = $users;
+            unset($users);
+        }
+        
+        // FIXME - Try using $this->output->set_output();
+        $this->output->set_status_header(202);
+        echo json_encode($details);
     }
     
     public function doBilling() {
@@ -300,26 +364,18 @@ class Cart extends AbstractController {
         if(count($this->cart->contents()) > 0) {
             return;
         }
-        $cart = array(
-            array(
-                'id' => 'a',
-                'qty' => '1',
-                'price' => '2000',
-                'name' => 'Program A'
-            ),
-            array(
-                'id' => 'b',
-                'qty' => '1',
-                'price' => '3000',
-                'name' => 'Program B'
-            ),
-            array(
-                'id' => 'c',
-                'qty' => '1',
-                'price' => '1500',
-                'name' => 'Program C'
-            )
-        );
+        $result[0] = $this->soap->getProgram("8c98e179-c38e-df11-8d9f-000c2916a1cb");
+        $result[1] = $this->soap->getProgram("8998e179-c38e-df11-8d9f-000c2916a1cb");
+        
+        $cart = array();
+        foreach($result as $item) {
+            $cart[] = array(
+                'id' => $item->id,
+                'qty' => 1,
+                'price' => $item->price,
+                'name' => str_replace("|", " ", $item->name),
+            );
+        }
         
         $this->cart->insert($cart);
     }

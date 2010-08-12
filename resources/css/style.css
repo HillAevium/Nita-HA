@@ -107,6 +107,8 @@ div.button_continue           { width:94px; height:35px; background:url(../image
 div.button_browse             { width:63px; height:33px; background:url(../images/button_browse.png); }
 div.button_sign_in            { width:112px; height:35px; background:url(../images/button_sign_in.png); }
 div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
+div.button_generic            { float:right; margin:20px 0; width:100px; height:40px; line-height:40px; font-size:16px;
+                                background:#ccc; color:#fff; text-align:center; }
 
 /* Color bar backgrounds */
 body.blue_short               { background:url(../images/color_bar_blue_short.png) center 210px repeat-x; }
@@ -208,14 +210,17 @@ div#search_body label         { }
 div#search_body input         { }
 
 /* Super user cart */
-div#super_cart_list           { border:1px solid #0F0; }
-div#super_cart_list > div     { border:1px solid #F00; }
+div#cart_container           { border:1px solid #0F0; }
+div#cart_container > div     { border:1px solid #F00; }
 div#add_attendee_button       { width:200px; height:50px; }
-div#super_cart_list select    { width:200px; }
+div#cart_container select    { width:200px; }
 
-div#super_cart_list           { position:relative; top:0px; }
-div#super_cart_list > div     { margin:5px; padding:5px; background:#eee; }
-=======
+div#cart_container           { position:relative; top:0px; }
+div#cart_container > div     { margin:5px; padding:5px; background:#eee; }
+
+/* Overlay */
+#profile_box { background: #fff; display:none; width:941px; border:10px solid #666; }
+
 /* Tabeed panels */
 div#tab_panel {
     padding-top:20px;
