@@ -1,15 +1,32 @@
 <?php
 // Some mock data
-$profiles = array (
+$profiles = json_encode(array (
     array('id' => 1, 'name' => 'A'),
     array('id' => 2, 'name' => 'B'),
     array('id' => 3, 'name' => 'C'),
     array('id' => 4, 'name' => 'D'),
     array('id' => 5, 'name' => 'E'),
     array('id' => 6, 'name' => 'F')
-);
+));
+$companyInfo = json_encode(array(
+    'name' => "Jen's Law Firm",
+    'address' => "1667 W. Alimosa Ave.",
+    'city' => 'Denver',
+    'state' => 'CO',
+    'country' => 'USA',
+    'zip' => '80219',
+    'phone' => '303-824-2789',
+    'fax' => '303-824-2291'
+));
 
-echo '<script type="text/javascript">var profiles = JSON.parse(\'' . json_encode($profiles) . '\')</script>';
+echo <<<JS
+
+<script type="text/javascript">
+    var profiles = $profiles;
+    var companyInfo = $companyInfo;
+</script>
+JS;
+
 ?>
     
     <div id="content_main_inner">

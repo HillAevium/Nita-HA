@@ -166,8 +166,8 @@ class Cart extends AbstractController {
         echo json_encode(array('details' => $details, 'billing' => $billing));
     }
     
-    public function doBilling() {
-        // TODO
+    public function doFinish() {
+        $this->output->set_status_header(201);
     }
     
     // HTML View Entry Points
@@ -256,55 +256,6 @@ class Cart extends AbstractController {
         $this->loadViews();
     }
     
-    // Page 9
-    // Shown after cart information has been set
-    public function showCartReview() {
-        $views = array(
-            array('name' => 'cart/review', 'args' => array('title' => 'Enrollment Review'))
-        );
-        
-        $this->setViewOption('pageTitle', 'Enrollment Review');
-        $this->setViewOption('bodyClass', 'blue_short');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        $this->loadViews();
-    }
-    
-    // Page 10
-    // Shown after cart review
-    public function showBilling() {
-        $views = array(
-            array('name' => 'cart/billing', 'args' => array('title' => 'Billing Information'))
-        );
-        
-        // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
-        $this->setViewOption('pageTitle', 'Billing Information');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        // ... and go
-        $this->loadViews();
-    }
-    
-    // Page 11
-    // Final output for user to print
-    public function showFinalOrder() {
-        $views = array(
-            array('name' => 'cart/final', 'args' => array('title' => 'Thank you!'))
-        );
-        
-        // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
-        $this->setViewOption('pageTitle', 'Thank you!');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        // ... and go
-        $this->loadViews();
-    }
-    
     private function getProgramId() {
         $idField = new String_Field('id');
         
@@ -334,15 +285,6 @@ class Cart extends AbstractController {
             case 'display' :
                 $this->showCart();
             break;
-            case 'review' :
-                $this->showCartReview();
-            break;
-            case 'billing' :
-                $this->showBilling();
-            break;
-            case 'final' :
-                $this->showFinalOrder();
-            break;
             default :
                 show_404('/account/' . $method);
             return;
@@ -363,8 +305,8 @@ class Cart extends AbstractController {
             case 'process' :
                 $this->doCart();
             break;
-            case 'billing' :
-                $this->doBilling();
+            case 'finish' :
+                $this->doFinish();
             break;
             default :
                 show_404('/account/' . $method . '/');

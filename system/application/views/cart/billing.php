@@ -10,26 +10,26 @@
                             <tr>
                                 <td>
                                     <label>Name on Card</label><br />
-                                    <input type="text" />
+                                    <input type="text" name="name" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
                                     <label>Card Number</label><br />
-                                    <input type="text" />
+                                    <input type="text" name="number" />
                                 </td>
                                 <td>
                                     <label>CSV</label><br />
-                                    <input size="4" type="text" />
+                                    <input size="4" type="text" name="csv" />
                                 </td>
                                 <td>
                                     <label>Expiration</label><br />
-                                    <select>
+                                    <select name="month">
                                         <option></option>
                                         <option></option>
                                         <option></option>
                                     </select>
-                                    <select>
+                                    <select name="year">
                                         <option></option>
                                         <option></option>
                                         <option></option>

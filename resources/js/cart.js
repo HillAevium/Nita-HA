@@ -1,6 +1,10 @@
 // This gets set to a value within the document.
 var profiles;
+var companyInfo;
 var controller;
+// TODO
+// Need to update the page title on transitions
+// Drop the add profile button when not on the cart page
 
 if(window.location.pathname == '/cart/display') {
     $(document).ready(
@@ -72,6 +76,40 @@ function Controller(bindings) {
         }
     };
     
+    this.onBillingSubmit = function() {
+        // Pull the card info
+        var ccInfo = {
+                name:   $('#credit_card_box input[name="name"]').val(),
+                number: $('#credit_card_box input[name="number"]').val(),
+                csv:    $('#credit_card_box input[name="csv"]').val(),
+                month:  $('#credit_card_box select[name="month"] :selected').val(),
+                year:   $('#credit_card_box select[name="year"] :selected').val()
+        };
+        
+        // Submit final order
+        $.post('/cart/finish', ccInfo, function(data, status, xhr) {
+            switch(xhr.status) {
+                case 201 : // CREATED
+                    controller.onFinish();
+                    break;
+                case 400 : // BAD_REQUEST
+                    alert("Errors");
+                    break;
+                default : // Unhandled Response
+                    alert("Unhandled Response");
+                    break;
+            }
+        });
+    };
+    
+    this.onFinish = function() {
+        this.cart.renderFinish();
+    };
+    
+    this.onPrint = function() {
+        alert("Print Me!");
+    };
+    
     this.onReviewComplete = function() {
         this.cart.renderBilling();
     };
@@ -118,6 +156,9 @@ function Controller(bindings) {
                     break;
                 case 400 : // BAD_REQUEST
                     alert("Errors");
+                    break;
+                default : // Unhandled Response
+                    alert("Unhandled Response");
                     break;
             }
         });
@@ -168,6 +209,16 @@ function ShoppingCart() {
         if($(bindings.billing).length) {
             $(bindings.billing).click(function() {
                 controller.onReviewComplete();
+            });
+        }
+        if($(bindings.finish).length) {
+            $(bindings.finish).click(function() {
+                controller.onBillingSubmit();
+            });
+        }
+        if($(bindings.print).length) {
+            $(bindings.print).click(function() {
+                controller.onPrint();
             });
         }
         
@@ -225,16 +276,15 @@ function ShoppingCart() {
         $("#company_info").append("<h4>Company Name</h4><br />");
         $("#company_info").append("<p>");
         $("#company_info").append([
-            "Jen's Law Firm",
-            "1667 W. Alimosa Ave.",
-            "Denver, CO",
-            "80219<br />",
-            "P: 303-824-2789",
-            "F: 303-824-2291"
+            companyInfo.name,
+            companyInfo.address,
+            companyInfo.city + ", " + companyInfo.state + ", " + companyInfo.country,
+            companyInfo.zip + "<br />",
+            "P: " + companyInfo.phone,
+            "F: " + companyInfo.fax
         ].join("<br />"));
         $("#company_info").append("</p>");
         
-        // TODO - Need this info from when we did the review
         var billing = controller.billing;
         var row;
         $("#billing_totals").empty();
@@ -256,7 +306,14 @@ function ShoppingCart() {
     };
     
     this.renderFinish = function() {
-        
+        if(this.view == 'finish') {
+            alert("called finish on finish");
+            return;
+        }
+        $('#credit_card_box').hide();
+        $("#finish").hide();
+        $("#print").show();
+        this.view = 'finish';
     };
 }
 
