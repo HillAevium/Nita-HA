@@ -26,11 +26,12 @@ abstract class AbstractController extends Controller {
      * breadcrumb - an indexed array of strings to add to the
      *              breadcrumb bar. Each element has an array with
      *              two elements, 'id' and 'name'.
-     * bodyClass - sets the class of the body tag for the page
-     * debug     - boolean switch to turn the debug console on/off
-     * mainNav   - boolean switch to turn the mainNav on/off
-     * pageTitle - title for the browser window
-     * views     - an array of views consisting of the following structure:
+     * color      - string used as prefix for color-dependent css classes
+     *              "orange" , "blue" , etc.
+     * debug      - boolean switch to turn the debug console on/off
+     * mainNav    - boolean switch to turn the mainNav on/off
+     * pageTitle  - title for the browser window
+     * views      - an array of views consisting of the following structure:
      *             'name': the name of the view to load
      *             'args': the arguments the view uses to render itself
      */
@@ -137,15 +138,11 @@ abstract class AbstractController extends Controller {
     }
     
     /**
-     * Loads persistent header and footer and any
-     * optional views.
+     * Main view loading function
      *
-     * @param array $views array of views to be loaded
-     *                     into the main content area
-     * @param string $bodyClass optional css class to be applied to the <body>
-     */
+     */ 
     protected function loadViews() {
-        $bodyClass = $this->getViewOption('bodyClass');
+        $color     = $this->getViewOption('color');
         $debug     = $this->getViewOption('debug');
         $mainNav   = $this->getViewOption('mainNav');
         $title     = $this->titlePrefix . $this->getViewOption('pageTitle');
@@ -155,11 +152,25 @@ abstract class AbstractController extends Controller {
         $breadcrumb= $this->getViewOption('breadcrumb');
         
         $this->load->view('http_header', array('title' => $title));
-        if($bodyClass !== false) {
-            $this->load->view('header', array('bodyClass' => $bodyClass));
+        
+        // Check if user is authenticated
+        // and set the proper account links
+        $isAuth = $this->mod_auth->isAuthenticated();
+        if($isAuth === true) {
+            $accountLink = '/account/user';
         } else {
-            $this->load->view('header');
+            $accountLink = '/account/register';
         }
+        
+        // Set header view args
+        $headerArgs = array();
+        if($color !== false) {
+            $headerArgs['color'] = $color;
+        }
+        $headerArgs['accountLink'] = $accountLink;
+        
+        // Load the header view
+        $this->load->view('header', $headerArgs);
         
         // Only show the nav bar if its requested
         if($mainNav) {
@@ -178,6 +189,7 @@ abstract class AbstractController extends Controller {
         if($breadcrumb !== false) {
             $breadcrumb['hasSearch'] = $searchbox;
             $breadcrumb['breadcrumb'] = $breadcrumb;
+            $breadcrumb['color'] = $color;
             $args['breadcrumb'] = $this->load->view('breadcrumb', $breadcrumb, true);
         }
         
@@ -213,8 +225,10 @@ abstract class AbstractController extends Controller {
             }
         }
         
+        // Set footer args
+        $footerArgs['accountLink'] = $accountLink;
         // And voila!
-        $this->load->view('footer');
+        $this->load->view('footer',$footerArgs);
     }
     
     private function setDebug($on, $args) {

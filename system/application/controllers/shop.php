@@ -86,7 +86,7 @@ class Shop extends AbstractController {
             array('name' => 'tab_panel', 'args' => $args)
         );
         
-        $this->setViewOption('bodyClass', 'orange');
+        $this->setViewOption('color', 'orange');
         $this->setViewOption('pageTitle', 'My Profile');
         $this->setViewOption('views', $views);
         
@@ -118,7 +118,7 @@ class Shop extends AbstractController {
             array('name' => 'publications/detail', 'args' => $args)
         );
         
-        $this->setViewOption('bodyClass', 'red');
+        $this->setViewOption('color', 'red');
         $this->setViewOption('views', $views);
         
         // ... and go
@@ -132,7 +132,7 @@ class Shop extends AbstractController {
         $this->renderList('publication', 'red');
     }
 
-    private function initDetail($type, $bodyColor) {
+    private function initDetail($type, $color) {
         $id = $this->getArgument('id');
         
         // No id was supplied?
@@ -171,12 +171,12 @@ class Shop extends AbstractController {
         $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('topbox', $topbox);
         $this->setViewOption('pageTitle', $model->title);
-        $this->setViewOption('bodyClass', $bodyColor);
+        $this->setViewOption('color', $color);
         
         return array('model' => $model);
     }
     
-    private function renderList($type, $bodyColor) {
+    private function renderList($type, $color) {
         // Load the model
         $this->load->model($type);
         
@@ -209,7 +209,7 @@ class Shop extends AbstractController {
         $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('views', $views);
         $this->setViewOption('pageTitle', $this->titles[$type]);
-        $this->setViewOption('bodyClass', $bodyColor);
+        $this->setViewOption('color', $color);
         
         // ... and go
         $this->loadViews();
