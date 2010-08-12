@@ -43,7 +43,7 @@ CREATE TABLE `account` (
   `firmSize` varchar(255) DEFAULT NULL,
   `trainingDirector` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -91,6 +91,7 @@ DROP TABLE IF EXISTS `contact`;
 CREATE TABLE `contact` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `accountId` int(11) DEFAULT NULL,
+  `userType` int(11) DEFAULT NULL,
   `salutation` varchar(30) DEFAULT NULL,
   `firstName` varchar(50) NOT NULL,
   `middleInitial` varchar(10) DEFAULT NULL,
@@ -123,9 +124,9 @@ CREATE TABLE `contact` (
   `shippingZip` varchar(255) DEFAULT NULL,
   `shippingCountry` varchar(255) DEFAULT NULL,
   `requireAccessibility` tinyint(4) DEFAULT NULL,
-  `haveScolarship` tinyint(4) DEFAULT NULL,
+  `haveScholarship` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -170,4 +171,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-06 19:36:22
+-- Dump completed on 2010-08-11 22:38:12
