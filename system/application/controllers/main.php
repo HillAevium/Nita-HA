@@ -83,7 +83,7 @@ class Main extends AbstractController {
         if ($pageContent !== false) { 
             $topbox['image'] = $pageContent->nita_page_image;
             $topbox['title'] = $pageContent->nita_page_name;
-            $topbox['content'] = $pageContent->nita_page_text;
+            $topbox['content'] = preg_replace("#<h1>[^<]*<\/h1>#","",$pageContent->nita_page_text);
             
             $this->breadcrumbs[$alias] = array('name' => $pageContent->nita_page_name, 'id' => '/main/webpage/alias/' . $alias);
             $breadcrumb[] = $this->breadcrumbs[$alias];
@@ -93,6 +93,10 @@ class Main extends AbstractController {
         if($childContent !== null) {
             // Load our content panels
             foreach($childContent as $model) {
+                // Are there granchild content items?
+                if($grandchildContent = $this->soap->getPagesByParentId($model->nita_webpageId)) {
+                    $model->childPages = $grandchildContent;
+                }
                 $content[] = $this->load->view('webpage/tab_content',  array('model' => $model), true);
             }
             

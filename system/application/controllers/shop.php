@@ -60,7 +60,8 @@ class Shop extends AbstractController {
         $content[] = $this->load->view('programs/materials', $model, true);
         $content[] = $this->load->view('programs/faculty',   $model, true);
         $content[] = $this->load->view('programs/credits',   $model, true);
-        $content[] = $this->load->view('programs/forum',     $model, true);
+        // Forum is not in current spec, so comment out for now
+        //$content[] = $this->load->view('programs/forum',     $model, true);
         
         // Setup the tab panel
         $tabs = array(
@@ -70,12 +71,14 @@ class Shop extends AbstractController {
             array('name' => 'Materials',   'id' => 'materials', 'content' => $content[3]),
             array('name' => 'Faculty',     'id' => 'faculty',   'content' => $content[4]),
             array('name' => 'CLE Credits', 'id' => 'credits',   'content' => $content[5]),
-            array('name' => 'Forum',       'id' => 'forum',     'content' => $content[6])
+            // Forum is not in current spec, so comment out for now
+            //array('name' => 'Forum',       'id' => 'forum',     'content' => $content[6])
         );
         
         // And the tabs classes
         $class['tabs']   = 'orange_tabs';
         $class['border'] = 'orange_border';
+        $class['tab_panel_class'] = 'tab_panel';
         
         // Populate args for the view
         $args['tabs']  = $tabs;
@@ -83,6 +86,7 @@ class Shop extends AbstractController {
         
         // Setup the views
         $views = array(
+            array('name' => 'programs/sidebar', 'args' => null),
             array('name' => 'tab_panel', 'args' => $args)
         );
         

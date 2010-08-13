@@ -88,7 +88,7 @@ a.light_blue                  { color:#6897be; }
 table                { width:100%; }
 table.header td      { height:28px; color:#fff; line-height:28px; }
 table.header td.pad  { padding-left:8px; }
-table thead td       { color:#fff; line-height:28px; }
+table thead td       { line-height:28px; }
 
 /* Labels */
 label                         { color:#575757; font-size:9pt; }
@@ -109,6 +109,9 @@ div.button_sign_in            { width:112px; height:35px; background:url(../imag
 div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
 div.button_generic            { float:right; margin:20px 0; width:100px; height:40px; line-height:40px; font-size:16px;
                                 background:#ccc; color:#fff; text-align:center; }
+div.button_membership_discounts     { cursor:pointer; width:136px; height:122px; background:url(../images/button_membership_discounts.png); } 
+div.button_download_registration    { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_registration.png); } 
+div.button_download_scholarship_app { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_scholarship_app.png); } 
 
 /* Color bar backgrounds */
 body.blue_short               { background:url(../images/color_bar_blue_short.png) center 210px repeat-x; }
@@ -133,10 +136,12 @@ table.program_list                { width:100%; margin-top:30px; font-size:9pt; 
 table.program_list thead td       { padding:10px; font-size:11pt; }
 table.program_list td             { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
 table.program_list tbody tr:hover { background:#ededed url(../images/list_item_bg.png) top repeat-x; cursor:pointer; }
+div.program_details_sidebar       { float:right; padding:50px 15px 0 0; }  
+div.program_details_sidebar div   { margin-bottom:12px; }  
 
 /* Tabbed content boxes */
 .tab_content_container                { width:100%; color:#575757; }
-.tab_content_container h1             { clear:both; margin:20px 0 20px 0; text-transform:uppercase; font-size:18px; letter-spacing: 0.05em; }
+.tab_content_container h1             { clear:both; margin:10px 0 20px 0; text-transform:uppercase; font-size:18px; letter-spacing: 0.05em; }
 .tab_content_container h3             { position:relative; font-size:10pt; color:#fff; padding-left:7px; margin-right:2px; height:28px; line-height:28px; background-image:url(../images/sprite.png); }
 .tab_content_container h3 div         { position:absolute; top:0; right:-3px; width:3px; height:28px; background-image:url(../images/sprite.png); }
 .tab_content_container p              { margin:15px 0; font-size:12px; }
@@ -144,13 +149,22 @@ table.program_list tbody tr:hover { background:#ededed url(../images/list_item_b
 .tab_content_container ul             { margin:30px 0; list-style:disc; list-style-position: inside; }
 .tab_content_container li             { margin-bottom:10px;}
 .tab_content_container .content_block { position:relative; padding:16px 7px; font-size:9pt; line-height:12pt; }
-div.panes div.border                  { border-width:9px; border-style:solid; padding:12px 9px; }
+div.panes div.border                  { border-width:9px; border-style:solid; padding:0px 0px; }
+div.panes div.border .tab_content_container { padding:12px 9px; }
+.grandchild_tabs                      { position:relative; width:977px; height:49px; width:100%; }
 
-div.tab_panel_grayblue div.border    { border-color:#f2a512; }
-div.tab_panel_green div.border       { border-color:#599781; }
-div.tab_panel_purple div.border      { border-color:#736ea0; }
-div.tab_panel_red div.border         { border-color:#e95621; }
-div.tab_panel_yellowgreen div.border { border-color:#aaba75; }
+body.green .grandchild_tabs             { background:#44685b; }
+body.purple .grandchild_tabs             { background:#57536c; }
+
+body.orange .tab_content_container h3      { background-position: 0px -297px; }
+body.orange .tab_content_container h3 div  { background-position: -939px -297px; }
+
+body.grayblue div#tab_panel div.border    { border-color:#708b8e; }
+body.green div#tab_panel div.border       { border-color:#599781; }
+body.orange div#tab_panel div.border      { border-color:#f1a617; }
+body.purple div#tab_panel div.border      { border-color:#736ea0; }
+body.red div#tab_panel div.border         { border-color:#e95621; }
+body.yellowgreen div#tab_panel div.border { border-color:#aaba75; }
 
 .orange_border h3                     { background-position:0px -297px; }
 .orange_border h3 div                 { background-position:-939px -297px; }
@@ -180,6 +194,11 @@ body.grayblue div#breadcrumb .current,
 body.grayblue div#breadcrumb div:hover { background-position: -300px -99px; color:#fff; }
 body.grayblue div#breadcrumb .current div,
 body.grayblue div#breadcrumb div:hover div { background-position: -794px -99px; }
+
+body.orange div#breadcrumb .current,
+body.orange div#breadcrumb div:hover { background-position: -300px -33px; color:#fff; }
+body.orange div#breadcrumb .current div,
+body.orange div#breadcrumb div:hover div { background-position: -794px -33px; }
 
 body.purple div#breadcrumb .current,
 body.purple div#breadcrumb div:hover { background-position: -300px -66px; color:#fff; }
@@ -223,7 +242,7 @@ tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
 /* Overlay */
 #profile_box { background: #fff; display:none; width:941px; border:10px solid #666; }
 
-/* Tabeed panels */
+/* Tabbed panels */
 div#tab_panel {
     padding-top:20px;
 }
@@ -233,14 +252,16 @@ div.tab_panel {
         padding-top:50px;
 }
 
-ul.tabs {
+ul.tabs,
+ul.grandchild_tabs {
         list-style:none;
         margin:0 !important;
         padding:0;
         height:32px;
 }
 
-ul.tabs li {
+ul.tabs li,
+ul.grandchild_tabs li {
         display:inline;
         text-indent:0;
         padding:0;
@@ -248,7 +269,8 @@ ul.tabs li {
         list-style-image:none !important;
 }
 
-ul.tabs li {
+ul.tabs li,
+ul.grandchild_tabs li {
         color:#575757;
         padding-right:6px;
         font-size:10pt;
@@ -256,18 +278,22 @@ ul.tabs li {
 }
 
 ul.tabs li.current,
-ul.tabs li:hover {
+ul.tabs li:hover,
+ul.grandchild_tabs li:current,
+ul.grandchild_tabs li:hover {
         color:#fff;
 }
 
-ul.tabs li div {
+ul.tabs li div,
+ul.grandchild_tabs li div {
         float:left;
         position:relative;
         margin-right:8px;
         background-image:url(../images/sprite.png);
 }
 
-ul.tabs li div {
+ul.tabs li div,
+ul.grandchild_tabs li div {
     background-position: 0 0;
     height:32px;
     width:auto;
@@ -275,11 +301,13 @@ ul.tabs li div {
     text-align:center;
 }
 
-ul.tabs li div span {
+ul.tabs li div span,
+ul.grandchild_tabs li div span {
     padding:0 8px 0 10px;
 }
 
-ul.tabs li div div {
+ul.tabs li div div,
+ul.grandchild_tabs li div div {
     position:absolute;
     right:-8px;
     top:0;
@@ -288,17 +316,34 @@ ul.tabs li div div {
     height:30px;
 }
 
-div.tab_panel_green ul.tabs li.current div,
-div.tab_panel_green ul.tabs li:hover div        { background-position: 0 -165px; }
-div.tab_panel_green ul.tabs li.current div div,
-div.tab_panel_green ul.tabs li:hover div div    { background-position: -295px -165px; }
+ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden;}
 
-div.tab_panel_grayblue ul.tabs li.current div,
-div.tab_panel_grayblue ul.tabs li:hover div        { background-position: 0 -105px; }
-div.tab_panel_grayblue ul.tabs li.current div div,
-div.tab_panel_grayblue ul.tabs li:hover div div    { background-position: -295px -105px; }
+body.green div#tab_panel ul.tabs li.current div,
+body.green div#tab_panel ul.tabs li:hover div        { background-position: 0 -165px; }
+body.green div#tab_panel ul.tabs li.current div div,
+body.green div#tab_panel ul.tabs li:hover div div    { background-position: -295px -165px; }
 
-div.tab_panel_grayblue ul.tabs li.current div,
-div.tab_panel_grayblue ul.tabs li:hover div        { background-position: 0 -105px; }
-div.tab_panel_grayblue ul.tabs li.current div div,
-div.tab_panel_grayblue ul.tabs li:hover div div    { background-position: -295px -105px; }
+body.grayblue div#tab_panel ul.tabs li.current div,
+body.grayblue div#tab_panel ul.tabs li:hover div        { background-position: 0 -99px; }
+body.grayblue div#tab_panel ul.tabs li.current div div,
+body.grayblue div#tab_panel ul.tabs li:hover div div    { background-position: -295px -99px; }
+
+body.orange div#tab_panel ul.tabs li.current div,
+body.orange div#tab_panel ul.tabs li:hover div        { background-position: 0 -33px; }
+body.orange div#tab_panel ul.tabs li.current div div,
+body.orange div#tab_panel ul.tabs li:hover div div    { background-position: -295px -33px; }
+
+body.purple div#tab_panel ul.tabs li.current div,
+body.purple div#tab_panel ul.tabs li:hover div        { background-position: 0 -66px; }
+body.purple div#tab_panel ul.tabs li.current div div,
+body.purple div#tab_panel ul.tabs li:hover div div    { background-position: -295px -66px; }
+
+body.red div#tab_panel ul.tabs li.current div,
+body.red div#tab_panel ul.tabs li:hover div        { background-position: 0 -231px; }
+body.red div#tab_panel ul.tabs li.current div div,
+body.red div#tab_panel ul.tabs li:hover div div    { background-position: -295px -231px; }
+
+body.yellowgreen div#tab_panel ul.tabs li.current div,
+body.yellowgreen div#tab_panel ul.tabs li:hover div        { background-position: 0 -132px; }
+body.yellowgreen div#tab_panel ul.tabs li.current div div,
+body.yellowgreen div#tab_panel ul.tabs li:hover div div    { background-position: -295px -132px; }

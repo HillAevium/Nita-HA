@@ -21,6 +21,7 @@ function doPageLoad(uri, secure, useHistory) {
     
     // Do the page reload
     if(useHistory) {
+        alert(protocol + host + uri);
         window.location.href = protocol + host + uri;
     } else {
         window.location.replace(protocol + host + uri);
@@ -85,7 +86,9 @@ function handleItemClick(event) {
 }
 
 function handleBreadcrumbClick(event) {
-    var id = event.target.id;
+    var el = $(event.target);
+    var id = el.parent().attr('id');
+    alert(id); 
     doPageLoad(id, false, true);
 }
 
@@ -145,10 +148,11 @@ function addItemHandler() {
  */
 function addTabHandler() {
     $("ul.tabs").tabs("div.panes > div");
+    $("#grandchild_tab_panel").tabs("div");
 }
 
 function addBreadcrumbHandler() {
-    $("div#breadcrumb > div.parent").click(handleBreadcrumbClick);
+    $("div#breadcrumb div.parent").click(handleBreadcrumbClick);
 }
 
 function addSearchboxHandler() {

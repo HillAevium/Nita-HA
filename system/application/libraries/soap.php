@@ -509,7 +509,9 @@ class Soap {
         $programModel->discounts;   // Not in ProgramModel
         $programModel->duration         = $soapModel->nita_Duration;
         $programModel->endDate          = $soapModel->nita_EndDate;
-        $programModel->id               = $soapModel->nita_ProgramId;
+        
+        $aId = explode("|",$soapModel->nita_name);
+        $programModel->id               = trim($aId[0]);
         $programModel->location         = $soapModel->nita_FacilityName;
         $programModel->name             = $soapModel->nita_name;
         $programModel->price            = $soapModel->nita_TuitionPriceStandard;

@@ -42,11 +42,11 @@ $config['soap']['page']['home']           = array(  'guid' => 'f4d317f9-f37e-df1
                                                     'color' => false);
 $config['soap']['page']['about']          = array(  'guid' => 'CD1BC3CF-F67E-DF11-8D9F-000C2916A1CB',
                                                     'color' => 'green');
-$config['soap']['page']['donate']         = array(  'guid' => 'E7E9F222-F57E-DF11-8D9F-000C2916A1CB',
+$config['soap']['page']['donate']         = array(  'guid' => '8C1271D4-7EA5-DF11-85D6-000C2916A1CB',
                                                     'color' => 'yellowgreen');
 $config['soap']['page']['contact']        = array(  'guid' => '656930E6-F67E-DF11-8D9F-000C2916A1CB',
                                                     'color' => 'blue');
-$config['soap']['page']['customize']      = array(  'guid' => 'B647AFA2-F67E-DF11-8D9F-000C2916A1CB',
+$config['soap']['page']['customize']      = array(  'guid' => '5E852642-21A6-DF11-85D6-000C2916A1CB',
                                                     'color' => 'purple');
 $config['soap']['page']['footer']         = array(  'giud' => '582cd7a9-8f80-df11-8d9f-000c2916a1cb',
                                                     'color' => false);

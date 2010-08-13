@@ -17,7 +17,7 @@
 <div id="breadcrumb">
     <?php for($i = 0; $i < $size - 1; $i++): ?>
     <div class="parent" id="<?php echo $breadcrumb[$i]['id']; ?>">
-        <span><?php echo $breadcrumb[$i]['name']; ?></span>
+        <span><?php echo $breadcrumb[$i]['name']; ?> ></span>
         <div></div>
     </div>
     <?php endfor; ?>

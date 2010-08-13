@@ -23,7 +23,7 @@
  */
 ?>
 
-    <div class="<?php echo $class['tab_panel_class']; ?> <?php echo "tab_panel_" . $class['color']; ?>" id="tab_panel">
+    <div class="<?php echo $class['tab_panel_class']; ?>" id="tab_panel">
         <ul class="tabs">
         <?php foreach($tabs as $tab): ?>
             <li id="tab">

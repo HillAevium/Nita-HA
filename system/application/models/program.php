@@ -40,6 +40,7 @@ class Program extends Model {
     public $discounts          = array(); // may require an object
     public $duration           = '';
     public $endDate            = '';
+    public $facilityName       = '';
     public $id                 = '';
     public $location           = '';
     public $materialTemplateId = '';
@@ -79,16 +80,11 @@ class Program extends Model {
      * @return an array of Programs
      */
     public function getAll() {
-        //$programs = $this->soap->getAllPrograms();
+        $programs = $this->soap->getAllPrograms();
         
-        $data = json_decode(file_get_contents("http://72.54.98.142/sql.php?view=program&format=json"));
-        /*
-        echo "<pre>";
-        print_r($data);
-        echo "</pre>";
-        die();
-        */
-        return $data;
+        //$data = json_decode(file_get_contents("http://72.54.98.142/sql.php?view=program&format=json"));
+
+        return $programs;
     }
     
     /**
