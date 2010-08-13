@@ -38,7 +38,7 @@ class Main extends AbstractController {
         if($isAuth === true) {
             $accountLink = '/account/user';
         } else {
-            $accountLink = '/account/register';
+            $accountLink = '/account/login';
         }
         $headerArgs['accountLink'] = $accountLink;
         
@@ -248,7 +248,7 @@ class Main extends AbstractController {
         $topbox['image'] = "";
         $topbox['title'] = "";
         $topbox['content'] = "";
-        if ($pageContent !== false) { 
+        if ($pageContent !== false) {
             $topbox['image'] = $pageContent->nita_page_image;
             $topbox['title'] = $pageContent->nita_page_name;
             $topbox['content'] = preg_replace("#<h1>[^<]*<\/h1>#","",$pageContent->nita_page_text);
@@ -257,7 +257,7 @@ class Main extends AbstractController {
             $breadcrumb[] = $this->breadcrumbs[$alias];
         }
         $this->setViewOption('topbox', $topbox);
-        // setup tab panel layout if page has child pages       
+        // setup tab panel layout if page has child pages
         if($childContent !== null) {
             // Load our content panels
             foreach($childContent as $model) {

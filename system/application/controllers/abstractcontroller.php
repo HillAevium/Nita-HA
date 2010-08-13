@@ -140,7 +140,7 @@ abstract class AbstractController extends Controller {
     /**
      * Main view loading function
      *
-     */ 
+     */
     protected function loadViews() {
         $color     = $this->getViewOption('color');
         $debug     = $this->getViewOption('debug');
@@ -159,7 +159,7 @@ abstract class AbstractController extends Controller {
         if($isAuth === true) {
             $accountLink = '/account/user';
         } else {
-            $accountLink = '/account/register';
+            $accountLink = '/account/login';
         }
         
         // Set header view args
