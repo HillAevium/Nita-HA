@@ -20,7 +20,7 @@
                 <li><a href="/main/webpage/alias/links">links</a></li> /
                 <li><a href="/main/webpage/alias/privacy_policy">privacy policy</a></li> /
                 <li><a href="/main/newsroom">news room</a></li> /
-                <li><a href="/main/e-newsletter">e-newsletter</a></li> /
+                <li><a href="/main/enewsletter">e-newsletter</a></li> /
                 <li><a href="/main/webpage/alias/sitemap">sitemap</a></li>
             </ul>
         </div>

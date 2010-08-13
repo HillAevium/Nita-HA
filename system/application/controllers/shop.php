@@ -201,11 +201,23 @@ class Shop extends AbstractController {
         );
         
         // Setup the topbox content
+        // FIXME
+        // Hack to get the job done. Deadlines to meet :)
         $topbox = array(
-            'image'   => 'topbox_test.jpg',
-            'title'   => strtoupper($this->titles[$type]),
-            'content' => $this->getRandomText(1)
+            'image'   => '',
+            'title'   => '',
+            'content' => ''
         );
+        switch($type) {
+            case 'program':
+                $pages = $this->config->item('page','soap');
+                $guid = $pages['programs']['guid'];
+                $pageContent = $this->soap->getPage($guid);
+                $topbox['image'] = $pageContent->nita_page_image;
+                $topbox['title'] = $pageContent->nita_page_name;
+                $topbox['content'] = preg_replace("#<h1>[^<]*<\/h1>#","",$pageContent->nita_page_text);
+                break;
+        }
         
         // Load the view options
         $this->setViewOption('searchbox', true);

@@ -40,7 +40,7 @@ a.search_bar_print:hover      { background-image:url(../images/search_bar_print_
 #body                         { width:100%; }
 #content_top                  { position:relative; width:100%; height:329px; color:#fff; overflow:hidden; }
 body.blue_short #content_top  { position:relative; width:100%; height:100px; color:#fff; overflow:hidden; visibility:hidden; }
-body.blue_short #content_main_inner { padding-top:80px; }
+body.blue_short #content_main_inner { padding-top:100px; }
 #content_top div.summary      { position:absolute; top:87px; left:300px; width:634px; height:220px; overflow:hidden; vertical-align:top; }
 #content_top div.image        { position:absolute; top:87px; left:20px; width:260px; height:190px; border:1px solid #fff; }
 #content_top h1               { font-size:20px; font-weight:normal; padding:0 300px 10px 0; margin:0 0 20px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
@@ -187,6 +187,11 @@ body.blue div#breadcrumb .current,
 body.blue div#breadcrumb div:hover { background-position: -300px -198px; color:#fff; }
 body.blue div#breadcrumb .current div,
 body.blue div#breadcrumb div:hover div { background-position: -794px -198px; }
+
+body.blue_short div#breadcrumb .current,
+body.blue_short div#breadcrumb div:hover { background-position: -300px -264px; color:#fff; }
+body.blue_short div#breadcrumb .current div,
+body.blue_short div#breadcrumb div:hover div { background-position: -794px -264px; }
 
 body.green div#breadcrumb .current,
 body.green div#breadcrumb div:hover { background-position: -300px -165px; color:#fff; }

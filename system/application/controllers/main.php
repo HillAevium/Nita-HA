@@ -52,12 +52,129 @@ class Main extends AbstractController {
         $this->load->view('footer');
     }
     
-    public function newsroom() {
+    public function careers() {
+        // Load our content panels
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container', null, true);
+        
         // Setup the tab panel
         $tabs = array(
-            array('name' => 'Press Releases',    'id' => 'press_releases',  'content' => ''),
-            array('name' => 'Media Kit',    'id' => 'media_kit',  'content' => ''),
-            array('name' => 'Archives',   'id' => 'archives', 'content' => '')
+            array('name' => 'Careers',    'id' => 'careers',  'content' => $content[0]),
+            array('name' => 'Something Else?',    'id' => 'careers2', 'content' => $content[1]),
+            array('name' => 'Something Else?',   'id' => 'careers3', 'content' => $content[2])
+        );
+        
+        // And the tabs classes
+        $class['tabs']   = 'blue_tabs';
+        $class['border'] = 'blue_border';
+        $class['tab_panel_class'] = 'tab_panel_wide';
+        
+        // Populate args for the view
+        $args['tabs']  = $tabs;
+        $args['class'] = $class;
+        $args['tabPageTitle'] = 'Careers';
+        
+        // Setup the topbox content
+        // FIXME
+        // hack to make css work properly, it needs the topbox to be there
+        $topbox = array(
+            'image'   => '',
+            'title'   => '',
+            'content' => ''
+        );
+        
+        // Setup the views
+        $views = array(
+            array('name' => 'tab_panel', 'args' => $args)
+        );
+        
+        // Breadcrumbs
+        $this->breadcrumbs = array();
+        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
+        $this->breadcrumbs['careers'] = array('name' => '', 'id' => '/main/careers/');
+        $breadcrumb = array();
+        $breadcrumb[] = $this->breadcrumbs['home'];
+        $breadcrumb[] = $this->breadcrumbs['careers'];
+        
+        $this->setViewOption('color', 'blue_short');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('topbox', $topbox);
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('pageTitle', 'Careers');
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+    }
+    
+    public function enewsletter() {
+        // Load our content panels
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container', null, true);
+        
+        // Setup the tab panel
+        $tabs = array(
+            array('name' => 'E-Newsletter',    'id' => 'enewsletter',  'content' => $content[0]),
+            array('name' => 'Something Else?',    'id' => 'enewsletter2', 'content' => $content[1]),
+            array('name' => 'Something Else?',   'id' => 'enewsletter3', 'content' => $content[2])
+        );
+        
+        // And the tabs classes
+        $class['tabs']   = 'blue_tabs';
+        $class['border'] = 'blue_border';
+        $class['tab_panel_class'] = 'tab_panel_wide';
+        
+        // Populate args for the view
+        $args['tabs']  = $tabs;
+        $args['class'] = $class;
+        $args['tabPageTitle'] = 'E-Newsletter';
+        
+        // Setup the topbox content
+        // FIXME
+        // hack to make css work properly, it needs the topbox to be there
+        $topbox = array(
+            'image'   => '',
+            'title'   => '',
+            'content' => ''
+        );
+        
+        // Setup the views
+        $views = array(
+            array('name' => 'tab_panel', 'args' => $args)
+        );
+        
+        // Breadcrumbs
+        $this->breadcrumbs = array();
+        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
+        $this->breadcrumbs['enewsletter'] = array('name' => 'E-Newsletter', 'id' => '/main/enewsletter/');
+        $breadcrumb = array();
+        $breadcrumb[] = $this->breadcrumbs['home'];
+        $breadcrumb[] = $this->breadcrumbs['enewsletter'];
+        
+        $this->setViewOption('color', 'blue_short');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('topbox', $topbox);
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('pageTitle', 'E-Newsletter');
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+    }
+    
+    public function newsroom() {
+        // Load our content panels
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container',  null, true);
+        $content[] = $this->load->view('webpage/tab_content_container', null, true);
+        
+        // Setup the tab panel
+        $tabs = array(
+            array('name' => 'Press Releases',    'id' => 'press_releases',  'content' => $content[0]),
+            array('name' => 'Media Kit',    'id' => 'media_kit', 'content' => $content[1]),
+            array('name' => 'Archives',   'id' => 'archives','content' => $content[2])
         );
         
         // And the tabs classes
