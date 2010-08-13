@@ -251,7 +251,7 @@ class Main extends AbstractController {
         if ($pageContent !== false) {
             $topbox['image'] = $pageContent->nita_page_image;
             $topbox['title'] = $pageContent->nita_page_name;
-            $topbox['content'] = preg_replace("#<h1>[^<]*<\/h1>#","",$pageContent->nita_page_text);
+            $topbox['content'] = preg_replace('#<h1>[^<]*<\/h1>#',"",$pageContent->nita_page_text);
             
             $this->breadcrumbs[$alias] = array('name' => $pageContent->nita_page_name, 'id' => '/main/webpage/alias/' . $alias);
             $breadcrumb[] = $this->breadcrumbs[$alias];
