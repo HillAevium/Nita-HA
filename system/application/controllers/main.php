@@ -52,6 +52,57 @@ class Main extends AbstractController {
         $this->load->view('footer');
     }
     
+    public function newsroom() {
+        // Setup the tab panel
+        $tabs = array(
+            array('name' => 'Press Releases',    'id' => 'press_releases',  'content' => ''),
+            array('name' => 'Media Kit',    'id' => 'media_kit',  'content' => ''),
+            array('name' => 'Archives',   'id' => 'archives', 'content' => '')
+        );
+        
+        // And the tabs classes
+        $class['tabs']   = 'blue_tabs';
+        $class['border'] = 'blue_border';
+        $class['tab_panel_class'] = 'tab_panel_wide';
+        
+        // Populate args for the view
+        $args['tabs']  = $tabs;
+        $args['class'] = $class;
+        $args['tabPageTitle'] = 'News Room';
+        
+        // Setup the topbox content
+        // FIXME
+        // hack to make css work properly, it needs the topbox to be there
+        $topbox = array(
+            'image'   => '',
+            'title'   => '',
+            'content' => ''
+        );
+        
+        // Setup the views
+        $views = array(
+            array('name' => 'tab_panel', 'args' => $args)
+        );
+        
+        // Breadcrumbs
+        $this->breadcrumbs = array();
+        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
+        $this->breadcrumbs['news_room'] = array('name' => 'News Room', 'id' => '/main/newsroom/');
+        $breadcrumb = array();
+        $breadcrumb[] = $this->breadcrumbs['home'];
+        $breadcrumb[] = $this->breadcrumbs['news_room'];
+        
+        $this->setViewOption('color', 'blue_short');
+        $this->setViewOption('mainNav', true);
+        $this->setViewOption('topbox', $topbox);
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('pageTitle', 'News Room');
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+    }
+    
     public function webpage() {
         $alias = $this->getArgument('alias');
         $guid  = $this->_guid($alias);

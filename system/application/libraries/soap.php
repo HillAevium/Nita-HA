@@ -501,6 +501,9 @@ class Soap {
         $programModel->capacityMax      = $soapModel->nita_MaxCapacity;
         $programModel->capacityMin      = $soapModel->nita_MinCapacity;
         $programModel->city             = $soapModel->nita_FacilityCity;
+        
+        $aId = explode("|",$soapModel->nita_name);
+        $programModel->code             = trim($aId[0]);
         $programModel->description      = $soapModel->nita_Description;
         $programModel->descriptor       = $soapModel->nita_Descriptor;
         $programModel->dinnerDate       = $soapModel->nita_FacultyDinnerDate;
@@ -509,9 +512,7 @@ class Soap {
         $programModel->discounts;   // Not in ProgramModel
         $programModel->duration         = $soapModel->nita_Duration;
         $programModel->endDate          = $soapModel->nita_EndDate;
-        
-        $aId = explode("|",$soapModel->nita_name);
-        $programModel->id               = trim($aId[0]);
+        $programModel->id               = $soapModel->nita_ProgramId;
         $programModel->location         = $soapModel->nita_FacilityName;
         $programModel->name             = $soapModel->nita_name;
         $programModel->price            = $soapModel->nita_TuitionPriceStandard;

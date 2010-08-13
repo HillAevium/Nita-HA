@@ -161,6 +161,10 @@ function addSearchboxHandler() {
     $("select#search_type").change(handleSearchboxType);
 }
 
+function addTooltipHandler() {
+    $("#search_bar a").tooltip();
+}
+
 
 /*
  * bootstrap
@@ -170,6 +174,7 @@ function init() {
     addTabHandler();
     addBreadcrumbHandler();
     addSearchboxHandler();
+    addTooltipHandler();
 }
 
 $(init);

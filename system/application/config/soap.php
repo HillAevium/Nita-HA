@@ -53,12 +53,12 @@ $config['soap']['page']['footer']         = array(  'giud' => '582cd7a9-8f80-df1
 $config['soap']['page']['law_school']     = array(  'guid' => '356FF3B6-F67E-DF11-8D9F-000C2916A1CB',
                                                     'color' => 'grayblue');
 $config['soap']['page']['links']          = array(  'guid' => '1847B830-9080-DF11-8D9F-000C2916A1CB',
-                                                    'color' => false);
+                                                    'color' => 'blue_short');
 $config['soap']['page']['privacy_policy'] = array(  'guid' => 'E8CA8E6A-9080-DF11-8D9F-000C2916A1CB',
-                                                    'color' => false);
+                                                    'color' => 'blue_short');
 $config['soap']['page']['publications']   = array(  'guid' => '86617168-7AA5-DF11-85D6-000C2916A1CB',
                                                     'color' => 'red');
 $config['soap']['page']['sitemap']        = array(  'guid' => 'F80624BD-9080-DF11-8D9F-000C2916A1CB',
-                                                    'color' => false);
+                                                    'color' => 'blue_short');
 
 /* End of file soap.php */

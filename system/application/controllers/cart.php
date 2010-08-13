@@ -228,7 +228,7 @@ class Cart extends AbstractController {
         $views = array(
             array('name' => 'cart/normal', 'args' => $args)
         );
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('pageTitle', 'Your Cart');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
@@ -249,7 +249,7 @@ class Cart extends AbstractController {
         );
         
         $this->setViewOption('pageTitle', 'Enroll Profiles in Programs');
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
         

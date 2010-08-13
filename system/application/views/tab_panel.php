@@ -22,7 +22,10 @@
  |-------------------------------------------------------+
  */
 ?>
-
+    <?php if(isset($tabPageTitle)): ?>
+    <h1 class="page_title"><?php echo $tabPageTitle; ?></h1>
+    <div class="gray_line"></div>
+    <?php endif; ?>
     <div class="<?php echo $class['tab_panel_class']; ?>" id="tab_panel">
         <ul class="tabs">
         <?php foreach($tabs as $tab): ?>

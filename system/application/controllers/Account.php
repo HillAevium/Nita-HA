@@ -219,7 +219,7 @@ class Account extends AbstractController {
         );
         
         // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('pageTitle', 'My Account');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
@@ -254,7 +254,7 @@ class Account extends AbstractController {
         );
         
         // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
         
@@ -271,7 +271,7 @@ class Account extends AbstractController {
         );
         
         // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('pageTitle', 'Pervious Orders');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
@@ -300,7 +300,7 @@ class Account extends AbstractController {
         );
         
         // Set the view options
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);
         
@@ -359,7 +359,7 @@ class Account extends AbstractController {
             array('name' => 'user/profile/bottom', 'args' => null)
         );
         
-        $this->setViewOption('bodyClass', 'blue_short');
+        $this->setViewOption('color', 'blue_short');
         $this->setViewOption('pageTitle', 'My Profile');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);

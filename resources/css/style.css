@@ -1,22 +1,22 @@
 html, body                    { margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
 #main_container               { width:977px; margin:0 auto; text-align:left; }
 .clear                        { clear:both; }
+.tooltip                      { display:none;}
+
 /* Header */
 #header                       { width:100%; height:210px; }
-#header_inner                 { position:relative; width:100%; height:164px; }  
+#header_inner                 { position:relative; width:50%; height:164px; }  
 #logo                         { position:absolute; top:33px; left:0; width:158px; height:36px; background:url(../images/logo.png); }
 #title                        { position:absolute; top:88px; left:0; }
 
 /* Search Bar */
-#search_bar                   { position:absolute; top:58px; right:0; width:285px; height:32px; background:url(../images/search_bar_bg.png); }
-#search_bar_inner             { position:relative; }
-#search_bar_search            { width:185px; }
+#search_bar                   { float:right; padding-top:60px; }
+#search_bar_search            { float:left; width:185px; height:32px; background:url(../images/search_bar_bg.png); }
 #search_bar_search input      { width:150px; margin:6px 5px 5px 5px; border:none; font-size:11pt; line-height:22px; }
-#search_bar_inner a           { position:absolute; top:0; display:block; height:32px; }
 a.search_bar_rss              { left:155px; width:29px; background:url(../images/search_bar_rss.png) center center no-repeat; }
-a.search_bar_cart             { left:185px; width:32px; background:url(../images/search_bar_cart.png) center center no-repeat; }
-a.search_bar_account          { left:218px; width:32px; background:url(../images/search_bar_account.png) center center no-repeat; }
-a.search_bar_print            { left:251px; width:33px; background:url(../images/search_bar_print.png) center center no-repeat; }
+a.search_bar_cart             { display:block; float:left; width:33px; height:32px; background:url(../images/search_bar_cart.png) center center no-repeat; }
+a.search_bar_account          { display:block; float:left; width:33px; height:32px; background:url(../images/search_bar_account.png) center center no-repeat; }
+a.search_bar_print            { display:block; float:left; width:34px; height:32px; background:url(../images/search_bar_print.png) center center no-repeat; }
 a.search_bar_rss:hover        { background-image:url(../images/search_bar_rss_over.png); }
 a.search_bar_cart:hover       { background-image:url(../images/search_bar_cart_over.png); }
 a.search_bar_account:hover    { background-image:url(../images/search_bar_account_over.png); }
@@ -40,6 +40,7 @@ a.search_bar_print:hover      { background-image:url(../images/search_bar_print_
 #body                         { width:100%; }
 #content_top                  { position:relative; width:100%; height:329px; color:#fff; overflow:hidden; }
 body.blue_short #content_top  { position:relative; width:100%; height:100px; color:#fff; overflow:hidden; visibility:hidden; }
+body.blue_short #content_main_inner { padding-top:80px; }
 #content_top div.summary      { position:absolute; top:87px; left:300px; width:634px; height:220px; overflow:hidden; vertical-align:top; }
 #content_top div.image        { position:absolute; top:87px; left:20px; width:260px; height:190px; border:1px solid #fff; }
 #content_top h1               { font-size:20px; font-weight:normal; padding:0 300px 10px 0; margin:0 0 20px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
@@ -71,7 +72,7 @@ body.blue_short #content_top  { position:relative; width:100%; height:100px; col
 #design_credit .blue_square   { width:7px; height:7px; background:#117dc5; }
 
 /* Typography */
-h1.page_title                 { padding:50px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
+h1.page_title                 { padding:30px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
 p                             { font-size:11pt; line-height:14pt; }
 .small                        { font-size:8pt; }  
 span.blue                     { color:#0f4964; }
@@ -140,7 +141,7 @@ div.program_details_sidebar       { float:right; padding:50px 15px 0 0; }
 div.program_details_sidebar div   { margin-bottom:12px; }  
 
 /* Tabbed content boxes */
-.tab_content_container                { width:100%; color:#575757; }
+.tab_content_container                { color:#575757; }
 .tab_content_container h1             { clear:both; margin:10px 0 20px 0; text-transform:uppercase; font-size:18px; letter-spacing: 0.05em; }
 .tab_content_container h3             { position:relative; font-size:10pt; color:#fff; padding-left:7px; margin-right:2px; height:28px; line-height:28px; background-image:url(../images/sprite.png); }
 .tab_content_container h3 div         { position:absolute; top:0; right:-3px; width:3px; height:28px; background-image:url(../images/sprite.png); }
@@ -159,6 +160,8 @@ body.purple .grandchild_tabs             { background:#57536c; }
 body.orange .tab_content_container h3      { background-position: 0px -297px; }
 body.orange .tab_content_container h3 div  { background-position: -939px -297px; }
 
+body.blue div#tab_panel div.border        { border-color:#6a9bc6; }
+body.blue_short div#tab_panel div.border  { border-color:#004574; }
 body.grayblue div#tab_panel div.border    { border-color:#708b8e; }
 body.green div#tab_panel div.border       { border-color:#599781; }
 body.orange div#tab_panel div.border      { border-color:#f1a617; }
@@ -169,7 +172,7 @@ body.yellowgreen div#tab_panel div.border { border-color:#aaba75; }
 .orange_border h3                     { background-position:0px -297px; }
 .orange_border h3 div                 { background-position:-939px -297px; }
 
-li.current div.orange_tabs            { background-position:0 -33px; }
+li.current div.orange_tabs            { background-position:0 -33px; color:#fff; }
 li.current div.orange_tabs div      { background-position:-295px -33px; }
 
 /* Breadcrumbs */
@@ -277,10 +280,8 @@ ul.grandchild_tabs li {
         cursor:pointer;
 }
 
-ul.tabs li.current,
-ul.tabs li:hover,
-ul.grandchild_tabs li:current,
-ul.grandchild_tabs li:hover {
+li.current span,
+li:hover span {
         color:#fff;
 }
 
@@ -317,6 +318,16 @@ ul.grandchild_tabs li div div {
 }
 
 ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden;}
+
+body.blue div#tab_panel ul.tabs li.current div,
+body.blue div#tab_panel ul.tabs li:hover div        { background-position: 0 -198px; }
+body.blue div#tab_panel ul.tabs li.current div div,
+body.blue div#tab_panel ul.tabs li:hover div div    { background-position: -295px -198px; }
+
+body.blue_short div#tab_panel ul.tabs li.current div,
+body.blue_short div#tab_panel ul.tabs li:hover div        { background-position: 0 -264px; }
+body.blue_short div#tab_panel ul.tabs li.current div div,
+body.blue_short div#tab_panel ul.tabs li:hover div div    { background-position: -295px -264px; }
 
 body.green div#tab_panel ul.tabs li.current div,
 body.green div#tab_panel ul.tabs li:hover div        { background-position: 0 -165px; }

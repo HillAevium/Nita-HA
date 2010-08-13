@@ -14,13 +14,13 @@
         </div>
         <div id="footer_menu2">
             <ul class="menu">
-                <li><a href="/shop/cart">shopping cart</a></li> /
-                <li><a href="/account">my account</a></li> /
-                <li><a href="/careers">careers</a></li> /
+                <li><a href="/cart/display">shopping cart</a></li> /
+                <li><a href="<?php echo $accountLink; ?>">my account</a></li> /
+                <li><a href="/main/careers">careers</a></li> /
                 <li><a href="/main/webpage/alias/links">links</a></li> /
-                <li><a href="/main/webpage/alias/privacy">privacy policy</a></li> /
-                <li><a href="/news_room">news room</a></li> /
-                <li><a href="/e-newsletter">e-newsletter</a></li> /
+                <li><a href="/main/webpage/alias/privacy_policy">privacy policy</a></li> /
+                <li><a href="/main/newsroom">news room</a></li> /
+                <li><a href="/main/e-newsletter">e-newsletter</a></li> /
                 <li><a href="/main/webpage/alias/sitemap">sitemap</a></li>
             </ul>
         </div>
