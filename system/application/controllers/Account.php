@@ -34,7 +34,6 @@ class Account extends AbstractController {
         try {
             switch($requestMethod) {
                 case 'POST' :
-                    $this->load->helper('post');
                     $this->handlePost($method);
                 break;
                 case 'GET' :
