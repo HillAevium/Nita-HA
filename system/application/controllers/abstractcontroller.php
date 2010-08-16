@@ -155,12 +155,7 @@ abstract class AbstractController extends Controller {
         
         // Check if user is authenticated
         // and set the proper account links
-        $isAuth = $this->mod_auth->isAuthenticated();
-        if($isAuth === true) {
-            $accountLink = '/account/user';
-        } else {
-            $accountLink = '/account/login';
-        }
+        $accountLink = '/account/forms';
         
         // Set header view args
         $headerArgs = array();

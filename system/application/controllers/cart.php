@@ -197,7 +197,7 @@ class Cart extends AbstractController {
         $this->load->model('accountProvider');
         
         // FIXME Remove for production
-        $this->stageDebugCart();
+//        $this->stageDebugCart();
         
         $profiles = array();
         $info = array();

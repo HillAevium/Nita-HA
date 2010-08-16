@@ -32,14 +32,8 @@ class Main extends AbstractController {
         
         $this->load->view('http_header', array('title' => $this->title));
         
-        // Check if user is authenticated
-        // and set the proper account links
-        $isAuth = $this->mod_auth->isAuthenticated();
-        if($isAuth === true) {
-            $accountLink = '/account/user';
-        } else {
-            $accountLink = '/account/login';
-        }
+        $accountLink = '/account/forms';
+        
         $headerArgs['accountLink'] = $accountLink;
         
         // Load the header view

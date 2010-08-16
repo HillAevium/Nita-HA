@@ -35,11 +35,7 @@ JS;
             <?php echo $this->load->view('cart/billing', array('info' => $info), true); ?>
         </div>
         <div id="cart_container">
-            <?php if(count($this->cart->contents()) == 0): ?>
-            <div id="empty_cart">You have no items in your cart.</div>
-            <?php else: ?>
-            <?php echo $this->load->view('cart/' . $display, array('spaces' => $spaces), true); ?>
-            <?php endif;?>
+            <?php echo $this->load->view('cart/list', array('spaces' => $spaces, 'display' => $display), true); ?>
         </div>
         
         <div class="gray_line"></div>
