@@ -1,5 +1,5 @@
             <?php foreach($this->cart->contents() as $item): ?>
-            <div id="<?php echo $item['id']; ?>">
+            <div class="cart_row" id="<?php echo $item['id']; ?>">
                 <table>
                     <tr>
                         <td style="width:30%">
@@ -19,7 +19,7 @@
                             </div>
                         </td>
                         <td style="width:10%;">
-                            <div class="item_remove" id="<?php echo $item['id']; ?>">
+                            <div class="item_remove" id="<?php echo $item['rowid']; ?>">
                                 Remove
                             </div>
                         </td>

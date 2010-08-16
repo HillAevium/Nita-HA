@@ -24,6 +24,7 @@ if(window.location.pathname == '/cart/display') {
                 billing:    '#billing',
                 finish:     '#finish',
                 print:      '#print',
+                remove:     '.item_remove',
                 addProfile: '#add_profile',
                 container:  '#cart_container',
                 billContainer: '#billing_container'
@@ -163,9 +164,26 @@ function Controller(bindings) {
         });
     };
     
-    this.onRemoveProgram = function(programId) {
-        // TODO
-        $("#" + programId).hide();
+    this.onRemoveProgram = function(rowid) {
+        $.post('/cart/remove', {rowid: rowid}, function(data, status, xhr) {
+            switch(xhr.status) {
+                case 202 : //ACCEPTED
+                    var row = $('#' + rowid).parents('div.cart_row');
+                    row.slideUp();
+                    var count = $("div.cart_row").length;
+                    if(count == 1) {
+                        row.empty();
+                        row.html("You have no items in your cart.");
+                        row.slideDown();
+                    } else {
+                        row.remove();
+                    }
+                    break;
+                default :
+                    alert("error");
+                    break;
+            }
+        });
     };
     
     // Handlers for AttendeeList events
@@ -231,7 +249,7 @@ function ShoppingCart() {
         this.bindings = bindings;
         
         // Bind the Remove Item button
-        $(".item_remove").each(function() {
+        $(bindings.remove).each(function() {
             $(this).click(function(event) {
                 controller.onRemoveProgram(event.target.id);
             });
@@ -257,13 +275,13 @@ function ShoppingCart() {
         if($(bindings.login).length) {
             $(bindings.login).click(function() {
                 //FIXME Make true for https
-                doPageLoad('/account/login', false, true);
+                doPageLoad('/account/forms', false, true);
             });
         }
         if($(bindings.register).length) {
             $(bindings.register).click(function() {
                 //FIXME Make true for https
-                doPageLoad('/account/register', false, true);
+                doPageLoad('/account/forms', false, true);
             });
         }
         if($(bindings.display).length) {

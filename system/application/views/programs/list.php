@@ -13,17 +13,16 @@
             </thead>
             <tbody>
                 <?php foreach($models as $model): ?>
-                <?php $model->dates = $model->startDate . " - " . $model->endDate; ?>
+                <?php $model->dates = $model->startDate . "<br />" . $model->endDate; ?>
                 <tr id="<?php echo $model->id; ?>">
                     <td width="25%"><?php echo $model->title; ?></td>
                     <td width="18%"><?php echo $model->type; ?></td>
                     <td width="18%"><?php echo $model->dates; ?></td>
-                    <td width="19%"><?php echo $model->location . '<br/>' . $model->city . ', ' . $model->state; ?></td>
+                    <td width="19%"><?php echo $model->facilityName . '<br/>' . $model->city . ', ' . $model->state; ?></td>
                     <td width="15%">$<?php echo $model->price; ?></td>
                     <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></div></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <!-- <div class="pagination"><?php //echo $pagination; ?></div> -->
     </div> <!-- #content_main_inner -->

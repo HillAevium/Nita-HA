@@ -56,7 +56,20 @@ function clearFormElements(el) {
  * Click event handler for 'add to shopping cart' button.
  */
 function handleCartItemClick(id) {
-    alert("You have selected: " + id);
+    var item = $("#" + id + " #cart_item");
+    var html = item.html();
+    item.html("Loading...");
+    $.post('/cart/add', {id: id}, function(data, status, xhr) {
+        item.html(html);
+        switch(xhr.status) {
+            case 202 : // ACCEPTED
+                alert("Item Added");
+                break;
+            default :
+                alert("Error");
+                break;
+        }
+    });
 }
 
 /**
@@ -76,6 +89,7 @@ function handleItemClick(event) {
     // for that. We do this here to make it easier to find
     // which item was clicked without embedding it into the
     // cart div itself.
+    
     if(event.target.id == 'cart_item') {
         var id = event.currentTarget.id;
         handleCartItemClick(id);

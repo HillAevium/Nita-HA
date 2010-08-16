@@ -248,9 +248,13 @@ class Account extends AbstractController {
         // with the firm profile page as the referal page.
     }
     
-    public function showLogin() {
+    public function showLoginAndRegister() {
+        $args['firmForm'] = $this->load->view('user/form_firm', null, true);
+        $args['profileForm'] = $this->load->view('user/form_profile', null, true);
+        
         $views = array(
-            array('name' => 'user/login', 'args' => null)
+            array('name' => 'user/forms', 'args' => null),
+            array('name' => 'user/reg_form', 'args' => $args)
         );
         
         // Set the view options
@@ -281,46 +285,7 @@ class Account extends AbstractController {
 
     }
     
-    /**
-     * User registration pages.
-     *
-     * Displays an initial page that allows the user to choose whether they
-     * want to signup for a group or as an individual. The forms are then
-     * presented and validation occurs over ajax post requests.
-     *
-     * @see Account::doRegistration()
-     */
-    public function showRegistration() {
-        $args['firmForm'] = $this->load->view('user/form_firm', null, true);
-        $args['profileForm'] = $this->load->view('user/form_profile', null, true);
-        
-        $views = array(
-            array('name' => 'user/reg_funnel', 'args' => null),
-            array('name' => 'user/reg_form', 'args' => $args)
-        );
-        
-        // Set the view options
-        $this->setViewOption('color', 'blue_short');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        // ... and go
-        $this->loadViews();
-    }
-    
     public function showUserProfile() {
-        // Get the user ID (from a cookie?)
-        $userId = $this->getArgument('userId');
-        
-        // Make sure the user has access.
-        if(!$this->checkUserAuthentication($userId)) {
-            // Return a 401 UNAUTHORIZED
-            //log_message('error', "Unauthroized UserProfile Access Attempt");
-            //show_error("You are not authorized to access this profile.", 401);
-            // TODO This may simply be an expired session which is no
-            // reason to sound off any alarm bells. We should still do something
-            // here to track intrusion attempts.
-        }
         
         // Load the profile model and request the account.
         //$this->load->model('userprofile');
@@ -371,8 +336,8 @@ class Account extends AbstractController {
     
     private function handleGet($method) {
         switch($method) {
-            case 'login' :
-                $this->showLogin();
+            case 'main' :
+                
             break;
             case 'logout' :
                 $this->doLogout();
@@ -389,8 +354,8 @@ class Account extends AbstractController {
             case 'group' :
                 $this->showGroupProfile();
             break;
-            case 'register' :
-                $this->showRegistration();
+            case 'forms' :
+                $this->showLoginAndRegister();
             break;
             default :
                 show_404('/account/' . $method . '/');

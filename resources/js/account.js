@@ -103,9 +103,6 @@ function selectRegType(event) {
     $('#content_reg_form').fadeIn();
 }
 
-// FIXME
-// Somewhere we stopped handling errors
-// from form validation...
 function bindForms() {
     initForm($('#firm_form'));
     $("form").submit(function(event) { return false; });
@@ -143,44 +140,40 @@ function bindForms() {
     );
 }
 
-if(window.location.pathname == '/account/login') {
-    // Initialize Login
-    $(document).ready(
-        function() {
-            initForm($('#login_form'));
-            $("form").submit(function(event) { return false; });
-            
-            $('#login_form').ajaxComplete(
-                function(e, xhr, setting) {
-                    switch(xhr.status) {
-                        case HTTP_ACCEPTED :
-                            // Display a message to the user
-                            // Redirect them to referrer or profile page
-                            doPageLoad(xhr.responseText, false, true);
-                            break;
-                        case HTTP_BAD_REQUEST :
-                            // The form info was invalid
-                            $("#error_container").html(xhr.responseText);
-                            break;
-                        case HTTP_UNAUTHORIZED :
-                            // The authorization failed
-                            $("#error_container").html(xhr.responseText);
-                            break;
-                        default :
-                            // Unhandled code
-                            $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
-                    }
+// Initialize Login
+$(document).ready(
+    function() {
+        initForm($('#login_form'));
+        $("form").submit(function(event) { return false; });
+        
+        $('#login_form').ajaxComplete(
+            function(e, xhr, setting) {
+                switch(xhr.status) {
+                    case HTTP_ACCEPTED :
+                        // Display a message to the user
+                        // Redirect them to referrer or profile page
+                        doPageLoad(xhr.responseText, false, true);
+                        break;
+                    case HTTP_BAD_REQUEST :
+                        // The form info was invalid
+                        $("#error_container").html(xhr.responseText);
+                        break;
+                    case HTTP_UNAUTHORIZED :
+                        // The authorization failed
+                        $("#error_container").html(xhr.responseText);
+                        break;
+                    default :
+                        // Unhandled code
+                        $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
                 }
-            );
-        }
-    );
-}
+            }
+        );
+    }
+);
 
-if (window.location.pathname == '/account/register') {
-    $(document).ready(
-        function() {
-            $('#group').click(selectRegType);
-            $('#individual').click(selectRegType);
-        }
-    );
-}
+$(document).ready(
+    function() {
+        $('#group').click(selectRegType);
+        $('#individual').click(selectRegType);
+    }
+);

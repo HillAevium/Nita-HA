@@ -40,23 +40,29 @@ class Cart extends AbstractController {
     
     // Called from shop controller list/detail pages
     public function addItem() {
-        $definition = Model_Definition::runtimeInstance();
+        // TODO Make sure the user does not add an item twice
+        $this->load->model('program');
+        $program = $this->program->getSingle($_POST['id']);
         
-        $definition->addField(new String_Field('id'));
-        $definition->addField(new String_Field('price'));
-        $definition->addField(new String_Field('name'));
-        
-        $cart = $definition->processPost('array');
+        $cart = array(
+            'id' => $_POST['id'],
+            'price' => $program->price,
+            'name' => $program->title
+        );
         $cart['qty'] = 1;
         
         $this->cart->insert($cart);
+        
+        $this->output->set_status_header(202);
     }
     
     // Called from cart display pages
     public function removeItem() {
-        $rowid = $this->getRowId();
+        $rowid = $_POST['rowid'];
         
         $this->cart->update(array('rowid' => $rowid, 'qty' => 0));
+        
+        $this->output->set_status_header(202);
     }
     
     // Called from cart display pages when a program
@@ -254,6 +260,8 @@ class Cart extends AbstractController {
             break;
             case USER_ANON :
                 $button = 'login';
+                // FIXME URL
+                $this->session->set_userdata('login.href', '/cart/display');
             break;
             case USER_CHILD :
                 // FIXME - What to do for child users ?
