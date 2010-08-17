@@ -11,7 +11,9 @@
   <!-- Includes DateInput, RangeInput and Validator -->
   <script src="http://cdn.jquerytools.org/1.2.3/form/jquery.tools.min.js"></script>
   <script type="text/javascript" src="/resources/js/custom.js"></script>
+  <script type="text/javascript" src="/resources/js/program.js"></script>
   <script type="text/javascript" src="/resources/js/account.js"></script>
   <script type="text/javascript" src="/resources/js/cart.js"></script>
   <script type="text/javascript" src="/resources/js/jquery.forms.js"></script>
+  <script type="text/javascript" src="/resources/js/jquery.autocomplete.js"></script>
 </head>

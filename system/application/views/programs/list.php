@@ -1,5 +1,4 @@
     <div id="content_main_inner">
-        <!-- <div class="pagination"><?php //echo $pagination; ?></div> -->
         <table id="items" class="program_list">
             <thead>
                 <tr>

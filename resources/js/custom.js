@@ -27,14 +27,6 @@ function doPageLoad(uri, secure, useHistory) {
     }
 }
 
-/**
- * Click event handler for 'add account' button on registration page.
- */
-function addAccount() {
-    var fields = $("profilefields");
-    $("form[name='regForm']").append(fields.html());
-}
-
 function clearFormElements(el) {
     $(el).find(':input').each(function() {
         switch(this.type) {
@@ -104,45 +96,6 @@ function handleBreadcrumbClick(event) {
     doPageLoad(id, false, true);
 }
 
-function handleSearchboxToggle() {
-    $("div#search_box").toggleClass("hide");
-    $("div#search_open").toggleClass("hide");
-}
-
-function handleSearchboxType(event) {
-    var selected = $("select#search_type option:selected").text();
-    
-    showAllRows();
-    
-    if(selected != '0') {
-        hideRows(2, selected);
-    }
-    
-    setWindowHeight($("body").height());
-}
-
-function setWindowHeight(value) {
-    $(document).height(value);
-}
-
-function hideRows(columnIndex, text) {
-    $("table#items > tbody > tr > td:nth-child("+columnIndex+")").each(
-        function(index, element) {
-            if($(this).text() != text) {
-                $(this).parent().addClass("hide");
-            }
-        }
-    );
-}
-
-function showAllRows() {
-    $("table#items > tbody > tr").each(
-        function() {
-            $(this).removeClass("hide");
-        }
-    );
-}
-
 /**
  * Add event handlers to listed items.
  * 
@@ -167,11 +120,11 @@ function addBreadcrumbHandler() {
     $("div#breadcrumb div.parent").click(handleBreadcrumbClick);
 }
 
-function addSearchboxHandler() {
-    $("div#search_open").click(handleSearchboxToggle);
-    $("div#search_close").click(handleSearchboxToggle);
-    $("select#search_type").change(handleSearchboxType);
-}
+//function addSearchboxHandler() {
+//    $("div#search_open").click(handleSearchboxToggle);
+//    $("div#search_close").click(handleSearchboxToggle);
+//    $("select#search_type").change(handleSearchboxType);
+//}
 
 function addTooltipHandler() {
     $("#search_bar a").tooltip();
@@ -185,7 +138,6 @@ function init() {
     addItemHandler();
     addTabHandler();
     addBreadcrumbHandler();
-    addSearchboxHandler();
     addTooltipHandler();
 }
 
