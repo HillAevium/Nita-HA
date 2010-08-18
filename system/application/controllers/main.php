@@ -32,7 +32,7 @@ class Main extends AbstractController {
         
         $this->load->view('http_header', array('title' => $this->title));
         
-        $accountLink = '/account/forms';
+        $accountLink = '/MyAccount';
         
         $headerArgs['accountLink'] = $accountLink;
         

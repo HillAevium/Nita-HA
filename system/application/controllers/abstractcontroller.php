@@ -155,7 +155,7 @@ abstract class AbstractController extends Controller {
         
         // Check if user is authenticated
         // and set the proper account links
-        $accountLink = '/account/forms';
+        $accountLink = '/MyAccount';
         
         // Set header view args
         $headerArgs = array();

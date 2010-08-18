@@ -118,7 +118,7 @@ class Account extends AbstractController {
         
         $uri = $this->session->userdata('login.href');
         if($uri === false) {
-            $uri = "/";
+            $uri = "/MyAccount";
         }
         
         // Send the referrer uri back to the client
@@ -210,11 +210,103 @@ class Account extends AbstractController {
     }
     
     public function showAccount() {
-        // TODO
-        // get the account id of the authenticated user
-        // and handle permissions or accessing this area
+        $credentials = $this->mod_auth->credentials();
+        
+        $args['title'] = 'My Account';
+        
+        //$profile = $this->accountProvider->getProfile($credentials->auth['id']);
+        //$account = $this->accountProvider->getAccount($credentials->user['accountId']);
+        //$orders  = $this->accountProvider->getOrdersForProfile($profile);
+        
+        //$profiles = $this->accountProvider->getProfilesForAccount($credentials->user['accountId']);
+        //$orders = $this->accountProvider->getOrdersForProfiles($profiles);
+        $account = array(
+            'name' => "Jen's Law Firm",
+            'address' => '1667 W. Alimosa Ave.',
+            'city' => 'Denver',
+            'state' => 'CO',
+            'zip' => '80219',
+            'phone' => '303-824-2789',
+            'fax' => '303-824-2291'
+        );
+        $superProfile = array(
+            'name' => "Jen Newstead",
+            'address' => '1667 W. Alimosa Ave.',
+            'city' => 'Denver',
+            'state' => 'CO',
+            'zip' => '80219',
+            'phone' => '303-824-2789',
+            'fax' => '303-824-2291',
+            'type' => '(Super User)'
+        );
+        $profile = array(
+            'name' => "Mike Cogline",
+            'address' => '1667 W. Alimosa Ave.',
+            'city' => 'Denver',
+            'state' => 'CO',
+            'zip' => '80219',
+            'phone' => '303-824-2789',
+            'fax' => '303-824-2291',
+            'type' => '',
+            'bar' => array(
+                array(
+                    'state' => 'Florida',
+                    'barId' => '1384187418',
+                    'cle' => '8.0'
+                ),
+                array(
+                    'state' => 'New York',
+                    'barId' => '4343872834',
+                    'cle' => '27.0'
+                )
+            )
+        );
+        $orders = array(
+            array(
+                'date' => 'Jan 5, 2009',
+                'programs' => array('Program A', 'Program B'),
+                'price' => '5000'
+            ),
+            array(
+                'date' => 'Sep 27, 2009',
+                'programs' => array('Program C', 'Program D', 'Program E'),
+                'price' => '6000'
+            ),
+            array(
+                'date' => 'Feb 4, 2010',
+                'programs' => array('Program F'),
+                'price' => '12000'
+            )
+        );
+        
+        $userType = $credentials->user['type'];
+        
+        switch($userType) {
+            case USER_SUPER :
+                $display = 'multi';
+                // Load the account profile
+                $args['profile'] = $account;
+                // Load the users profiles
+                $args['userProfiles'] = array($superProfile, $profile);
+                // Load the account order history
+                $args['orders'] = $orders;
+                // Load the users order history
+                $args['userOrders'] = array($orders, $orders);
+                break;
+            case USER_NORMAL :
+            case USER_CHILD :
+                $display = 'single';
+                // Load the user profile
+                $args['profile'] = $profile;
+                // Load the user order history
+                $args['orders'] = $orders;
+                break;
+        }
+        
+        $args['display'] = $display;
+        
         $views = array(
-            array('name' => 'user/account', 'args' => array('title' => 'My Account'))
+            array('name' => 'user/account', 'args' => $args)
         );
         
         // Set the view options
@@ -281,7 +373,6 @@ class Account extends AbstractController {
         
         // ... and go
         $this->loadViews();
-
     }
     
     public function showUserProfile() {
@@ -336,7 +427,19 @@ class Account extends AbstractController {
     private function handleGet($method) {
         switch($method) {
             case 'main' :
-                
+                $credentials = $this->mod_auth->credentials();
+                switch($credentials->user['type']) {
+                    case USER_SUPER :
+//                        break;
+                    case USER_NORMAL :
+//                        break;
+                    case USER_CHILD :
+                        $this->showAccount();
+                        break;
+                    case USER_ANON :
+                        $this->showLoginAndRegister();
+                        break;
+                }
             break;
             case 'logout' :
                 $this->doLogout();

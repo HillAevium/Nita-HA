@@ -43,6 +43,9 @@
 $route['default_controller'] = "main";
 $route['scaffolding_trigger'] = "";
 
+$route['MyAccount'] = '/account/main';
+$route['Shop'] = '/shop/programs';
+$route['MyCart'] = '/cart/display';
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

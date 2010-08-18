@@ -260,7 +260,7 @@ class Cart extends AbstractController {
             case USER_ANON :
                 $button = 'login';
                 // FIXME URL
-                $this->session->set_userdata('login.href', '/cart/display');
+                $this->session->set_userdata('login.href', '/MyCart');
             break;
             case USER_CHILD :
                 // FIXME - What to do for child users ?

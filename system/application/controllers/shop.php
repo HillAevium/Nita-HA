@@ -23,8 +23,7 @@ class Shop extends AbstractController {
         // Create the breadcrumbs
         $this->breadcrumbs = array(
             'home'        => array('name' => 'Home', 'id' => '/main/index/'),
-            'program'     => array('name' => 'Programs',     'id' => '/shop/programs/'),
-            'publication' => array('name' => 'Publications', 'id' => '/shop/publications')
+            'program'     => array('name' => 'Programs',     'id' => '/Programs')
         );
     }
     
@@ -181,12 +180,6 @@ class Shop extends AbstractController {
         
         // ... and go
         $this->loadViews();
-    }
-
-    private function initDetail($type, $color) {
-        
-        
-        return array('model' => $model);
     }
 }
 

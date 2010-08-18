@@ -3,7 +3,7 @@
 // Make the id of each selection the rowid
 // from the cart to make the lookup easier
 // on the ajax submit.
-
+$spaces[] = 4;
 foreach($this->cart->contents() as $item) {
     //TODO $space[] = $item['space'];
     $spaces[] = 4;
