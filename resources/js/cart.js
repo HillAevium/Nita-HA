@@ -230,7 +230,7 @@ function Controller(bindings) {
         var maxCount = selectionModel.max;
         
         if(val == 'Remove') {
-            this.onRemoveAttendee(lastVal);
+            this.onRemoveAttendee(list, selectionModel, lastVal);
         } else {
             var text = $(event.target).children(':first').text();
             if(text == 'Remove') {
