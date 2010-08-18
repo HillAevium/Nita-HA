@@ -280,13 +280,13 @@ function ShoppingCart() {
         if($(bindings.login).length) {
             $(bindings.login).click(function() {
                 //FIXME Make true for https
-                doPageLoad('/account/forms', false, true);
+                doPageLoad('/MyAccount', false, true);
             });
         }
         if($(bindings.register).length) {
             $(bindings.register).click(function() {
                 //FIXME Make true for https
-                doPageLoad('/account/forms', false, true);
+                doPageLoad('/MyAccount', false, true);
             });
         }
         if($(bindings.display).length) {
