@@ -1,5 +1,5 @@
-    <div id="content_main_inner">
-        <h1 class="page_title">Sign In / Create Account</h1>
+    <div id="content_reg_funnel">
+        <h1 class="page_title">Sign In</h1>
         <div class="gray_line"></div>
         <form id="login_form" name="login_form" action="/account/login" method="POST">
         <div id="error_container"></div>
@@ -20,14 +20,20 @@
         </table>
         </form>
         <div class="gray_line"></div>
-        <table width="100%">
+        <h1 class="page_title">Create an Account</h1>
+        <div class="gray_line"></div>
+        <table class="reg_funnel">
             <tr>
-                <td style="width:260px; vertical-align:middle; font-size:11pt; text-transform:uppercase; letter-spacing:0.5pt; ">I'm a <span class="blue">new customer</span></td>
-                <td align="left" style="padding:19px 0;">
-                    <div class="button_create_account" onclick="window.location='/account/register'"></div>
+                <td align="left">
+                    <div id="group">
+                        <img src="/resources/images/reg_funnel_button_group.png" alt="Group" title="Group" />
+                    </div>
                 </td>
-                <td></td>
-                <td></td>
+                <td align="right">
+                    <div id="individual">
+                        <img src="/resources/images/reg_funnel_button_individual.png" alt="Individual" title="Individual" />
+                    </div>
+                </td>
             </tr>
         </table>
         <div class="gray_line"></div>

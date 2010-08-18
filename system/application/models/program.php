@@ -70,8 +70,6 @@ class Program extends Model {
     
     public function Program() {
         parent::Model();
-        // TODO - Remove this once the soap API goes live
-        //$this->soap =& $this->mocksoap;
     }
     
     /**
@@ -80,10 +78,15 @@ class Program extends Model {
      * @return an array of Programs
      */
     public function getAll() {
-        $programs = $this->soap->getAllPrograms();
+//        $programs = $this->soap->getAllPrograms();
         
-        //$data = json_decode(file_get_contents("http://72.54.98.142/sql.php?view=program&format=json"));
-
+        $programs = json_decode(file_get_contents(
+            "http://72.54.98.142/sql.php?view=programs".
+                                       "&format=json".
+                                       "&startDate=".date('Y-m-d',time()).
+                                       "&endDate=".date('Y-m-d',time() + (365*24*3600))
+        ));
+//        echo '<pre>';print_r($programs);echo"</pre>";die();
         return $programs;
     }
     
@@ -94,9 +97,14 @@ class Program extends Model {
      * @return a Program matching the id
      */
     public function getSingle($id) {
-        $program = $this->soap->getProgram($id);
-        
-        return $program;
+//        $program = $this->soap->getProgram($id);
+        $program = json_decode(file_get_contents(
+            "http://72.54.98.142/sql.php?view=program".
+                                       "&format=json".
+                                       "&id=".$id
+        ));
+//        echo '<pre>';print_r($program);echo"</pre>";die();
+        return $program[0];
     }
     
     /**

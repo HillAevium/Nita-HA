@@ -32,14 +32,8 @@ class Main extends AbstractController {
         
         $this->load->view('http_header', array('title' => $this->title));
         
-        // Check if user is authenticated
-        // and set the proper account links
-        $isAuth = $this->mod_auth->isAuthenticated();
-        if($isAuth === true) {
-            $accountLink = '/account/user';
-        } else {
-            $accountLink = '/account/register';
-        }
+        $accountLink = '/account/forms';
+        
         $headerArgs['accountLink'] = $accountLink;
         
         // Load the header view
@@ -248,16 +242,15 @@ class Main extends AbstractController {
         $topbox['image'] = "";
         $topbox['title'] = "";
         $topbox['content'] = "";
-        if ($pageContent !== false) { 
+        if ($pageContent !== false) {
             $topbox['image'] = $pageContent->nita_page_image;
             $topbox['title'] = $pageContent->nita_page_name;
             $topbox['content'] = preg_replace('#(<h1>[^<]*</h1>)|(style="[^"]*")#',"",$pageContent->nita_page_text);
-            
             $this->breadcrumbs[$alias] = array('name' => $pageContent->nita_page_name, 'id' => '/main/webpage/alias/' . $alias);
             $breadcrumb[] = $this->breadcrumbs[$alias];
         }
         $this->setViewOption('topbox', $topbox);
-        // setup tab panel layout if page has child pages       
+        // setup tab panel layout if page has child pages
         if($childContent !== null) {
             // Load our content panels
             foreach($childContent as $model) {

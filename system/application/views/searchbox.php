@@ -10,9 +10,7 @@
         <label>Search by Type:</label>
         <select id="search_type" >
             <!-- This will likely become dynamically generated -->
-            <option value="0" selected="selected">All</option>
-            <option value="Trial Advocacy">Trial Advocacy</option>
-            <option value="Deposition and Pretrial Skills">Deposition and Pretrial Skills</option>
+            <option value="" selected="selected">All</option>
         </select>
     </div>
 </div>

@@ -47,7 +47,49 @@ class Shop extends AbstractController {
      * @param string $id the id of the program to display
      */
     public function program() {
-        $model = $this->initDetail('program', 'orange');
+        $id = $this->getArgument('id');
+        
+        // No id was supplied?
+        if($id === false) {
+            // FIXME What do we do here.
+            // FIXME URL
+            show_404('/shop/program/');
+        }
+        
+        // Load the selected model
+        $this->load->model('program');
+        
+        // Get the model for the details
+        $model = $this->program->getSingle($id);
+        
+        // We need to check if we got a program as the ID could
+        // have been entered by hand and been invalid
+        if (is_null($model)) {
+            // FIXME URL
+            show_404('/shop/program/id/'.$id);
+        }
+        
+        // Setup the topbox content
+        $topbox = array(
+            'image'   => 'topbox_test.jpg',
+            'title'   => $model->title,
+            'content' => $this->getRandomText(1)
+        );
+        
+        // Setup the breadcrumb
+        $breadcrumb = array(
+            $this->breadcrumbs['home'],
+            $this->breadcrumbs['program'],
+            array('name' => $model->title)
+        );
+        
+        // Load the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('topbox', $topbox);
+        $this->setViewOption('pageTitle', $model->title);
+        $this->setViewOption('color', 'orange');
+        
+        $model = array('model' => $model);
         
         // TODO
         // Some of these will likely get created
@@ -82,7 +124,7 @@ class Shop extends AbstractController {
         
         // Populate args for the view
         $args['tabs']  = $tabs;
-        $args['class'] = $class;
+         $args['class'] = $class;
         
         // Setup the views
         $views = array(
@@ -181,55 +223,44 @@ class Shop extends AbstractController {
     }
     
     private function renderList($type, $color) {
+
         // Load the model
-        $this->load->model($type);
+        $this->load->model('program');
         
         // Grab some models
-        $models = $this->$type->getAll();
-        
-        // TODO - We should do something here if no items are returned
+        $models = $this->program->getAll();
         
         // Setup the data for the view
         $views = array(
-            array('name' => $type.'s/list', 'args' => array('models' => $models))
+            array('name' => 'programs/list', 'args' => array('models' => $models))
         );
         
         // Setup the breadcrumb
         $breadcrumb = array(
             $this->breadcrumbs['home'],
-            $this->breadcrumbs[$type]
+            $this->breadcrumbs['program']
         );
         
         // Setup the topbox content
-        // FIXME
-        // Hack to get the job done. Deadlines to meet :)
-        $topbox = array(
-            'image'   => '',
-            'title'   => '',
-            'content' => ''
-        );
-        switch($type) {
-            case 'program':
-                $pages = $this->config->item('page','soap');
-                $guid = $pages['programs']['guid'];
-                $pageContent = $this->soap->getPage($guid);
-                $topbox['image'] = $pageContent->nita_page_image;
-                $topbox['title'] = $pageContent->nita_page_name;
-                $topbox['content'] = preg_replace("#<h1>[^<]*<\/h1>#","",$pageContent->nita_page_text);
-                break;
-        }
+        $pages = $this->config->item('page','soap');
+        $guid = $pages['programs']['guid'];
+        $pageContent = $this->soap->getPage($guid);
+        $topbox['image'] = $pageContent->nita_page_image;
+        $topbox['title'] = $pageContent->nita_page_name;
+        $topbox['content'] = preg_replace('#<h1>[^<]*<\/h1>#',"",$pageContent->nita_page_text);
         
         // Load the view options
         $this->setViewOption('searchbox', true);
         $this->setViewOption('topbox', $topbox);
         $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('views', $views);
-        $this->setViewOption('pageTitle', $this->titles[$type]);
-        $this->setViewOption('color', $color);
+        $this->setViewOption('pageTitle', $this->titles['program']);
+        $this->setViewOption('color', 'orange');
         
         // ... and go
         $this->loadViews();
     }
+
 }
 
 /* End of file Shop.php */

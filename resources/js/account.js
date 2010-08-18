@@ -12,6 +12,17 @@ const HTTP_TIMEOUT = 408;
 
 const HTTP_INTERNAL_ERROR = 500;
 
+//Initialize Forms
+$(document).ready(
+function() {
+    $("form").submit(function(event) { return false; });
+    $('#group').click(selectRegType);
+    $('#individual').click(selectRegType);
+    bindForm('#login_form');
+    $("#login_form").ajaxComplete(handleLoginComplete);
+}
+);
+
 // FIXME
 // Remove for production
 function addTestValues() {
@@ -73,22 +84,28 @@ function toggleIsAttendingDependentFields() {
     }
 }
 
-function initForm(form) {
+function bindForm(form) {
     $('#error_container').html('');
     $('#response_message').html('');
     $("#submit_form").unbind('click');
     $("#submit_form").click(
         function(event) {
-            form.ajaxSubmit();
+            $(form).ajaxSubmit();
         }
     );
-    $('form').hide();
-    form.fadeIn();
+    $(form).fadeIn();
 }
 
 function selectRegType(event) {
+    // FIXME
+    // Remove for production
+    addTestValues();
+    
     $('#content_reg_funnel').fadeOut();
-    bindForms();
+    $('#login_form').unbind('ajaxComplete');
+    $(document).ajaxComplete(handleFormComplete);
+    bindForm('#firm_form');
+    
     var type = event.currentTarget.id;
     switch(type) {
         case 'group' :
@@ -103,84 +120,44 @@ function selectRegType(event) {
     $('#content_reg_form').fadeIn();
 }
 
-// FIXME
-// Somewhere we stopped handling errors
-// from form validation...
-function bindForms() {
-    initForm($('#firm_form'));
-    $("form").submit(function(event) { return false; });
-    // FIXME
-    // Remove for production
-    addTestValues();
-    
-    $('#firm_form').ajaxComplete(
-        function(e, xhr, setting) {
-            switch(xhr.status) {
-                case HTTP_ACCEPTED :
-                    // FIXME
-                    $("#response_message").html(xhr.responseText);
-                    initForm($('#profile_form'));
-                    break;
-                case HTTP_BAD_REQUEST :
-                    $('#error_container').html(xhr.responseText);
-                    break;
-            }
-        }
-    );
-    
-    $('#profile_form').ajaxComplete(
-        function(e, xhr, setting) {
-            switch(xhr.status) {
-                case HTTP_CREATED :
-                    // FIXME - Needs to be https (2nd param true)
-                    doPageLoad('/account/login', false, true);
-                    break;
-                case HTTP_BAD_REQUEST :
-                    $('#error_container').html(xhr.responseText);
-                    break;
-            }
-        }
-    );
+// Ajax Handlers
+
+function handleLoginComplete(e, xhr, setting) {
+    alert('ajax complete login');
+    switch(xhr.status) {
+        case HTTP_ACCEPTED :
+            // Display a message to the user
+            // Redirect them to referrer or profile page
+            doPageLoad(xhr.responseText, false, true);
+            break;
+        case HTTP_BAD_REQUEST :
+            // The form info was invalid
+            $("#error_container").html(xhr.responseText);
+            break;
+        case HTTP_UNAUTHORIZED :
+            // The authorization failed
+            $("#error_container").html(xhr.responseText);
+            break;
+        default : alert('error login');
+    }
 }
 
-if(window.location.pathname == '/account/login') {
-    // Initialize Login
-    $(document).ready(
-        function() {
-            initForm($('#login_form'));
-            $("form").submit(function(event) { return false; });
-            
-            $('#login_form').ajaxComplete(
-                function(e, xhr, setting) {
-                    switch(xhr.status) {
-                        case HTTP_ACCEPTED :
-                            // Display a message to the user
-                            // Redirect them to referrer or profile page
-                            doPageLoad(xhr.responseText, false, true);
-                            break;
-                        case HTTP_BAD_REQUEST :
-                            // The form info was invalid
-                            $("#error_container").html(xhr.responseText);
-                            break;
-                        case HTTP_UNAUTHORIZED :
-                            // The authorization failed
-                            $("#error_container").html(xhr.responseText);
-                            break;
-                        default :
-                            // Unhandled code
-                            $("#error_container").html("Unhandled HTTP status code : " + xhr.status);
-                    }
-                }
-            );
-        }
-    );
-}
-
-if (window.location.pathname == '/account/register') {
-    $(document).ready(
-        function() {
-            $('#group').click(selectRegType);
-            $('#individual').click(selectRegType);
-        }
-    );
+function handleFormComplete(e, xhr, setting) {
+    alert('ajax complete form');
+    switch(xhr.status) {
+        case HTTP_ACCEPTED :
+            // FIXME
+            $("#response_message").html(xhr.responseText);
+            $('#firm_form').fadeOut();
+            bindForm('#profile_form', null);
+            break;
+        case HTTP_CREATED :
+            // FIXME - Needs to be https (2nd param true)
+            doPageLoad('/account/forms', false, true);
+            break;
+        case HTTP_BAD_REQUEST :
+            $('#error_container').html(xhr.responseText);
+            break;
+        default : alert('error forms');
+    }
 }

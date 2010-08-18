@@ -140,7 +140,7 @@ abstract class AbstractController extends Controller {
     /**
      * Main view loading function
      *
-     */ 
+     */
     protected function loadViews() {
         $color     = $this->getViewOption('color');
         $debug     = $this->getViewOption('debug');
@@ -155,12 +155,7 @@ abstract class AbstractController extends Controller {
         
         // Check if user is authenticated
         // and set the proper account links
-        $isAuth = $this->mod_auth->isAuthenticated();
-        if($isAuth === true) {
-            $accountLink = '/account/user';
-        } else {
-            $accountLink = '/account/register';
-        }
+        $accountLink = '/account/forms';
         
         // Set header view args
         $headerArgs = array();

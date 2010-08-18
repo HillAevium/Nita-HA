@@ -17,7 +17,6 @@ class Cart extends AbstractController {
         try {
             switch($requestMethod) {
                 case 'POST' :
-                    $this->load->helper('post');
                     $this->handlePost($method);
                 break;
                 case 'GET' :
@@ -40,23 +39,29 @@ class Cart extends AbstractController {
     
     // Called from shop controller list/detail pages
     public function addItem() {
-        $definition = Model_Definition::runtimeInstance();
+        // TODO Make sure the user does not add an item twice
+        $this->load->model('program');
+        $program = $this->program->getSingle($_POST['id']);
         
-        $definition->addField(new String_Field('id'));
-        $definition->addField(new String_Field('price'));
-        $definition->addField(new String_Field('name'));
-        
-        $cart = $definition->processPost('array');
+        $cart = array(
+            'id' => $_POST['id'],
+            'price' => $program->price,
+            'name' => $program->title
+        );
         $cart['qty'] = 1;
         
         $this->cart->insert($cart);
+        
+        $this->output->set_status_header(202);
     }
     
     // Called from cart display pages
     public function removeItem() {
-        $rowid = $this->getRowId();
+        $rowid = $_POST['rowid'];
         
         $this->cart->update(array('rowid' => $rowid, 'qty' => 0));
+        
+        $this->output->set_status_header(202);
     }
     
     // Called from cart display pages when a program
@@ -95,6 +100,7 @@ class Cart extends AbstractController {
             return;
         }
         
+        $userType = $this->mod_auth->credentials()->user['type'];
         $programs = $jsonField->process();
         
         // Remap the profiles to an assoc array
@@ -110,55 +116,64 @@ class Cart extends AbstractController {
         $details = array();
         $billing = array();
         foreach($this->cart->contents() as $item) {
-            if(!isset($profileMap[$item['id']])) {
-                // TODO What do we do if the user has a program
-                // in the cart but does not add attendees?
-                $msg = new stdClass();
-                $msg->msg = "No Attendees Selected";
-                $details[] = array($msg);
-                continue;
+            if($userType == USER_NORMAL) {
+                $billing[] = array(
+                    'programTitle' => $item['name'],
+                    'numAttendees' => '1 Attendee',
+                    'price'        => $item['price'],
+                    'subTotal'     => $item['subtotal']
+                );
+            } else {
+                if(!isset($profileMap[$item['id']])) {
+                    // TODO What do we do if the user has a program
+                    // in the cart but does not add attendees?
+                    $msg = new stdClass();
+                    $msg->msg = "No Attendees Selected";
+                    $details[] = array($msg);
+                    continue;
+                }
+                $profiles = $profileMap[$item['id']];
+                
+                // Persist the choices in the cart options
+                $this->cart->update(
+                    array(
+                        'rowid' => $item['rowid'],
+                        'qty' => count($profiles),
+                        'options' => $profiles
+                    )
+                );
+                // Reload the item
+                $cart = $this->cart->contents();
+                $item = $cart[$item['rowid']];
+                
+                // Loop through the profiles to send back details
+                // for the review widget
+                foreach($profiles as $profile) {
+                    //$user = $this->accountProvider->getProfile($profile->id);
+                    //FIXME
+                    $user = new stdClass();
+                    $user->name = $profile->name;
+                    $user->id   = $profile->id;
+                    $user->address = "123 2nd Ave SE";
+                    $user->city = "Calgary";
+                    $user->state = "AB";
+                    $user->zip = "T1A 4B7";
+                    $user->country = "Canada";
+                    $users[] = $user;
+                }
+                $details[] = $users;
+                unset($users);
+                
+                // FIXME For some reason the cart info is stale that
+                // we have. The cart update above works but it doesn't
+                // show up in $item
+                $billing[] = array(
+                    'programTitle' => $item['name'],
+                    'numAttendees' => $item['qty'] . ' Attendees',
+                    'price'        => $item['price'],
+                    'subTotal'     => $item['subtotal']
+                );
             }
-            
-            $profiles = $profileMap[$item['id']];
-            
-            // Persist the choices in the cart options
-            $this->cart->update(
-                array(
-                    'rowid' => $item['rowid'],
-                    'qty' => count($profiles),
-                    'options' => $profiles
-                )
-            );
-            $cart = $this->cart->contents();
-            $item = $cart[$item['rowid']];
-            
-            // Loop through the profiles to send back details
-            // for the review widget
-            foreach($profiles as $profile) {
-                //$user = $this->accountProvider->getProfile($profile->id);
-                //FIXME
-                $user = new stdClass();
-                $user->name = $profile->name;
-                $user->id   = $profile->id;
-                $user->address = "123 2nd Ave SE";
-                $user->city = "Calgary";
-                $user->state = "AB";
-                $user->zip = "T1A 4B7";
-                $user->country = "Canada";
-                $users[] = $user;
-            }
-            $details[] = $users;
-            unset($users);
-            
-            // FIXME For some reason the cart info is stale that
-            // we have. The cart update above works but it doesn't
-            // show up in $item
-            $billing[] = array(
-                'programTitle' => $item['name'],
-                'numAttendees' => $item['qty'] . ' Attendees',
-                'price'        => $item['price'],
-                'subTotal'     => $item['subtotal']
-            );
         }
         
         // FIXME - Try using $this->output->set_output();
@@ -167,6 +182,9 @@ class Cart extends AbstractController {
     }
     
     public function doFinish() {
+        // TODO - Tie into order processing
+        // TODO - Protect this against multiple-submissions
+        echo "Order Completed.";
         $this->output->set_status_header(201);
     }
     
@@ -175,80 +193,93 @@ class Cart extends AbstractController {
     // Main entry point for cart display. This method
     // splits depending on authentication credentials
     public function showCart() {
+        $this->load->model('accountProvider');
+        
         // FIXME Remove for production
-        $this->stageDebugCart();
+//        $this->stageDebugCart();
         
-        // Use 3 states to determine the page to show
-        // normal - Normal and Anonymous users
-        // super - Super users
-        // none - Child users
+        $profiles = array();
+        $info = array();
+        $display = 'single';
+        $button = 'review';
+        $titles = array(
+            'cart' => 'Your Cart',
+            'review' => 'Enrollment Review',
+            'billing' => 'Billing Information',
+            'finish' => 'Thank You!'
+        );
         
-        $display = 'normal';
-        $auth = false;
-        
-        // We change the display to super for a super user
-        // and none for a child user
+        $accountId = $this->mod_auth->credentials()->user['accountId'];
         $userType = $this->mod_auth->credentials()->user['type'];
+        
+        // Super users see a multi-cart and are able to add
+        // attendees. Single users see a simple cart with their
+        // items. Anonymous users see the same simple cart, but
+        // do not have the rest of the cart interfaces loaded as
+        // they must go through login/register before coming
+        // back to the cart.
+        
         switch($userType) {
             case USER_SUPER :
-                $this->showSuperCart();
+                // TODO - Pull this from the account
+                //$profiles = $this->accountProvider->getProfilesByAccount($accountId);
+                $profiles = array (
+                    array('id' => 1, 'name' => 'A'),
+                    array('id' => 2, 'name' => 'B'),
+                    array('id' => 3, 'name' => 'C'),
+                    array('id' => 4, 'name' => 'D'),
+                    array('id' => 5, 'name' => 'E'),
+                    array('id' => 6, 'name' => 'F')
+                );
+                $info = array(
+                    'name' => "Jen's Law Firm",
+                    'address' => "1667 W. Alimosa Ave.",
+                    'city' => 'Denver',
+                    'state' => 'CO',
+                    'country' => 'USA',
+                    'zip' => '80219',
+                    'phone' => '303-824-2789',
+                    'fax' => '303-824-2291'
+                );
+                $display = 'multi';
+                $titles['cart'] = 'Enroll Profiles In Programs';
+            break;
+            case USER_NORMAL :
+                // TODO
+                $info = array(
+                    'name' => "Jen's Law Firm",
+                    'address' => "1667 W. Alimosa Ave.",
+                    'city' => 'Denver',
+                    'state' => 'CO',
+                    'country' => 'USA',
+                    'zip' => '80219',
+                    'phone' => '303-824-2789',
+                    'fax' => '303-824-2291'
+                );
             break;
             case USER_ANON :
-            case USER_NORMAL :
-                $this->showNormalCart($userType);
+                $button = 'login';
+                // FIXME URL
+                $this->session->set_userdata('login.href', '/cart/display');
             break;
             case USER_CHILD :
                 // FIXME - What to do for child users ?
                 die("Cart support for child user not implemented.");
             break;
         }
-    }
-    
-    // Page 2
-    // Reachable by unauthenticated users
-    //   Show Login/Register buttons
-    // Reachable by authenticated normal users
-    //   Show Checkout button
-    private function showNormalCart($userType) {
-        // We display different buttons depending on the user type
-        // Anonymous users see Login/Register
-        // Normal users see Checkout
-        switch($userType) {
-            case USER_NORMAL :
-                $args['buttons'] = 'checkout';
-            break;
-            case USER_ANON :
-                $args['buttons'] = 'login';
-                $this->session->set_userdata('login.href', '/cart/display');
-            break;
-        }
         
-        $args['title'] = 'Your Cart';
-        
-        $views = array(
-            array('name' => 'cart/normal', 'args' => $args)
-        );
-        $this->setViewOption('color', 'blue_short');
-        $this->setViewOption('pageTitle', 'Your Cart');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        $this->loadViews();
-    }
-    
-    // Page 8
-    // Reachable by authenticated super users
-    private function showSuperCart() {
-        $accountId = $this->mod_auth->credentials->user['accountId'];
-        $this->load->model('accountProvider');
-        $args['users'] = $this->accountProvider->getProfilesByAccount($accountId);
-        log_message('error', print_r($args, true));
-        
-        $views = array(
-            array('name' => 'cart/super', 'args' => array('title' => 'Enroll Profiles in Programs'))
+        $args = array(
+            'profiles' => $profiles,
+            'titles' => $titles,
+            'display' => $display,
+            'button' => $button,
+            'info' => $info
         );
         
-        $this->setViewOption('pageTitle', 'Enroll Profiles in Programs');
+        $views = array(
+            array('name' => 'cart/display', 'args' => $args)
+        );
+        
         $this->setViewOption('color', 'blue_short');
         $this->setViewOption('mainNav', true);
         $this->setViewOption('views', $views);

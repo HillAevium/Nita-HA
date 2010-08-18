@@ -1,6 +1,6 @@
     <div id="content_reg_form" style="display:none;">
         <h1 class="page_title" id="page_title"></h1>
-        <div id="sign_in" class="small">Already have an account? <a href="/account/login">Sign in!</a></div>
+        <div id="sign_in" class="small">Already have an account? <a href="/account/forms">Sign in!</a></div>
         <div class="gray_line"></div>
         <div id="forms_container">
             <div id="error_container"></div>
@@ -19,7 +19,8 @@
             <label style="position:absolute; top:16px; left:3px;">Attach a NITA Application</label>
             <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
             <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
-            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="$('#firm_form').submit();"></div>
+            
+            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="$('#submit_form').click();"></div>
         </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->

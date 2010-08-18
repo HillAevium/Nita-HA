@@ -57,16 +57,8 @@ class Soap {
         return $this->doProgramServiceGetActivePrograms();
     }
     
-    public function getAllPublications() {
-        // TODO
-    }
-    
     public function getProgram($id) {
         return $this->doProgramServiceGet($id);
-    }
-    
-    public function getPublication($id) {
-        // TODO
     }
     
     public function userInsert(UserProfile $model) {

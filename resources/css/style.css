@@ -237,6 +237,9 @@ div#search_header .close:hover { background:#bbb; cursor:pointer; }
 div#search_body label         { }
 div#search_body input         { }
 
+.ac_results { border:1px solid #000; background: #FFF; text-align:left; }
+.ac_results li:hover { background:#eee; }
+
 /* Shopping Cart */
 
 div#add_attendee_button      { width:200px; height:50px; }
