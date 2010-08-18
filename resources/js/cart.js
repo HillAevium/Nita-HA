@@ -12,7 +12,12 @@ var controller;
 // causing the rest of the programs to go to edit mode
 // Add history support
 
-if(window.location.pathname == '/cart/display') {
+// FIXME
+// Removing an item from the cart on the review page does
+// not remove it from the billing list, need to refresh
+// the cart.
+
+if(window.location.pathname == '/MyCart') {
     $(document).ready(
         function() {
             // UI Controller

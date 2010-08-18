@@ -123,7 +123,6 @@ function selectRegType(event) {
 // Ajax Handlers
 
 function handleLoginComplete(e, xhr, setting) {
-    alert('ajax complete login');
     switch(xhr.status) {
         case HTTP_ACCEPTED :
             // Display a message to the user
@@ -143,7 +142,6 @@ function handleLoginComplete(e, xhr, setting) {
 }
 
 function handleFormComplete(e, xhr, setting) {
-    alert('ajax complete form');
     switch(xhr.status) {
         case HTTP_ACCEPTED :
             // FIXME
@@ -153,7 +151,7 @@ function handleFormComplete(e, xhr, setting) {
             break;
         case HTTP_CREATED :
             // FIXME - Needs to be https (2nd param true)
-            doPageLoad('/account/forms', false, true);
+            doPageLoad('/MyAccount', false, true);
             break;
         case HTTP_BAD_REQUEST :
             $('#error_container').html(xhr.responseText);

@@ -18,25 +18,25 @@ $(document).ready(function() {
         $(this).click(function(event) {
             switch(event.target.id) {
                 case 'About' :
-                    doPageLoad('/main/webpage/alias/about', false, true);
+                    doPageLoad('/About', false, true);
                     break;
                 case 'Custom' :
-                    doPageLoad('/main/webpage/alias/customize', false, true);
+                    doPageLoad('/CustomPrograms', false, true);
                     break;
                 case 'Browse' :
-                    doPageLoad('/main/webpage/alias/publications', false, true);
+                    doPageLoad('/Publications', false, true);
                     break;
                 case 'Contact' :
-                    doPageLoad('/main/webpage/alias/contact', false, true);
+                    doPageLoad('/ContactNita', false, true);
                     break;
                 case 'Donate' :
-                    doPageLoad('/main/webpage/alias/donate', false ,true);
+                    doPageLoad('/Donate', false ,true);
                     break;
                 case 'School' :
-                    doPageLoad('/main/webpage/alias/law_school', false, true);
+                    doPageLoad('/LawShools', false, true);
                     break;
                 case 'Enroll' :
-                    doPageLoad('/shop/programs', false, true);
+                    doPageLoad('/Shop', false, true);
                     break;
             }
         });
@@ -44,6 +44,8 @@ $(document).ready(function() {
 });
 
 // Debugging for the map
+// Enable this if the image under the image map changes
+// and dimensions need to be resized.
 
 $(document).ready(function() {
     $('#debug_box').append("");

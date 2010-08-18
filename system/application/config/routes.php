@@ -43,9 +43,23 @@
 $route['default_controller'] = "main";
 $route['scaffolding_trigger'] = "";
 
-$route['MyAccount'] = '/account/main';
-$route['Shop'] = '/shop/programs';
-$route['MyCart'] = '/cart/display';
+$route['MyAccount']      = '/account/main';
+$route['MyCart']         = '/cart/display';
+$route['Home']           = '/main/index';
+$route['Careers']        = '/main/careers';
+$route['ENewsLetter']    = '/main/enewsletter';
+$route['NewsRoom']       = '/main/newsroom';
+$route['About']          = '/main/webpage/alias/about';
+$route['ContactNita']    = '/main/webpage/alias/contact';
+$route['CustomPrograms'] = '/main/webpage/alias/customize';
+$route['Donate']         = '/main/webpage/alias/donate';
+$route['LawSchools']     = '/main/webpage/alias/law_school';
+$route['Links']          = '/main/webpage/alias/links';
+$route['Privacy']        = '/main/webpage/alias/privacy_policy';
+$route['Publications']   = '/main/webpage/alias/publications';
+$route['SiteMap']        = '/main/webpage/alias/sitemap';
+$route['Shop']           = '/shop/programs';
+$route['Program/(:any)'] = '/shop/program/id/$1';
 
 /* End of file routes.php */
 /* Location: ./system/application/config/routes.php */

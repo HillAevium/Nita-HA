@@ -22,8 +22,8 @@ class Shop extends AbstractController {
         
         // Create the breadcrumbs
         $this->breadcrumbs = array(
-            'home'        => array('name' => 'Home', 'id' => '/main/index/'),
-            'program'     => array('name' => 'Programs',     'id' => '/Programs')
+            'home'        => array('name' => 'Home', 'id' => '/Home'),
+            'program'     => array('name' => 'Programs',     'id' => '/Shop')
         );
     }
     
@@ -50,9 +50,8 @@ class Shop extends AbstractController {
         
         // No id was supplied?
         if($id === false) {
-            // FIXME What do we do here.
-            // FIXME URL
-            show_404('/shop/program/');
+            // FIXME Redirect to /Shop
+            show_404('/Program/');
         }
         
         // Load the selected model
@@ -65,7 +64,7 @@ class Shop extends AbstractController {
         // have been entered by hand and been invalid
         if (is_null($model)) {
             // FIXME URL
-            show_404('/shop/program/id/'.$id);
+            show_404('/Program/'.$id);
         }
         
         // Setup the topbox content
@@ -82,11 +81,7 @@ class Shop extends AbstractController {
             array('name' => $model->title)
         );
         
-        // Load the view options
-        $this->setViewOption('breadcrumb', $breadcrumb);
-        $this->setViewOption('topbox', $topbox);
         $this->setViewOption('pageTitle', $model->title);
-        $this->setViewOption('color', 'orange');
         
         $model = array('model' => $model);
         
@@ -123,7 +118,7 @@ class Shop extends AbstractController {
         
         // Populate args for the view
         $args['tabs']  = $tabs;
-         $args['class'] = $class;
+        $args['class'] = $class;
         
         // Setup the views
         $views = array(
@@ -131,8 +126,10 @@ class Shop extends AbstractController {
             array('name' => 'tab_panel', 'args' => $args)
         );
         
+        // Load the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('topbox', $topbox);
         $this->setViewOption('color', 'orange');
-        $this->setViewOption('pageTitle', 'My Profile');
         $this->setViewOption('views', $views);
         
         // ... and go

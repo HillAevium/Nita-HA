@@ -3,25 +3,25 @@
     <div id="footer_inner">
         <div id="footer_menu1">
             <ul class="menu">
-                <li><a class="orange" href="/shop/programs">programs</a></li> /
-                <li><a class="red" href="/main/webpage/alias/publications">publications</a></li> /
-                <li><a class="purple" href="/main/webpage/alias/customize">custom programs</a></li> /
-                <li><a class="dark_blue" href="/main/webpage/alias/law_school">law schools</a></li> /
-                <li><a class="green" href="/main/webpage/alias/donate">donate</a></li> /
-                <li><a class="teal" href="/main/webpage/alias/about">about</a></li> /
-                <li><a class="light_blue" href="/main/webpage/alias/contact">contact</a></li>
+                <li><a class="orange" href="/Shop">programs</a></li> /
+                <li><a class="red" href="/Publications">publications</a></li> /
+                <li><a class="purple" href="/CustomPrograms">custom programs</a></li> /
+                <li><a class="dark_blue" href="/LawSchools">law schools</a></li> /
+                <li><a class="green" href="/Donate">donate</a></li> /
+                <li><a class="teal" href="/About">about</a></li> /
+                <li><a class="light_blue" href="/ContactNita">contact</a></li>
             </ul>
         </div>
         <div id="footer_menu2">
             <ul class="menu">
-                <li><a href="/cart/display">shopping cart</a></li> /
-                <li><a href="<?php echo $accountLink; ?>">my account</a></li> /
-                <li><a href="/main/careers">careers</a></li> /
-                <li><a href="/main/webpage/alias/links">links</a></li> /
-                <li><a href="/main/webpage/alias/privacy_policy">privacy policy</a></li> /
-                <li><a href="/main/newsroom">news room</a></li> /
-                <li><a href="/main/enewsletter">e-newsletter</a></li> /
-                <li><a href="/main/webpage/alias/sitemap">sitemap</a></li>
+                <li><a href="/MyCart">shopping cart</a></li> /
+                <li><a href="/MyAccount">my account</a></li> /
+                <li><a href="/Careers">careers</a></li> /
+                <li><a href="/Links">links</a></li> /
+                <li><a href="/Privacy">privacy policy</a></li> /
+                <li><a href="/NewsRoom">news room</a></li> /
+                <li><a href="/ENewsLetter">e-newsletter</a></li> /
+                <li><a href="/SiteMap">sitemap</a></li>
             </ul>
         </div>
         <div id="copyright">

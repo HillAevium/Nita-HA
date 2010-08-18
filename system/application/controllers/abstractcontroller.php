@@ -45,7 +45,7 @@ abstract class AbstractController extends Controller {
         // Clean this argument code up.
         
         // URI
-        $this->addArguments($this->uri->uri_to_assoc());
+        $this->addArguments($this->uri->ruri_to_assoc());
         
         // TODO - Session
         //$this->addArguments($this->session->all_userdata());

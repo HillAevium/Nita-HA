@@ -1,5 +1,10 @@
     <div id="content_reg_funnel">
         <h1 class="page_title">Sign In</h1>
+        There are 3 accounts already setup for each of the user types.<br />
+        Super User: super@test.com<br />
+        Normal User: normal@test.com<br />
+        Child User: child@test.com<br />
+        Password for all 3: 111111
         <div class="gray_line"></div>
         <form id="login_form" name="login_form" action="/account/login" method="POST">
         <div id="error_container"></div>

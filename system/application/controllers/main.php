@@ -8,6 +8,10 @@ class Main extends AbstractController {
     
     public function __construct() {
         parent::AbstractController();
+        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/Home');
+        $this->breadcrumbs['careers'] = array('name' => '', 'id' => '/main/careers/');
+        $this->breadcrumbs['enewsletter'] = array('name' => 'E-Newsletter', 'id' => '/main/enewsletter/');
+        $this->breadcrumbs['news_room'] = array('name' => 'News Room', 'id' => '/main/newsroom/');
     }
     
     /**
@@ -18,17 +22,6 @@ class Main extends AbstractController {
      */
     public function index() {
         $this->title = 'NITA - National Institue for Trial Advocacy';
-        
-        // Setup the views
-        $views = array(
-            array('name' => 'home/default', 'args' => null)
-        );
-        
-        // ... and go
-        
-        // FIXME This broke the main page which does not want
-        // the other parts of the content pane
-        //$this->loadViews($views);
         
         $this->load->view('http_header', array('title' => $this->title));
         
@@ -43,7 +36,7 @@ class Main extends AbstractController {
         
         // Set footer args
         $footerArgs['accountLink'] = $accountLink;
-        $this->load->view('footer');
+        $this->load->view('footer', $footerArgs);
     }
     
     public function careers() {
@@ -84,9 +77,6 @@ class Main extends AbstractController {
         );
         
         // Breadcrumbs
-        $this->breadcrumbs = array();
-        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
-        $this->breadcrumbs['careers'] = array('name' => '', 'id' => '/main/careers/');
         $breadcrumb = array();
         $breadcrumb[] = $this->breadcrumbs['home'];
         $breadcrumb[] = $this->breadcrumbs['careers'];
@@ -140,9 +130,6 @@ class Main extends AbstractController {
         );
         
         // Breadcrumbs
-        $this->breadcrumbs = array();
-        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
-        $this->breadcrumbs['enewsletter'] = array('name' => 'E-Newsletter', 'id' => '/main/enewsletter/');
         $breadcrumb = array();
         $breadcrumb[] = $this->breadcrumbs['home'];
         $breadcrumb[] = $this->breadcrumbs['enewsletter'];
@@ -196,9 +183,6 @@ class Main extends AbstractController {
         );
         
         // Breadcrumbs
-        $this->breadcrumbs = array();
-        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
-        $this->breadcrumbs['news_room'] = array('name' => 'News Room', 'id' => '/main/newsroom/');
         $breadcrumb = array();
         $breadcrumb[] = $this->breadcrumbs['home'];
         $breadcrumb[] = $this->breadcrumbs['news_room'];
@@ -218,12 +202,6 @@ class Main extends AbstractController {
         $alias = $this->getArgument('alias');
         $guid  = $this->_guid($alias);
         $color = $this->_color($alias);
-        
-        // FIXME
-        // The breadcrubms are hacked in, need to find a more elegant solution
-        // Create the breadcrumbs
-        $this->breadcrumbs = array();
-        $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/main/index/');
         
         // Setup the breadcrumb
         $breadcrumb = array();

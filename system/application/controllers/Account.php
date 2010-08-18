@@ -319,26 +319,6 @@ class Account extends AbstractController {
         $this->loadViews();
     }
     
-    public function showFirmProfile() {
-        // Get the firm ID (from a cookie?)
-        
-        // Do authentication check.
-        
-        // If auth passed request the firm information
-        // from AccountService
-        
-        // It should be noted that although the interface
-        // will not provide a means for a single user
-        // account to end up here, that does not stop
-        // an outside attempt to do so. The authentication
-        // should not only verify a valid session, but that
-        // the user is a firm super-user and is the firm
-        // super-user for the requested account.
-        
-        // If auth failed send them to the login screen
-        // with the firm profile page as the referal page.
-    }
-    
     public function showLoginAndRegister() {
         $args['firmForm'] = $this->load->view('user/form_firm', null, true);
         $args['profileForm'] = $this->load->view('user/form_profile', null, true);
@@ -357,82 +337,13 @@ class Account extends AbstractController {
         $this->loadViews();
     }
     
-    public function showOrders() {
-        // TODO
-        // get the account id of the authenticated user
-        // and handle permissions or accessing this area
-        $views = array(
-            array('name' => 'user/orders', 'args' => array('title' => 'Previous Orders'))
-        );
-        
-        // Set the view options
-        $this->setViewOption('color', 'blue_short');
-        $this->setViewOption('pageTitle', 'Pervious Orders');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        // ... and go
-        $this->loadViews();
-    }
-    
-    public function showUserProfile() {
-        
-        // Load the profile model and request the account.
-        //$this->load->model('userprofile');
-        //$model = $this->userprofile->get($userId);
-        
-        //if(is_null($model)) {
-            // Apparently the user does not exist.
-            // FIXME What to do here ?
-            //show_404('/account/user/');
-        //}
-
-        $content[] = $this->load->view('user/profile/home',  null, true);
-        $content[] = $this->load->view('user/profile/cle_credits',  null, true);
-        $content[] = $this->load->view('user/profile/enrollment_history', null, true);
-               
-        // Setup the tab panel
-        $tabs = array(
-            array('name' => 'Home',               'id' => 'home',               'content' => $content[0]),
-            array('name' => 'CLE Credits',        'id' => 'cle_credits',        'content' => $content[1]),
-            array('name' => 'Enrollment History', 'id' => 'enrollment_history', 'content' => $content[2])
-        );
-        
-        // And the tabs classes
-        $class['tabs']   = 'orange_tabs';
-        $class['border'] = 'orange_border';
-        
-        // Populate args for the view
-        $args['tabs']  = $tabs;
-        $args['class'] = $class;
-        
-        // Setup the views
-        $title = "My Profile";
-        $views = array(
-            array('name' => 'user/profile/top', 'args' => array('title' => $title)),
-            array('name' => 'tab_panel', 'args' => $args),
-            array('name' => 'user/profile/bottom', 'args' => null)
-        );
-        
-        $this->setViewOption('color', 'blue_short');
-        $this->setViewOption('pageTitle', 'My Profile');
-        $this->setViewOption('mainNav', true);
-        $this->setViewOption('views', $views);
-        
-        // ... and go
-        $this->loadViews();
-
-    }
-    
     private function handleGet($method) {
         switch($method) {
             case 'main' :
                 $credentials = $this->mod_auth->credentials();
                 switch($credentials->user['type']) {
                     case USER_SUPER :
-//                        break;
                     case USER_NORMAL :
-//                        break;
                     case USER_CHILD :
                         $this->showAccount();
                         break;
@@ -443,21 +354,6 @@ class Account extends AbstractController {
             break;
             case 'logout' :
                 $this->doLogout();
-            break;
-            case 'user' :
-                $this->showUserProfile();
-            break;
-            case 'company' :
-                $this->showAccount();
-            break;
-            case 'orders' :
-                $this->showOrders();
-            break;
-            case 'group' :
-                $this->showGroupProfile();
-            break;
-            case 'forms' :
-                $this->showLoginAndRegister();
             break;
             default :
                 show_404('/account/' . $method . '/');

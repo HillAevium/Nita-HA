@@ -8,7 +8,7 @@
         </div>
         <a id="search_bar_cart" class="search_bar_cart has_hover" href="/MyCart"></a>
         <img class="tooltip" src="/resources/images/tooltip_cart.png" />
-        <a id="search_bar_account" class="search_bar_account has_hover" href="<?php echo $accountLink ; ?>"></a>
+        <a id="search_bar_account" class="search_bar_account has_hover" href="/MyAccount"></a>
         <img class="tooltip" src="/resources/images/tooltip_my_account.png" />
         <a id="search_bar_print" class="search_bar_print has_hover" href="#" onclick="window.print();return false;"></a>
         <img class="tooltip" src="/resources/images/tooltip_print.png" />

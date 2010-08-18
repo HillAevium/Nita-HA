@@ -86,7 +86,7 @@ function handleItemClick(event) {
         var id = event.currentTarget.id;
         handleCartItemClick(id);
     } else {
-        doPageLoad('/shop/program/id/' + event.currentTarget.id, false, true);
+        doPageLoad('/Program/' + event.currentTarget.id, false, true);
     }
 }
 
@@ -119,12 +119,6 @@ function addTabHandler() {
 function addBreadcrumbHandler() {
     $("div#breadcrumb div.parent").click(handleBreadcrumbClick);
 }
-
-//function addSearchboxHandler() {
-//    $("div#search_open").click(handleSearchboxToggle);
-//    $("div#search_close").click(handleSearchboxToggle);
-//    $("select#search_type").change(handleSearchboxType);
-//}
 
 function addTooltipHandler() {
     $("#search_bar a").tooltip();
