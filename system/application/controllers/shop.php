@@ -150,7 +150,7 @@ class Shop extends AbstractController {
         
         // Get the model for the details
         $model = $this->$type->getSingle($id);
-        
+
         // We need to check if we got a program as the ID could
         // have been entered by hand and been invalid
         if (is_null($model)) {
