@@ -4,7 +4,8 @@ $(document).ready(function() {
     controller = new ProfileController({
         buttonBar: "#button_bar",
         container: "#panels",
-        speed: '400',
+        speed: '350',
+        trigger: 'mouseenter',
         panels: [
             {button: "#account", pane: "#account_pane"},
             <?php if($display == 'single'): ?>

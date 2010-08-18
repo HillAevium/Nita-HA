@@ -32,6 +32,7 @@ function View() {
     this.bind = function() {
         this.dom.buttonBar = $(controller.bindings.buttonBar);
         this.dom.container = $(controller.bindings.controller);
+        var trigger = controller.bindings.trigger;
         var panels = controller.bindings.panels;
         for(var i in panels) {
             var button = $(panels[i].button);
@@ -40,12 +41,12 @@ function View() {
                 this.currentPane = pane;
                 this.currentButton = button;
                 button.addClass('current');
-                button.unbind('click');
+                button.unbind(trigger);
                 pane.show();
             } else {
                 pane.hide();
                 button.removeClass('current');
-                button.bind('click', {button: button, pane: pane}, function(event) {
+                button.bind(trigger, {button: button, pane: pane}, function(event) {
                     controller.onShowPane(event.data.button, event.data.pane);
                 });
             }
@@ -53,12 +54,13 @@ function View() {
     };
     
     this.togglePane = function(button, pane) {
+        var trigger = controller.bindings.trigger;
         if(button.hasClass('current')) {
-            button.bind('click', {button: button, pane: pane}, function(event) {
+            button.bind(trigger, {button: button, pane: pane}, function(event) {
                 controller.onShowPane(event.data.button, event.data.pane);
             });
         } else {
-            button.unbind('click');
+            button.unbind(trigger);
         }
         button.toggleClass('current');
         pane.slideToggle(controller.bindings.speed);
