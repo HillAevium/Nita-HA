@@ -50,3 +50,4 @@
             <?php endforeach; ?>
         </div>
     </div> <!-- #tab_panel -->
+    <div class="clear"></div>

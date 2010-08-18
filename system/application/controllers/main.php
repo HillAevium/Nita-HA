@@ -245,8 +245,7 @@ class Main extends AbstractController {
         if ($pageContent !== false) {
             $topbox['image'] = $pageContent->nita_page_image;
             $topbox['title'] = $pageContent->nita_page_name;
-            $topbox['content'] = preg_replace('#<h1>[^<]*<\/h1>#',"",$pageContent->nita_page_text);
-            
+            $topbox['content'] = preg_replace('#(<h1>[^<]*</h1>)|(style="[^"]*")#',"",$pageContent->nita_page_text);
             $this->breadcrumbs[$alias] = array('name' => $pageContent->nita_page_name, 'id' => '/main/webpage/alias/' . $alias);
             $breadcrumb[] = $this->breadcrumbs[$alias];
         }
@@ -278,6 +277,8 @@ class Main extends AbstractController {
             
             // Setup the views
             $views[] = array('name' => 'tab_panel', 'args' => $tab_panel);
+        } else {
+            $views[] = array('name' => 'webpage/webpage', 'args' => array('model' => $pageContent));
         }
         
         // default to short box if topbox has no title

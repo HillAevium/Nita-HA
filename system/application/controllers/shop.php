@@ -145,6 +145,84 @@ class Shop extends AbstractController {
      * @param int $offset the current offset within the list of items to show
      */
     public function programs() {
+        $this->renderList('program', 'orange');
+    }
+    
+    /**
+     * Generate the page for displaying a specific publication.
+     *
+     * @param string $id the id of the publication to display
+     */
+    public function publication() {
+        $model = $this->initDetail('publication', 'red');
+        
+        $args['publication'] = $model;
+        
+        // Setup the views
+        $views = array(
+            array('name' => 'publications/detail', 'args' => $args)
+        );
+        
+        $this->setViewOption('color', 'red');
+        $this->setViewOption('views', $views);
+        
+        // ... and go
+        $this->loadViews();
+    }
+    
+    /**
+     * Generate the page for displaying a list of publications.
+     */
+    public function publications() {
+        $this->renderList('publication', 'red');
+    }
+
+    private function initDetail($type, $color) {
+        $id = $this->getArgument('id');
+        
+        // No id was supplied?
+        if($id === false) {
+            // FIXME What do we do here.
+            show_404('/shop/'.$type.'/');
+        }
+        
+        // Load the selected model
+        $this->load->model($type);
+        
+        // Get the model for the details
+        $model = $this->$type->getSingle($id);
+
+        // We need to check if we got a program as the ID could
+        // have been entered by hand and been invalid
+        if (is_null($model)) {
+            show_404('/shop/'.$type.'/id/'.$id);
+        }
+        
+        // Setup the topbox content
+        $topbox = array(
+            'image'   => 'topbox_test.jpg',
+            'title'   => $model->title,
+            'content' => $this->getRandomText(1)
+        );
+        
+        // Setup the breadcrumb
+        $breadcrumb = array(
+            $this->breadcrumbs['home'],
+            $this->breadcrumbs[$type],
+            array('name' => $model->title)
+        );
+        
+        // Load the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
+        $this->setViewOption('topbox', $topbox);
+        $this->setViewOption('pageTitle', $model->title);
+        $this->setViewOption('color', $color);
+        
+        return array('model' => $model);
+    }
+    
+    private function renderList($type, $color) {
+
         // Load the model
         $this->load->model('program');
         

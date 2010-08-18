@@ -422,24 +422,31 @@ class Soap {
      */
     private function doProgramServiceGet($id) {
         // Create the soap client for the program service
-        $soapClient = new SoapClient($this->soapUrl.$this->programUri);
+        //$soapClient = new SoapClient($this->soapUrl.$this->programUri);
         
         // Create the id argument for the soap client
-        $soapArgs = new SoapArguments();
-        $soapArgs->addStringArgument('id', $id);
+        //$soapArgs = new SoapArguments();
+        //$soapArgs->addStringArgument('id', $id);
         
         // Query the server and capture the result
-        $soapResult = $soapClient->Get($soapArgs)->GetResult;
+        //$soapResult = $soapClient->Get($soapArgs)->GetResult;
         
+        $request = "http://72.54.98.142/sql.php?view=program&format=json&id=" . $id;
+        $response = file_get_contents($request);
+        //print_r(json_decode(htmlentities($programs)));
+        
+        $programs = json_decode($response);
+        //print_r($programs);
+        //die();
         // Only process the result if there actually was one.
         // The receiver should expect a null value if there
         // was no result.
-        $programModel = null;
-        if(!is_null($soapResult)) {
-            $programModel = $this->convertProgramModel($soapResult);
-        }
+        //$programModel = null;
+        //if(!is_null($soapResult)) {
+        //    $programModel = $this->convertProgramModel($soapResult);
+        //}
         
-        return $programModel;
+        return $programs[0];
     }
     
     /**
@@ -462,18 +469,24 @@ class Soap {
         // Create arguments to set a start and end date
         $soapArgs = new SoapArguments();
         // Set the start date to the current time using ISO 8601 format
-        $soapArgs->addDateArgument('startDate', date('c'));
+        //$soapArgs->addDateArgument('startDate', date('c'));
         // Set the end date to the current time + 1 year in ISO 8601 format
-        $soapArgs->addDateArgument('endDate', date('c', time() + $yearInSeconds));
+        //$soapArgs->addDateArgument('endDate', date('c', time() + $yearInSeconds));
         
         // Query the server and capture the result
-        $soapResult = $soapClient->GetActivePrograms($soapArgs)->GetActiveProgramsResult;
+        //$soapResult = $soapClient->GetActivePrograms($soapArgs)->GetActiveProgramsResult;
+        
+        $request = "http://72.54.98.142/sql.php?view=programs&format=json&startDate=" . date('Y-m-d',time()) . "&endDate=" . date('Y-m-d',time() + $yearInSeconds); 
+        $response = file_get_contents($request);
+        
+        $programs = json_decode($response);
         
         // Process the results into an array of Program objects
-        $programs = array();
-        foreach($soapResult->ProgramModel as $program) {
-            $programs[] = $this->convertProgramModel($program);
-        }
+        //$programs = array();
+        //foreach($soapResult->ProgramModel as $program) {
+        //foreach($decodedResponse as $program) {
+        //    $programs[] = $this->convertProgramModel($program);
+        //}
         
         return $programs;
     }
