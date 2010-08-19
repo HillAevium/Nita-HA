@@ -23,6 +23,15 @@ function() {
 }
 );
 
+// Form Debugging
+//$(document).ready(function() {
+//    $('#content_reg_funnel').hide();
+//    $('#content_reg_form').show();
+//    $('#firm_form').show();
+//    $('#firm_form').hide();
+//    $('#profile_form').show();
+//});
+
 // FIXME
 // Remove for production
 function addTestValues() {
@@ -64,24 +73,19 @@ function addTestValues() {
     $('#profile_form input[name="badgeName"]').val('Doe');
     $('#profile_form input[name="requireAccessibility"]').val("0");
     $('#profile_form input[name="haveScholarship"]').val("0");
-    $('#profile_form input[name="etnicity"]').val('Doe');
     $('#profile_form input[name="barId[]"]').val('1111111');
+    $('#profile_form input[name="state[]"]').val('NY');
     $('#profile_form input[name="date[]"]').val('1341');
 }
 
 function addBarRow() {
     var rowCells = $("#bar_row").html();
-    var newRow = $("<tr></tr>").html(rowCells); 
-    clearFormElements(newRow);
-    var _newRow = $("#bar_info").append(newRow);
+    var newRow = $('<div class="row"></div>').html(rowCells);
+    newRow.insertBefore("#bar_add");
 }
 
 function toggleIsAttendingDependentFields() {
-    if($("#isAttendingClasses").val() == '1') {
-        $(".isAttendingDependent").show();
-    } else {
-        clearFormElements($(".isAttendingDependent").hide());
-    }
+    $(".isAttendingDependent").slideToggle();
 }
 
 function bindForm(form) {

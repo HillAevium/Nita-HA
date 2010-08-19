@@ -320,8 +320,8 @@ class Account extends AbstractController {
     }
     
     public function showLoginAndRegister() {
-        $args['firmForm'] = $this->load->view('user/form_firm', null, true);
-        $args['profileForm'] = $this->load->view('user/form_profile', null, true);
+        $args['firmForm'] = $this->load->view('user/forms/firm', null, true);
+        $args['profileForm'] = $this->load->view('user/forms/profile', null, true);
         
         $views = array(
             array('name' => 'user/forms', 'args' => null),
