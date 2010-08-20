@@ -1,3 +1,33 @@
+<?php if(isset($account)): ?>
+<?php //echo "<pre>".print_r($account,true)."</pre>";die(); ?>
+<?php
+$a = json_encode($account);
+echo <<<JS
+<script type="text/javascript">$(document).ready(function(){injectFirm($a);})</script>;
+JS;
+endif;
+?>
+<script type="text/javascript">
+function injectFirm(a) {
+    $('#firm_form input[name="name"]').val(a.name);
+    $('#firm_form input[name="phone1"]').val(a.phone1);
+    $('#firm_form input[name="fax"]').val(a.fax);
+    $('#firm_form input[name="billingAddress1"]').val(a.billingAddress1);
+    $('#firm_form input[name="billingCity"]').val(a.billingCity);
+    $('#firm_form input[name="billingState"]').val(a.billingState);
+    $('#firm_form input[name="billingZip"]').val(a.billingZip);
+    $('#firm_form input[name="shippingAddress1"]').val(a.shippingAddress1);
+    $('#firm_form input[name="shippingCity"]').val(a.shippingCity);
+    $('#firm_form input[name="shippingState"]').val(a.shippingState);
+    $('#firm_form input[name="shippingZip"]').val(a.shippingZip);
+    $('#firm_form input[name="firmSize"]').val(a.firmSize);
+    $('#firm_form input[name="practiceType"]').val(a.practiceType);
+    $('#firm_form input[name="trainingDirector"]').val(a.trainingDirector);
+}
+</script>
+
+
+
 <!-- FIXME - These form fields are required by the validator.
 If they are going to be omitted from the form and perhaps
 calculated based on the State/Province then we need to change

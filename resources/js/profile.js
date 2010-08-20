@@ -1,4 +1,5 @@
 var controller;
+var profiles;
 /* bindings
  * buttonBar: (jQuery Selector)
  * container: (jQuery Selector)
@@ -21,7 +22,43 @@ function ProfileController(bindings) {
         this.view.togglePane(button, pane);
         this.view.currentButton = button;
         this.view.currentPane = pane;
-    }; 
+    };
+    
+    this.onEdit = function(form) {
+        $(bindings.container).hide();
+        $("#forms_container").show();
+        $(form).show();
+        
+        $(document).ajaxComplete(function(e, xhr, setting) {
+            switch(xhr.status) {
+                case 202 : // ACCEPTED
+                    $(form).hide();
+                    $("#forms_container").hide();
+                    $(bindings.container).show();
+                    $(document).unbind('ajaxComplete');
+                    $("#submit_form").unbind('click');
+                    break;
+                case 400 : // BAD_REQUEST
+                    $("#error_container").html(xhr.responseText);
+                    break;
+            }
+        });
+        
+        $("#submit_form").click(function() {
+            $(form).ajaxSubmit();
+        });
+    };
+    
+    this.onEditProfile = function(id) {
+        this.onEdit("#profile_form");
+        if(profiles != undefined) {
+            injectProfile(profiles[id]);
+        }
+    };
+    
+    this.onEditAccount = function() {
+        this.onEdit("#firm_form");
+    };
 }
 
 function View() {
@@ -51,6 +88,8 @@ function View() {
                 });
             }
         }
+        
+        
     };
     
     this.togglePane = function(button, pane) {

@@ -1,3 +1,51 @@
+<?php
+if(isset($profile)) {
+$a = json_encode($profile);
+echo <<<JS
+<script type="text/javascript">$(document).ready(function() {injectProfile($a);});</script>
+JS;
+}
+?>
+
+<script type="text/javascript">
+function injectProfile(a) {
+    if(typeof a == 'undefined') { alert('undefined'); return; }
+    /**/
+    $('#profile_form input[name="billingAddress1"]').val(a.billingAddress1);
+    $('#profile_form input[name="billingCity"]').val(a.billingCity);
+    $('#profile_form input[name="billingState"]').val(a.billingState);
+    $('#profile_form input[name="billingZip"]').val(a.billingZip);
+    $('#profile_form input[name="shippingAddress1"]').val(a.shippingAddress1);
+    $('#profile_form input[name="shippingCity"]').val(a.shippingCity);
+    $('#profile_form input[name="shippingState"]').val(a.shippingState);
+    $('#profile_form input[name="shippingZip"]').val(a.shippingZip);
+    $('#profile_form input[name="salutation"]').val(a.salutation);
+    $('#profile_form input[name="firstName"]').val(a.firstName);
+    $('#profile_form input[name="middleInitial"]').val(a.middleInitial);
+    $('#profile_form input[name="lastName"]').val(a.lastName);
+    $('#profile_form input[name="suffix"]').val(a.suffix);
+    $('#profile_form input[name="title"]').val(a.title);
+    $('#profile_form input[name="email"]').val(a.email);
+    $('#password').remove();
+    $('#profile_form input[name="phone"]').val(a.phone);
+    $('#profile_form input[name="phone2"]').val(a.phone2);
+    $('#profile_form input[name="isAttendingClasses"]').val(a.isAttendingClasses);
+    $('#profile_form input[name="role"]').val(a.role);
+    $('#profile_form input[name="badgeName"]').val(a.badgeName);
+    $('#profile_form input[name="requireAccessibility"]').val(a.requireAccessibility);
+    $('#profile_form input[name="haveScholarship"]').val(a.haveScholarship);
+    $('#bar_row').remove();
+    $('#bar_add').remove();
+    for(var i in a.bar) {
+        $("#profile_form").append('<input type="hidden" name="barId[]" value="'+a.bar[i].barId+' />');
+        $("#profile_form").append('<input type="hidden" name="state[]" value="'+a.bar[i].state+' />');
+        $("#profile_form").append('<input type="hidden" name="month[]" value="'+a.bar[i].month+' />');
+        $("#profile_form").append('<input type="hidden" name="year[]" value="'+a.bar[i].year+' />');
+    }
+    /**/
+}
+</script>
+
 <!-- FIXME - These form fields are required by the validator.
 If they are going to be omitted from the form and perhaps
 calculated based on the State/Province then we need to change
@@ -5,6 +53,7 @@ the definition.
  -->
 <input type="hidden" name="shippingCountry" value="USA" />
 <input type="hidden" name="billingCountry" value="USA" />
+<input type="hidden" name="id" />
 
 <div class="header_bar_blue_full">
     <table class="header">
@@ -48,13 +97,15 @@ the definition.
             <label>Email Address (User ID)</label>
             <input name="email" />
         </div>
-        <div class="cell-med second-pass">
-            <label>Password</label>
-            <input name="password" type="password" />
-        </div>
-        <div class="cell-med third-pass">
-            <label>Verify Password</label>
-            <input name="password2" type="password" />
+        <div id="password">
+            <div class="cell-med second-pass">
+                <label>Password</label>
+                <input name="password" type="password" />
+            </div>
+            <div class="cell-med third-pass">
+                <label>Verify Password</label>
+                <input name="password2" type="password" />
+            </div>
         </div>
     </div>
     <div class="row">

@@ -19,7 +19,6 @@ class AccountProvider extends Model {
      * @throws AuthenticationException if there was a problem
      */
     public function authenticate($email, $password) {
-        //$this->soap->userAuthenticate($email, $password);
         return $this->doAuthenticate($email, $password);
     }
     
@@ -34,7 +33,6 @@ class AccountProvider extends Model {
      * @return UserProfile model for the account
      */
     public function getProfileById($id) {
-        //$this->soap->userGet($id);
         return $this->selectProfileById($id);
     }
     
@@ -47,11 +45,19 @@ class AccountProvider extends Model {
     }
     
     public function storeProfile(array $data) {
-        $this->insertProfile($data);
+        return $this->insertProfile($data);
     }
     
     public function storeAccount(array $data) {
-        $this->insertAccount($data);
+        return $this->insertAccount($data);
+    }
+    
+    public function updateProfile(array $data) {
+        // TODO
+    }
+    
+    public function updateAccount(array $data) {
+        // TODO
     }
     
     // TEMPORARY SANDBOX CODE ///////////////////////////////////////////////////////////////////////
@@ -108,7 +114,7 @@ class AccountProvider extends Model {
         
         // And the bar info
         $result = $this->db->from('contactbarinfo')
-                           ->where(array('id' => $id))
+                           ->where(array('userId' => $id))
                            ->get();
         if($result->num_rows() === 0) {
             throw new RuntimeException("No bar IDs found for this user. ID=".$id);
@@ -119,10 +125,16 @@ class AccountProvider extends Model {
     }
     
     private function selectProfilesByAccount($accountId) {
-        $result = $this->db->from('contact')
+        $result = $this->db->select('id')
+                           ->from('contact')
                            ->where(array('accountId' => $accountId))
                            ->get();
-        return $result->result();
+       
+        foreach($result->result() as $profile) {
+            $profiles[] = $this->selectProfileById($profile->id);
+        }
+        
+        return $profiles;
     }
     
     private function insertAccount(array $data) {
@@ -132,7 +144,8 @@ class AccountProvider extends Model {
     private function insertProfile(array $data) {
         $barId = $data['barId']; unset($data['barId']);
         $state = $data['state']; unset($data['state']);
-        $date  = $data['date'];  unset($data['date']);
+        $month = $data['month']; unset($data['month']);
+        $year  = $data['year'];  unset($data['year']);
         
         $userId = $this->insertInto('contact', $data);
         
@@ -142,7 +155,8 @@ class AccountProvider extends Model {
                 'userId'  => $userId,
                 'barId'   => $barId[$i],
                 'state'   => $state[$i],
-                'date'    => $date[$i]
+                'month'   => $month[$i],
+                'year'    => $year[$i]
             );
             $this->insertInto('contactbarinfo', $bar);
         }

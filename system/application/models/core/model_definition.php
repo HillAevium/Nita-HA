@@ -112,6 +112,7 @@ abstract class Model_Definition implements Has_Fields {
                     $errors[] = "Missing required field: " . $field->name();
                 }
             } else if(! $field->validate()) {
+                echo "<pre>".print_r($field,true)."</pre>";die();
                 $errors[] = $field->error();
             } else {
                 $returnData[$field->name()] = $field->process();

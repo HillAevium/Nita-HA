@@ -51,14 +51,27 @@ class Account extends AbstractController {
     }
     
     public function doFirmUpdate() {
+        $creds = $this->mod_auth->credentials();
         // Validate form data
+        $_POST['userType'] = $creds->user['type'] == USER_SUPER ? 'group' : 'individual';
+        $firmDef = new FirmProfileDefinition();
+        $firm = $firmDef->processPost('array');
+        
+        if($firm === null) {
+            $this->output->set_status_header(HTTP_BAD_REQUEST);
+            $this->sendErrors($firmDef->errors());
+            return;
+        }
+        
+        $firm->id = $creds->user['accountId'];
         
         // Create a model from the data
+        $this->load->model('accountProvider');
         
         // Push the data to the AccountService
+        $this->accountProvider->updateAccount($firm);
         
-        // Display view showing update success
-        // and bounce back to the firm's profile page
+        $this->output->set_status_header(HTTP_ACCEPTED);
     }
     
     public function doLogin() {
@@ -178,7 +191,7 @@ class Account extends AbstractController {
                 
                 $this->load->model('accountProvider');
                 try {
-                    $this->accountProvider->storeAccount($firm);
+                    $profile['accountId'] = $this->accountProvider->storeAccount($firm);
                     $this->accountProvider->storeProfile($profile);
                 } catch(Exception $e) {
                     $this->output->set_status_header(HTTP_INTERAL_ERROR);
@@ -198,15 +211,36 @@ class Account extends AbstractController {
         }
     }
     
-    public function doUserUpdate() {
-        // Validate form data
+    public function doProfileUpdate() {
+        $creds = $this->mod_auth->credentials();
+        $_POST['password'] = '111111';
+        $_POST['password2'] = '111111';
+        $profileDef = new UserProfileDefinition();
+        $profile = $profileDef->processPost('array');
+        unset($profile['password']);
         
-        // Create a model from the data
+        if($profile === null) {
+            $this->output->set_status_header(HTTP_BAD_REQUEST);
+            $this->sendErrors($profileDef->errors());
+            return;
+        }
         
-        // Push the data to the AccountService
+        switch($creds->user['type']) {
+            case USER_SUPER :
+                $profile->id = $_POST['id'];
+                break;
+            case USER_NORMAL :
+            case USER_CHILD :
+                $profile->id = $creds->auth['id'];
+                break;
+            default :
+                $this->output->set_status_header(HTTP_FORBIDDEN);
+                return;
+        }
         
-        // Display view showing update success
-        // and bounce back to the users's profile page
+        $this->load->model('accountProvider');
+        $this->accountProvider->updateProfile($profile);
+        $this->output->set_status_header(HTTP_ACCEPTED);
     }
     
     public function showAccount() {
@@ -214,53 +248,8 @@ class Account extends AbstractController {
         
         $args['title'] = 'My Account';
         
-        //$profile = $this->accountProvider->getProfile($credentials->auth['id']);
-        //$account = $this->accountProvider->getAccount($credentials->user['accountId']);
-        //$orders  = $this->accountProvider->getOrdersForProfile($profile);
+        $this->load->model('accountProvider');
         
-        //$profiles = $this->accountProvider->getProfilesForAccount($credentials->user['accountId']);
-        //$orders = $this->accountProvider->getOrdersForProfiles($profiles);
-        $account = array(
-            'name' => "Jen's Law Firm",
-            'address' => '1667 W. Alimosa Ave.',
-            'city' => 'Denver',
-            'state' => 'CO',
-            'zip' => '80219',
-            'phone' => '303-824-2789',
-            'fax' => '303-824-2291'
-        );
-        $superProfile = array(
-            'name' => "Jen Newstead",
-            'address' => '1667 W. Alimosa Ave.',
-            'city' => 'Denver',
-            'state' => 'CO',
-            'zip' => '80219',
-            'phone' => '303-824-2789',
-            'fax' => '303-824-2291',
-            'type' => '(Super User)'
-        );
-        $profile = array(
-            'name' => "Mike Cogline",
-            'address' => '1667 W. Alimosa Ave.',
-            'city' => 'Denver',
-            'state' => 'CO',
-            'zip' => '80219',
-            'phone' => '303-824-2789',
-            'fax' => '303-824-2291',
-            'type' => '',
-            'bar' => array(
-                array(
-                    'state' => 'Florida',
-                    'barId' => '1384187418',
-                    'cle' => '8.0'
-                ),
-                array(
-                    'state' => 'New York',
-                    'barId' => '4343872834',
-                    'cle' => '27.0'
-                )
-            )
-        );
         $orders = array(
             array(
                 'date' => 'Jan 5, 2009',
@@ -280,14 +269,16 @@ class Account extends AbstractController {
         );
         
         $userType = $credentials->user['type'];
+        $account = $this->accountProvider->getAccount($credentials->user['accountId']);
+        $args['account'] = $account;
         
         switch($userType) {
             case USER_SUPER :
                 $display = 'multi';
-                // Load the account profile
-                $args['profile'] = $account;
-                // Load the users profiles
-                $args['userProfiles'] = array($superProfile, $profile);
+                $profiles = $this->accountProvider->getProfilesByAccount($credentials->user['accountId']);
+                $args['userProfiles'] = $profiles;
+                //$orders  = $this->accountProvider->getOrdersForProfile($profile);
+                
                 // Load the account order history
                 $args['orders'] = $orders;
                 // Load the users order history
@@ -296,14 +287,19 @@ class Account extends AbstractController {
             case USER_NORMAL :
             case USER_CHILD :
                 $display = 'single';
-                // Load the user profile
+                $profile = $this->accountProvider->getProfileById($credentials->auth['id']);
                 $args['profile'] = $profile;
+                //$orders = $this->accountProvider->getOrdersForAccount($profiles);
+                
                 // Load the user order history
                 $args['orders'] = $orders;
                 break;
         }
         
         $args['display'] = $display;
+        
+        $args['firmForm'] = $this->load->view('user/forms/firm', $args, true);
+        $args['profileForm'] = $this->load->view('user/forms/profile', $args, true);
         
         $views = array(
             array('name' => 'user/account', 'args' => $args)
@@ -362,12 +358,13 @@ class Account extends AbstractController {
     }
     
     private function handlePost($method) {
+        $auth = $this->mod_auth->isAuthenticated();
         switch($method) {
             case 'login' :
                 $this->doLogin();
             break;
-            case 'user' :
-                $this->doUserUpdate();
+            case 'profile' :
+                $this->doProfileUpdate();
             break;
             case 'firm' :
                 $this->doFirmUpdate();
