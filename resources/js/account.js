@@ -112,7 +112,11 @@ function handleLoginComplete(e, xhr, setting) {
         case HTTP_ACCEPTED :
             // Display a message to the user
             // Redirect them to referrer or profile page
-            doPageLoad(xhr.responseText, false, true);
+            if(xhr.responseText == "/MyCart") {
+                doPageLoad('/MyCart', false, true);
+            } else {
+                window.location.reload();
+            }
             break;
         case HTTP_BAD_REQUEST :
             // The form info was invalid

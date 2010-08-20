@@ -46,6 +46,11 @@ function injectProfile(a) {
 }
 </script>
 
+
+
+<style>
+
+</style>
 <!-- FIXME - These form fields are required by the validator.
 If they are going to be omitted from the form and perhaps
 calculated based on the State/Province then we need to change
@@ -63,6 +68,8 @@ the definition.
     </table>
 </div>
 <div id="form_container">
+    <div class="cell-mask">&nbsp;</div>
+    <div class="row-mask">&nbsp;</div>
     <div class="row">
         <div class="cell-tiny first">
             <label>Salutation</label>

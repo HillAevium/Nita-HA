@@ -50,6 +50,10 @@ class Account extends AbstractController {
         }
     }
     
+    public function doBar() {
+        // TODO
+    }
+    
     public function doFirmUpdate() {
         $creds = $this->mod_auth->credentials();
         // Validate form data
@@ -130,13 +134,9 @@ class Account extends AbstractController {
         $this->output->set_status_header(HTTP_ACCEPTED);
         
         $uri = $this->session->userdata('login.href');
-        if($uri === false) {
-            $uri = "/MyAccount";
+        if($uri !== false) {
+            echo "/MyCart";
         }
-        
-        // Send the referrer uri back to the client
-        // so it can load the appropiate page.
-        echo $uri;
         
         // Cleanup the session
         $this->session->unset_userdata('login.href');
@@ -396,6 +396,9 @@ class Account extends AbstractController {
             break;
             case 'register' :
                 $this->doRegistration();
+            break;
+            case 'bar' :
+                $this->doBar();
             break;
             default :
                 show_404('/account/' . $method . '/');

@@ -33,9 +33,11 @@ if($display == 'multi') {
                 </p>
             </div>
             <div class="gray_line"></div>
-            <h2><?php echo $bottom['title']; ?></h2>
-            <!-- FIXME Needs to float right -->
-            <div onclick="controller.onAdd();">Add New Profile</div>
+            <div style="position:relative;height:55px;">
+                <h2 style="position:absolute;left:0px;bottom:0px;"><?php echo $bottom['title']; ?></h2>
+                <!-- FIXME Needs to float right -->
+                <div style="position:absolute;right:0px;bottom:5px;" onclick="controller.onAdd();">Add New Profile</div>
+            </div>
             <?php if($display == 'multi'): ?>
             <?php for($i = 0; $i < count($userProfiles); $i++):?>
             <?php $user = $userProfiles[$i]?>
