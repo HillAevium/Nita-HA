@@ -80,6 +80,7 @@ function Controller(bindings) {
     };
     
     this.onAddProfile = function() {
+        // TODO
         // Display the profile form
         
         // Submit the profile

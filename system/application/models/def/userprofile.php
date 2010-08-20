@@ -31,7 +31,8 @@ class UserProfileDefinition extends Model_Definition {
         $this->startDependantBlock($attendingField, '1');
         $this->addField(new Array_Field(new String_Field('barId'), 0, 50));
         $this->addField(new Array_Field(new String_Field('state'), 0, 50));
-        $this->addField(new Array_Field(new Date_Field('date'), 0, 50));
+        $this->addField(new Array_Field(new String_Field('month'), 0, 50));
+        $this->addField(new Array_Field(new String_Field('year'), 0, 50));
         $this->addField(new String_Field(  'badgeName'));
         $this->addField(new String_Field(  'billingAddress1'));
         $this->addField(new String_Field(  'billingCity'));

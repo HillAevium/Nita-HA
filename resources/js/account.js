@@ -12,26 +12,6 @@ const HTTP_TIMEOUT = 408;
 
 const HTTP_INTERNAL_ERROR = 500;
 
-//Initialize Forms
-$(document).ready(
-function() {
-    $("form").submit(function(event) { return false; });
-    $('#group').click(selectRegType);
-    $('#individual').click(selectRegType);
-    bindForm('#login_form');
-    $("#login_form").ajaxComplete(handleLoginComplete);
-}
-);
-
-// Form Debugging
-//$(document).ready(function() {
-//    $('#content_reg_funnel').hide();
-//    $('#content_reg_form').show();
-//    $('#firm_form').show();
-//    $('#firm_form').hide();
-//    $('#profile_form').show();
-//});
-
 // FIXME
 // Remove for production
 function addTestValues() {
@@ -75,7 +55,8 @@ function addTestValues() {
     $('#profile_form input[name="haveScholarship"]').val("0");
     $('#profile_form input[name="barId[]"]').val('1111111');
     $('#profile_form input[name="state[]"]').val('NY');
-    $('#profile_form input[name="date[]"]').val('1341');
+    $('#profile_form input[name="month[]"]').val('7');
+    $('#profile_form input[name="year[]"]').val('1341');
 }
 
 function addBarRow() {

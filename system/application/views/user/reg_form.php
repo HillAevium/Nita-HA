@@ -1,12 +1,20 @@
+<script type="text/javascript">
+$(document).ready(function() {
+    $("form").submit(function() { return false; });
+    $('#group').click(selectRegType);
+    $('#individual').click(selectRegType);
+    bindForm('#login_form');
+    $("#login_form").ajaxComplete(handleLoginComplete);
+});
+</script>
     <div id="content_reg_form" style="display:none;">
         <h1 class="page_title" id="page_title"></h1>
-        <div id="sign_in" class="small">Already have an account? <a href="/account/forms">Sign in!</a></div>
+        <div id="sign_in" class="small">Already have an account? <a href="/MyAccount">Sign in!</a></div>
         <div class="gray_line"></div>
         <div id="forms_container">
             <div id="error_container"></div>
             <div id="response_message"></div>
             <div id="instructions"></div>
-            
             <form id="firm_form" name="firm_form" action="/account/register/form/firm" method="POST">
                 <?php echo $firmForm; ?>
             </form>

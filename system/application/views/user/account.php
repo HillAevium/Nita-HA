@@ -1,3 +1,18 @@
+<?php
+// For a multi-user load the profile information
+// into a JSON object so it can be injected into
+// the form
+if($display == 'multi') {
+    $userProfiles = json_encode($userProfiles);
+    echo <<<JS
+
+<script type="text/javascript">
+var profiles = $userProfiles;
+</script>
+JS;
+}
+?>
+
 <script type="text/javascript" src="/resources/js/profile.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -55,13 +70,13 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
     <div id="panels">
         <div id="account_pane">
             <?php
-            $args['profile'] = $profile;
+            $args['account'] = $account;
             $args['orders'] = $orders;
             if($display == 'multi') {
                 $args['userProfiles'] = $userProfiles;
                 $args['userOrders'] = $userOrders;
             } else {
-                $args['cle'] = 'TODO';
+                $args['profile'] = $profile;
             }
             echo $this->load->view('user/profile');
             ?>
@@ -69,13 +84,14 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
         <?php if($display == 'single'): ?>
         <div id="cle_pane">
             <h2>CLE Credits</h2>
-            <?php foreach($profile['bar'] as $bar): ?>
+            <?php foreach($profile->bar as $bar): ?>
             <div class="info_box">
                 <p>
                 <?php
                 $br = "<br />";
                 echo $bar['state'] . $br;
                 echo "Bar ID: " . $bar['barId'] . $br;
+                echo "Date: " . $bar['month'] . " " . $bar['year'] . $br;
                 echo "Credits: " . $bar['cle'] . $br;
                 ?>
                 </p>
@@ -87,5 +103,25 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
         <div id="order_pane">
             <?php echo $this->load->view('user/orders', array('orders' => $orders), true); ?>
         </div>
+    </div>
+    <div id="forms_container" style="display:none;">
+        <div id="error_container"></div>
+        <div id="response_message"></div>
+        <div id="instructions"></div>
+        <form style="display:none;" id="firm_form" name="firm_form" action="/account/firm" method="POST">
+            <?php echo $firmForm; ?>
+        </form>
+        <form style="display:none;" id="profile_form" name="profile_form" action="/account/profile" method="POST">
+            <?php echo $profileForm; ?>
+        </form>
+        <div class="gray_line"></div>
+        <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
+            <label style="position:absolute; top:16px; left:3px;">Attach a NITA Application</label>
+            <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
+            <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
+            
+            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;"></div>
+        </div>
+        <div class="gray_line"></div>
     </div>
 </div>
