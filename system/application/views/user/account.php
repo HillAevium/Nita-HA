@@ -114,12 +114,11 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
         <form style="display:none;" id="profile_form" name="profile_form" action="/account/profile" method="POST">
             <?php echo $profileForm; ?>
         </form>
+        <form style="display:none;" id="bar_form" name="bar_form" action="/account/bar" method="POST">
+            <?php //echo $barForm; ?>
+        </form>
         <div class="gray_line"></div>
         <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
-            <label style="position:absolute; top:16px; left:3px;">Attach a NITA Application</label>
-            <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
-            <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
-            
             <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;"></div>
         </div>
         <div class="gray_line"></div>

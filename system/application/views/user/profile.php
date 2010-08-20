@@ -15,7 +15,6 @@ if($display == 'multi') {
                 <?php
                 $br = "<br />";
                 if($display == 'single') {
-//                    echo "<pre>".print_r($profile,true)."</pre>";die();
                     echo $profile->salutation.' '.$profile->firstName.' '.$profile->middleInitial.' '.$profile->lastName.' '.$profile->suffix.$br;
                     echo $profile->billingAddress1 . $br;
                     echo $profile->billingCity . ', ' . $profile->billingState . $br;
@@ -23,7 +22,6 @@ if($display == 'multi') {
                     echo "P: " . $profile->phone . $br;
                     echo "P: " . $profile->phone2;
                 } else {
-//                    echo "<pre>".print_r($account,true)."</pre>";die();
                     echo $account->name . $br;
                     echo $account->billingAddress1 . $br;
                     echo $account->billingCity . ', ' . $account->billingState . $br;
@@ -36,10 +34,11 @@ if($display == 'multi') {
             </div>
             <div class="gray_line"></div>
             <h2><?php echo $bottom['title']; ?></h2>
+            <!-- FIXME Needs to float right -->
+            <div onclick="controller.onAdd();">Add New Profile</div>
             <?php if($display == 'multi'): ?>
             <?php for($i = 0; $i < count($userProfiles); $i++):?>
             <?php $user = $userProfiles[$i]?>
-            <?php  //echo "<pre>".print_r($user,true)."</pre>";die();?>
             <?php $event = 'controller.onEditProfile('.$i.')'; ?>
             <div class="info_box" onclick="<?php echo $event; ?>">
                 <p>

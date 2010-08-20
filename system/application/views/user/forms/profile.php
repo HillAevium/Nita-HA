@@ -53,7 +53,6 @@ the definition.
  -->
 <input type="hidden" name="shippingCountry" value="USA" />
 <input type="hidden" name="billingCountry" value="USA" />
-<input type="hidden" name="id" />
 
 <div class="header_bar_blue_full">
     <table class="header">

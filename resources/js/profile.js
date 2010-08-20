@@ -24,7 +24,13 @@ function ProfileController(bindings) {
         this.view.currentPane = pane;
     };
     
-    this.onEdit = function(form) {
+    this.onAdd = function() {
+        $("#profile_form").clearForm();
+        $("#profile_form").attr("action", "/account/profile_add");
+        this.onEdit("#profile_form");
+    };
+    
+    this.onEdit = function(form, callback) {
         $(bindings.container).hide();
         $("#forms_container").show();
         $(form).show();
@@ -32,11 +38,16 @@ function ProfileController(bindings) {
         $(document).ajaxComplete(function(e, xhr, setting) {
             switch(xhr.status) {
                 case 202 : // ACCEPTED
-                    $(form).hide();
-                    $("#forms_container").hide();
-                    $(bindings.container).show();
-                    $(document).unbind('ajaxComplete');
-                    $("#submit_form").unbind('click');
+                case 201 : // CREATED
+                    if(callback != undefined) {
+                        callback();
+                    }
+                    window.location.reload();
+//                    $(form).hide();
+//                    $("#forms_container").hide();
+//                    $(bindings.container).show();
+//                    $(document).unbind('ajaxComplete');
+//                    $("#submit_form").unbind('click');
                     break;
                 case 400 : // BAD_REQUEST
                     $("#error_container").html(xhr.responseText);
@@ -50,10 +61,14 @@ function ProfileController(bindings) {
     };
     
     this.onEditProfile = function(id) {
-        this.onEdit("#profile_form");
         if(profiles != undefined) {
+            $("#profile_form").append('<input type="hidden" name="id" value="'+profiles[id].id+'" />');
             injectProfile(profiles[id]);
         }
+        $("#profile_form").attr("action", "/account/profile");
+        this.onEdit("#profile_form", function() {
+            $('#profile_form input[name="id"]').remove();
+        });
     };
     
     this.onEditAccount = function() {

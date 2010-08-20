@@ -211,8 +211,30 @@ class Account extends AbstractController {
         }
     }
     
+    public function doProfileAdd() {
+        $creds = $this->mod_auth->credentials();
+        
+        $profileDef = new UserProfileDefinition();
+        $profile = $profileDef->processPost('array');
+        
+        if($profile === null) {
+            $this->output->set_status_header(HTTP_BAD_REQUEST);
+            $this->sendErrors($profileDef->errors());
+            return;
+        }
+        
+        $profile['userType'] = USER_CHILD;
+        $profile['accountId'] = $creds->user['accountId'];
+        
+        $this->load->model('accountProvider');
+        $this->accountProvider->storeProfile($profile);
+        
+        $this->output->set_status_header(HTTP_CREATED);
+    }
+    
     public function doProfileUpdate() {
         $creds = $this->mod_auth->credentials();
+        // FIXME Fudging the password to make the definition validate
         $_POST['password'] = '111111';
         $_POST['password2'] = '111111';
         $profileDef = new UserProfileDefinition();
@@ -368,6 +390,9 @@ class Account extends AbstractController {
             break;
             case 'firm' :
                 $this->doFirmUpdate();
+            break;
+            case 'profile_add' :
+                $this->doProfileAdd();
             break;
             case 'register' :
                 $this->doRegistration();
