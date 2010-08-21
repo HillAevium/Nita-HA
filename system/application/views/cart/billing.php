@@ -3,7 +3,24 @@
                 <td width="50%" id="company_info">
                     <h4>Company Info</h4>
                     <p>
-                        <?php echo join("<br />", $info); ?>
+                    <?php
+                    $br = "<br />";
+                    if($display == 'single') {
+                        echo $info->salutation.' '.$info->firstName.' '.$info->middleInitial.' '.$info->lastName.' '.$info->suffix.$br;
+                        echo $info->billingAddress1 . $br;
+                        echo $info->billingCity . ', ' . $info->billingState . $br;
+                        echo $info->billingZip . $br . $br;
+                        echo "P: " . $info->phone . $br;
+                        echo "P: " . $info->phone2;
+                    } else {
+                        echo $info->name . $br;
+                        echo $info->billingAddress1 . $br;
+                        echo $info->billingCity . ', ' . $info->billingState . $br;
+                        echo $info->billingZip . $br . $br;
+                        echo "P: " . $info->phone1 . $br;
+                        echo "F: " . $info->fax;
+                    }
+                    ?>
                     </p>
                 </td>
                 <td>

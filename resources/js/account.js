@@ -139,8 +139,7 @@ function handleFormComplete(e, xhr, setting) {
             bindForm('#profile_form', null);
             break;
         case HTTP_CREATED :
-            // FIXME - Needs to be https (2nd param true)
-            doPageLoad('/MyAccount', false, true);
+            window.location.reload();
             break;
         case HTTP_BAD_REQUEST :
             $('#error_container').html(xhr.responseText);

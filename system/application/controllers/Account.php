@@ -226,9 +226,10 @@ class Account extends AbstractController {
         $profile['accountId'] = $creds->user['accountId'];
         
         $this->load->model('accountProvider');
-        $this->accountProvider->storeProfile($profile);
+        $id = $this->accountProvider->storeProfile($profile);
         
         $this->output->set_status_header(HTTP_CREATED);
+        echo json_encode(array('id' => $id, 'name' => $profile['firstName'].' '.$profile['lastName']));
     }
     
     public function doProfileUpdate() {

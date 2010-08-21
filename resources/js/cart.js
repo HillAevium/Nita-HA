@@ -52,17 +52,29 @@ function Controller(bindings) {
     };
     
     this.addProfile = function() {
-        // TODO
-        $('#profile_box').overlay({
-            top: 100,
-            left: 100,
-            mask: {
-                color: '#fff',
-                loadSpeed: 200,
-                opacity: 0.5
-            },
-            closeOnClick: false,
-            load: true
+        $("#cart_pane").hide();
+        $("#forms_container").show();
+        $('#error_container').html('');
+        $('#response_message').html('');
+        $("#submit_form").unbind('click');
+        $("#submit_form").click(function(event) {
+            $("#profile_form").ajaxSubmit();
+        });
+        $("#profile_form").clearForm();
+        $("#profile_form").show();
+        $(document).ajaxComplete(function(e, xhr, setting) {
+            switch(xhr.status) {
+                case 201 : // CREATED
+                    alert(xhr.responseText);
+                    var data = JSON.parse(xhr.responseText);
+                    controller.onAddProfile(data.id, data.name);
+                    $("#forms_container").hide();
+                    $("#cart_pane").show();
+                    break;
+                case HTTP_BAD_REQUEST :
+                    $('#error_container').html(xhr.responseText);
+                    break;
+            }
         });
     };
     
@@ -79,16 +91,10 @@ function Controller(bindings) {
         return list;
     };
     
-    this.onAddProfile = function() {
-        // TODO
-        // Display the profile form
-        
-        // Submit the profile
-        var id, name;
-        
-        // Add the profile to the selection models
+    this.onAddProfile = function(id, name) {
         for(var i in this.selectionModels) {
             this.selectionModels[i].add(id, name);
+            this.attendeeLists[i].render();
         }
     };
     

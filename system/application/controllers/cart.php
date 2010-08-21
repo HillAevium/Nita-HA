@@ -210,6 +210,7 @@ class Cart extends AbstractController {
         );
         
         $accountId = $this->mod_auth->credentials()->user['accountId'];
+        $profileId = $this->mod_auth->credentials()->auth['id'];
         $userType = $this->mod_auth->credentials()->user['type'];
         
         // Super users see a multi-cart and are able to add
@@ -221,45 +222,20 @@ class Cart extends AbstractController {
         
         switch($userType) {
             case USER_SUPER :
-                // TODO - Pull this from the account
-                //$profiles = $this->accountProvider->getProfilesByAccount($accountId);
-                $profiles = array (
-                    array('id' => 1, 'name' => 'A'),
-                    array('id' => 2, 'name' => 'B'),
-                    array('id' => 3, 'name' => 'C'),
-                    array('id' => 4, 'name' => 'D'),
-                    array('id' => 5, 'name' => 'E'),
-                    array('id' => 6, 'name' => 'F')
-                );
-                $info = array(
-                    'name' => "Jen's Law Firm",
-                    'address' => "1667 W. Alimosa Ave.",
-                    'city' => 'Denver',
-                    'state' => 'CO',
-                    'country' => 'USA',
-                    'zip' => '80219',
-                    'phone' => '303-824-2789',
-                    'fax' => '303-824-2291'
-                );
+                $p = $this->accountProvider->getProfilesByAccount($accountId);
+                $profiles = array();
+                foreach($p as $profile) {
+                    $profiles[] = array('id' => $profile->id, 'name' => $profile->firstName.' '.$profile->lastName);
+                }
+                $info  = $this->accountProvider->getAccount($accountId);
                 $display = 'multi';
                 $titles['cart'] = 'Enroll Profiles In Programs';
             break;
             case USER_NORMAL :
-                // TODO
-                $info = array(
-                    'name' => "Jen's Law Firm",
-                    'address' => "1667 W. Alimosa Ave.",
-                    'city' => 'Denver',
-                    'state' => 'CO',
-                    'country' => 'USA',
-                    'zip' => '80219',
-                    'phone' => '303-824-2789',
-                    'fax' => '303-824-2291'
-                );
+                $info = $this->accountProvider->getProfileById($profileId);
             break;
             case USER_ANON :
                 $button = 'login';
-                // FIXME URL
                 $this->session->set_userdata('login.href', '/MyCart');
             break;
             case USER_CHILD :
@@ -273,7 +249,8 @@ class Cart extends AbstractController {
             'titles' => $titles,
             'display' => $display,
             'button' => $button,
-            'info' => $info
+            'info' => $info,
+            'profileForm' => $this->load->view('user/forms/profile', null, true)
         );
         
         $views = array(

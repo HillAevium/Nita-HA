@@ -61,7 +61,7 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
     <div style="position:relative;width:100%;height:80px;">
         <h1 style="position:absolute;" class="page_title"><?php echo $title; ?></h1>
         <?php if($this->mod_auth->isAuthenticated()): ?>
-        <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Signed in as <?php echo $this->mod_auth->credentials->user['name']; ?><br /><a href="/account/logout">Sign Out</a></span>
+        <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Signed in as <?php echo $this->mod_auth->credentials->user['name']?><br /><a href="/account/logout">Sign Out</a></span>
         <?php else: ?>
         <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Have an account?<br /><a href="/MyAccount">Login</a></span>
         <?php endif; ?>
