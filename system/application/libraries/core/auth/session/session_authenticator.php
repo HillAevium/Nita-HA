@@ -43,6 +43,7 @@ class Session_Authenticator implements Authenticator {
         $this->credentials->auth['id'] = $id;
         $this->credentials->user['type'] = $user['type'];
         $this->credentials->user['accountId'] = $user['accountId'];
+        $this->credentials->user['name'] = $user['name'];
         $this->storeCredentials($this->credentials);
     }
     
@@ -51,6 +52,7 @@ class Session_Authenticator implements Authenticator {
         $this->credentials->auth['id'] = -1;
         $this->credentials->user['type'] = USER_ANON;
         $this->credentials->user['accountId'] = -1;
+        $this->credentials->user['name'] = '';
         $this->storeCredentials($this->credentials);
     }
     

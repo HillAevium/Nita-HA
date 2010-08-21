@@ -128,6 +128,7 @@ class Account extends AbstractController {
         // If successful set the user to authenticated
         $creds['type'] = $user->userType;
         $creds['accountId'] = $user->accountId;
+        $creds['name'] = $user->firstName.' '.$user->lastName;
         $this->mod_auth->grant($user->id, $creds);
         
         // Send 202 ACCEPTED
@@ -144,9 +145,7 @@ class Account extends AbstractController {
     
     public function doLogout() {
         $this->mod_auth->revoke();
-        
-        // Send a redirect to the home page
-        // TODO
+        $this->output->set_header("Location: /");
     }
     
     public function doRegistration() {

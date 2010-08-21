@@ -29,7 +29,14 @@ JS;
 ?>
     
     <div id="content_main_inner">
-        <h1 class="page_title"><?php echo $titles['cart']; ?></h1>
+        <div style="position:relative;width:100%;height:80px;">
+        <h1 style="position:absolute;" class="page_title"><?php echo $titles['cart']; ?></h1>
+        <?php if($this->mod_auth->isAuthenticated()): ?>
+        <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Signed in as <?php echo $this->mod_auth->credentials->user['name']; ?><br /><a href="/account/logout">Sign Out</a></span>
+        <?php else: ?>
+        <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Have an account?<br /><a href="/MyAccount">Login</a></span>
+        <?php endif; ?>
+    </div>
         <div class="gray_line"></div>
         <div id="billing_container" style="display:none;">
             <?php echo $this->load->view('cart/billing', array('info' => $info), true); ?>
