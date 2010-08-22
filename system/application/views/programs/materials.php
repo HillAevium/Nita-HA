@@ -3,9 +3,14 @@
     <div class="content_block">
     <ul>
         <?php
+        
         $aMaterials = explode("|",$model->materials);
-        foreach($aMaterials as $material) {
-        echo "<li>$material</li>";
+        if(is_array($aMaterials) && count($aMaterials) > 0 && $aMaterials[0] != '') {
+            foreach($aMaterials as $material) {
+                echo "<li>$material</li>";
+            }
+        } else {
+            echo "Information pending.";
         }
         ?>
     </ul>

@@ -3,9 +3,13 @@
     <div class="content_block">
     <ul>
     <?php
-    $aFaculty = explode("|",$model->faculty);
-    foreach($aFaculty as $faculty) {
-    echo "<li>$faculty</li>";
+    $aFaculty = explode("|",$model->faculty);  
+    if(is_array($aFaculty) && count($aFaculty) > 0) {
+        foreach($aFaculty as $faculty) {
+            echo "<li>$faculty</li>";
+        }
+    } else {
+        echo "Information pending.";
     }
     ?>
    </ul>

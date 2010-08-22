@@ -43,8 +43,9 @@ body.blue_short #content_top  { position:relative; width:100%; height:100px; col
 body.blue_short #content_main_inner { padding-top:100px; }
 #content_top div.summary      { position:absolute; top:87px; left:300px; width:634px; height:220px; overflow:hidden; vertical-align:top; }
 #content_top div.image        { position:absolute; top:87px; left:20px; width:260px; height:190px; border:1px solid #fff; }
-#content_top h1               { font-size:20px; font-weight:normal; padding:0 300px 10px 0; margin:0 0 20px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
-#content_top p                { font-size:14px; line-height:20px; }
+#content_top h1               { font-size:20px; line-height:26px; font-weight:normal; padding:0 300px 14px 0; margin:0 0 20px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
+#content_top p,
+#content_top .content         { font-size:14px; line-height:20px; }
 #content_top_short            { width:100%; height:170px; }
 #content_main                 { width:945px; margin:0 auto; }
 #content_main_inner           { position:relative; width:100%; padding-top:0px; }
@@ -330,7 +331,7 @@ ul.grandchild_tabs li div span {
 
 ul.tabs li div span a,
 ul.grandchild_tabs li div span a {
-	color:#fff;
+	color:#555;
 	text-decoration:none;
 }
 
@@ -342,6 +343,13 @@ ul.grandchild_tabs li div div {
     background-position: -295px 0;
     width:4px;
     height:30px;
+}
+
+ul.tabs li div span a.current,
+ul.tabs li:hover div span a,
+ul.grandchild_tabs li div span a.current,
+ul.grandchild_tabs li:hover div span a {
+    color:#fff;
 }
 
 ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden;}
