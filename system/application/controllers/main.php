@@ -9,9 +9,9 @@ class Main extends AbstractController {
     public function __construct() {
         parent::AbstractController();
         $this->breadcrumbs['home'] = array('name' => 'Home', 'id' => '/Home');
-        $this->breadcrumbs['careers'] = array('name' => '', 'id' => '/main/careers/');
-        $this->breadcrumbs['enewsletter'] = array('name' => 'E-Newsletter', 'id' => '/main/enewsletter/');
-        $this->breadcrumbs['news_room'] = array('name' => 'News Room', 'id' => '/main/newsroom/');
+        $this->breadcrumbs['careers'] = array('name' => '', 'id' => '/Careers/');
+        $this->breadcrumbs['enewsletter'] = array('name' => 'E-Newsletter', 'id' => '/ENewsLetter');
+        $this->breadcrumbs['news_room'] = array('name' => 'News Room', 'id' => '/NewsRoom/');
     }
     
     /**
@@ -242,7 +242,8 @@ class Main extends AbstractController {
             // Setup the tab panel
             $tabs = array();
             for($i=0;$i<count($childContent);$i++) {
-                $tabs[] = array('name' => $childContent[$i]->nita_page_name, 'id' => $childContent[$i]->nita_nav_name, 'content' => $content[$i]);
+                $href = "#". str_replace(" ", "", $childContent[$i]->nita_page_name);
+                $tabs[] = array('name' => $childContent[$i]->nita_page_name, 'id' => $childContent[$i]->nita_webpageId, 'href' => $href, 'content' => $content[$i]);
             }
                     
             // And the tabs classes

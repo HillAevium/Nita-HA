@@ -31,13 +31,15 @@
         <?php foreach($tabs as $tab): ?>
             <li id="tab">
                 <div id='<?php echo $tab['id']; ?>'>
-                    <span><?php echo $tab['name']; ?></span>
+                    <span>
+                        <a id="<?php echo $tab['id']; ?>" href="<?php echo $tab['href']; ?>"><?php echo $tab['name']; ?></a>
+                    </span>
                     <div></div>
                 </div>
             </li>
         <?php endforeach; ?>
         </ul>
-  
+        
         <div class="panes">
             <?php foreach($tabs as $tab): ?>
             <div id='<?php echo $tab['id']; ?>' class="border">

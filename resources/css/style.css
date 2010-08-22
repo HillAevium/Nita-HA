@@ -316,6 +316,12 @@ ul.grandchild_tabs li div span {
     padding:0 8px 0 10px;
 }
 
+ul.tabs li div span a,
+ul.grandchild_tabs li div span a {
+	color:#fff;
+	text-decoration:none;
+}
+
 ul.tabs li div div,
 ul.grandchild_tabs li div div {
     position:absolute;

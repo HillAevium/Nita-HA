@@ -1,4 +1,4 @@
-/**
+ /**
  * Swap a container out for another.
  * 
  * @param url the url to load the new container
@@ -112,7 +112,16 @@ function addItemHandler() {
  * @return void
  */
 function addTabHandler() {
-    $("ul.tabs").tabs("div.panes > div");
+    var options = {
+        history: true,
+        onBeforeClick: function() {
+            $("ul.tabs > li").removeClass('current');
+        },
+        onClick: function(event, index) {
+            this.getTabs().eq(index).parents('li').addClass('current');
+        }
+    };
+    $("ul.tabs").tabs("div.panes > div", options);
     $("#grandchild_tab_panel").tabs("div");
 }
 
