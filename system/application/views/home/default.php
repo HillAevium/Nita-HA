@@ -1,4 +1,17 @@
 <div id="debug_box" style="position:absolute;top:0;left:0;"></div>
+
+<?php
+if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
+    while (false !== ($file = readdir($handle))) {
+        if($file != "." && $file != "..") {
+            $images[] = $file;
+        }
+    }
+    shuffle($images); 
+    echo "<img style=\"position:absolute; z-index:0; bottom:0; right:-65px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
+}
+?>
+
 <div style="position:relative;height:400px;left:-30px;">
     <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:10;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
     <img id="normal" style="position:absolute; top:-50px; left:130px; z-index:9;" src="/resources/images/homepage_nav_normal.png" />
@@ -32,12 +45,11 @@
     <img id="programs_bubble" class="active" style="position:absolute;top:240px;left:415px;z-index:11;display:none;" src="/resources/images/homepage_bubble_programs.png" />
 </div>
 
-<img style="position:absolute; z-index:0; bottom:0; right:-115px;" src="/resources/images/portraits/ernesto.png" />
-
 <div id="slogan" style="position:absolute;left:0;bottom:40px;line-height:30px;color:#004b85;">
     NITA is the premier provider<br />
     of learning-by-doing education for the legal profession.
 </div>
+
 <map name="homemap" id="map">
     <area id="about"        shape="poly"   coords="17,139, 111,112, 118,167, 128,179, 117,244, 34,273, 2,166, 17,139" />
     <area id="custom"       shape="poly"   coords="94,27, 261,1, 275,92, 254,91, 252,172, 160,189, 118,169, 97,27" />
@@ -47,6 +59,7 @@
     <area id="lawschools"   shape="poly"   coords="461,7, 600,42, 569,165, 529,176, 439,155, 439,94, 461,7" />
     <area id="publications" shape="poly"   coords="104,347, 127,175, 163,188, 256,170, 256,279, 300,278, 283,357, 104,347" />
 </map>
+
 <script type="text/javascript">
 
 $(document).ready(function() {
