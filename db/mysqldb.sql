@@ -43,7 +43,7 @@ CREATE TABLE `account` (
   `firmSize` varchar(255) DEFAULT NULL,
   `trainingDirector` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=43 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -52,7 +52,6 @@ CREATE TABLE `account` (
 
 LOCK TABLES `account` WRITE;
 /*!40000 ALTER TABLE `account` DISABLE KEYS */;
-INSERT INTO `account` VALUES (29,'ABC Law Firm','123 Main St',NULL,'New York','CA','12345','USA','345 Broadway',NULL,'Walla Walla','CA','97450','USA','408-555-6666','408-777-8888','Type 1','1','Bruce Willis'),(30,'ABC Law Firm','123 Main St',NULL,'New York','CA','12345','USA','345 Broadway',NULL,'Walla Walla','CA','97450','USA','408-555-6666','408-777-8888','Type 1','1','Bruce Willis');
 /*!40000 ALTER TABLE `account` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,7 +78,6 @@ CREATE TABLE `ci_sessions` (
 
 LOCK TABLES `ci_sessions` WRITE;
 /*!40000 ALTER TABLE `ci_sessions` DISABLE KEYS */;
-INSERT INTO `ci_sessions` VALUES ('c2ac0d2edee1367f88a42f4953a547ba','127.0.0.1','Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv',1282117664,'a:2:{s:16:\"auth.credentials\";s:141:\"O:16:\"User_Credentials\":2:{s:4:\"auth\";a:2:{s:6:\"status\";i:1;s:2:\"id\";s:2:\"49\";}s:4:\"user\";a:2:{s:4:\"type\";s:1:\"1\";s:9:\"accountId\";s:2:\"29\";}}\";s:13:\"cart_contents\";a:3:{s:32:\"f16e4897cb08d19799b7cc6f0fbcb77f\";a:6:{s:5:\"rowid\";s:32:\"f16e4897cb08d19799b7cc6f0fbcb77f\";s:2:\"id\";s:36:\"40CED373-C38E-DF11-8D9F-000C2916A1CB\";s:5:\"price\";s:7:\"1495.00\";s:4:\"name\";s:28:\"Deposition Skills: Northwest\";s:3:\"qty\";s:1:\"2\";s:8:\"subtotal\";d:2990;}s:11:\"total_items\";s:1:\"1\";s:10:\"cart_total\";s:4:\"2990\";}}');
 /*!40000 ALTER TABLE `ci_sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -121,14 +119,14 @@ CREATE TABLE `contact` (
   `billingCountry` varchar(255) DEFAULT NULL,
   `shippingAddress1` varchar(255) DEFAULT NULL,
   `shippingAddress2` varchar(100) DEFAULT NULL,
-  `shippingCIty` varchar(255) DEFAULT NULL,
+  `shippingCity` varchar(255) DEFAULT NULL,
   `shippingState` varchar(255) DEFAULT NULL,
   `shippingZip` varchar(255) DEFAULT NULL,
   `shippingCountry` varchar(255) DEFAULT NULL,
   `requireAccessibility` tinyint(4) DEFAULT NULL,
   `haveScholarship` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=67 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +135,6 @@ CREATE TABLE `contact` (
 
 LOCK TABLES `contact` WRITE;
 /*!40000 ALTER TABLE `contact` DISABLE KEYS */;
-INSERT INTO `contact` VALUES (49,29,1,'Mr.','Super','B','User','Jr.','Director of Direction','super@test.com','96e79218965eb72c92a549dd5a330112','+1(303)413-0551','7075556666',NULL,'Role Option 1',1,'Doe',NULL,NULL,NULL,'White/Caucasian','Medical Malpractice','345 Broadway',NULL,'Walla Walla','CA','97450','USA','345 Broadway',NULL,'Walla Walla','CA','97450','USA',0,0),(50,30,2,'Mr.','Normal','B','User','Jr.','Director of Direction','normal@test.com','96e79218965eb72c92a549dd5a330112','+1(303)413-0551','7075556666',NULL,'Role Option 1',1,'Doe',NULL,NULL,NULL,'White/Caucasian','Medical Malpractice','345 Broadway',NULL,'Walla Walla','CA','97450','USA','345 Broadway',NULL,'Walla Walla','CA','97450','USA',0,0),(51,29,3,'Mr.','Child','B','User','Jr.','Director of Direction','child@test.com','96e79218965eb72c92a549dd5a330112','+1(303)413-0551','7075556666',NULL,'Role Option 1',1,'Doe',NULL,NULL,NULL,'White/Caucasian','Medical Malpractice','345 Broadway',NULL,'Walla Walla','CA','97450','USA','345 Broadway',NULL,'Walla Walla','CA','97450','USA',0,0);
 /*!40000 ALTER TABLE `contact` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -152,7 +149,9 @@ CREATE TABLE `contactbarinfo` (
   `userId` int(11) DEFAULT NULL,
   `barId` varchar(255) NOT NULL,
   `state` varchar(255) DEFAULT NULL,
-  `date` varchar(255) NOT NULL
+  `cle` varchar(255) DEFAULT '0',
+  `month` varchar(255) DEFAULT NULL,
+  `year` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -162,7 +161,6 @@ CREATE TABLE `contactbarinfo` (
 
 LOCK TABLES `contactbarinfo` WRITE;
 /*!40000 ALTER TABLE `contactbarinfo` DISABLE KEYS */;
-INSERT INTO `contactbarinfo` VALUES (49,'1111111','CA','1282160460'),(50,'1111111','CA','1282160460'),(51,'1111111','CA','1282160460');
 /*!40000 ALTER TABLE `contactbarinfo` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -175,4 +173,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2010-08-18  1:53:07
+-- Dump completed on 2010-08-21 19:26:04
