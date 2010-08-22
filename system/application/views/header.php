@@ -1,4 +1,5 @@
 <body<?php if (isset($color)) { echo " class=\"$color\""; } ?>>
+
 <div id="main_container">
 
 <div id="header">

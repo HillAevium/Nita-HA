@@ -22,6 +22,8 @@ if(window.location.pathname == '/MyCart') {
         function() {
             // UI Controller
             controller = new Controller({
+                back:       '#back',
+                forward:    '#continue',
                 login:      '#login',
                 register:   '#register',
                 display:    '#display',
@@ -30,6 +32,7 @@ if(window.location.pathname == '/MyCart') {
                 finish:     '#finish',
                 print:      '#print',
                 remove:     '.item_remove',
+                edit:       '.item_edit',
                 addProfile: '#add_profile',
                 container:  '#cart_container',
                 billContainer: '#billing_container'
@@ -45,10 +48,12 @@ function Controller(bindings) {
     this.selectionModels = new Array();
     this.attendeeLists   = new Array();
     this.bindings        = bindings;
+    this.place = "";
     
     this.go = function() {
         this.cart = new ShoppingCart();
         this.cart.bind(bindings);
+        this.place = "#display";
     };
     
     this.addProfile = function() {
@@ -91,10 +96,52 @@ function Controller(bindings) {
         return list;
     };
     
+    this.onPlaceChange = function(place) {
+        switch(place) {
+            case '#display' :
+                break;
+            case '#review' : 
+                break;
+            case '#billing' :
+                break;
+            case '#finish' :
+                break;
+        }
+    };
+    
     this.onAddProfile = function(id, name) {
         for(var i in this.selectionModels) {
             this.selectionModels[i].add(id, name);
             this.attendeeLists[i].render();
+        }
+    };
+    
+    this.onForward = function() {
+        switch(this.cart.view) {
+            case 'display' :
+                this.onSubmitSelections();
+                break;
+            case 'review' :
+                this.onReviewComplete();
+                break;
+            case 'billing' :
+                this.onBillingSubmit();
+                break;
+        }
+    };
+    
+    this.onBack = function() {
+        switch(this.cart.view) {
+            case 'review' :
+                this.onDisplayCart();
+                break;
+            case 'billing' :
+                if(params.display == 'single') {
+                    this.onDisplayCart();
+                } else {
+                    this.cart.renderReview();
+                }
+                break;
         }
     };
     
@@ -160,10 +207,11 @@ function Controller(bindings) {
                 case 202 : // ACCEPTED
                     var json = JSON.parse(data);
                     controller.billing = json.billing;
+                    controller.details = json.details;
                     if(params.display == 'single') {
                         controller.cart.renderBilling();
                     } else {
-                        controller.cart.renderReview(json.details);
+                        controller.cart.renderReview();
                     }
                     break;
                 case 400 : // BAD_REQUEST
@@ -177,25 +225,26 @@ function Controller(bindings) {
     };
     
     this.onRemoveProgram = function(rowid) {
-        $.post('/cart/remove', {rowid: rowid}, function(data, status, xhr) {
-            switch(xhr.status) {
-                case 202 : //ACCEPTED
-                    var row = $('#' + rowid).parents('div.cart_row');
-                    row.slideUp();
-                    var count = $("div.cart_row").length;
-                    if(count == 1) {
-                        row.empty();
-                        row.html("You have no items in your cart.");
-                        row.slideDown();
-                    } else {
-                        row.remove();
-                    }
-                    break;
-                default :
-                    alert("error");
-                    break;
+        var row = $('#' + rowid).parents('div.cart_row');
+        if(params.display == 'multi') {
+            var i = jQuery.inArray(row.attr('id'),controller.programs);
+            if(i == -1) { alert('cart error'); return; }
+            
+            this.selectionModels.splice(i, 1);
+            this.attendeeLists.splice(i, 1);
+            this.programs.splice(i, 1);
+        }
+        row.slideUp(400, function() {
+            var count = $("div.cart_row").length;
+            if(count == 1) {
+                row.empty();
+                row.html("You have no items in your cart.");
+                row.slideDown();
+            } else {
+                row.remove();
             }
         });
+        $.post('/cart/remove', {rowid: rowid});
     };
     
     // Handlers for AttendeeList events
@@ -260,11 +309,15 @@ function ShoppingCart() {
     this.bind = function(bindings) {
         this.bindings = bindings;
         
-        // Bind the Remove Item button
-        $(bindings.remove).each(function() {
-            $(this).click(function(event) {
-                controller.onRemoveProgram(event.target.id);
-            });
+        // Bind the Remove/Edit Item button
+        $(bindings.remove).click(function(event) {
+            controller.onRemoveProgram(event.target.id);
+            controller.onBack();
+            return false;
+        });
+        $(bindings.edit).click(function(event) {
+            controller.onBack();
+            return false;
         });
         
         // Setup the cart cart UI
@@ -284,18 +337,19 @@ function ShoppingCart() {
         // respective pages. An authenticated user will have
         // a Checkout button that shows them their order
         // for review.
-        if($(bindings.login).length) {
-            $(bindings.login).click(function() {
-                //FIXME Make true for https
-                doPageLoad('/MyAccount', false, true);
+        if($(bindings.forward).length) {
+            $(bindings.forward).click(function() {
+                controller.onForward();
+                return false;
             });
         }
-        if($(bindings.register).length) {
-            $(bindings.register).click(function() {
-                //FIXME Make true for https
-                doPageLoad('/MyAccount', false, true);
+        if($(bindings.back).length) {
+            $(bindings.back).click(function() {
+                controller.onBack();
+                return false;
             });
         }
+        /*
         if($(bindings.display).length) {
             $(bindings.display).click(function() {
                 controller.onDisplayCart();
@@ -321,12 +375,13 @@ function ShoppingCart() {
                 controller.onPrint();
             });
         }
-        
+        */
         // Bind the addProfile button so the super user
         // can add new profiles on the fly.
         if($(bindings.addProfile).length) {
             $(bindings.addProfile).click(function() {
-                controller.onAddProfile();
+                controller.addProfile();
+                return false;
             });
         }
     };
@@ -350,15 +405,16 @@ function ShoppingCart() {
         }
         this.setTitle(params.titles.cart);
         this.view = 'display';
-        
-        $("#finish").hide();
-        $("#display").hide();
-        $("#review").show();
+        $(controller.bindings.edit).hide();
+        $(controller.bindings.back).hide();
+        if(params.display == 'multi') {
+            $(controller.bindings.addProfile).show();
+        }
     };
     
     // This gets called after selections are made
     // and the user is ready to checkout.
-    this.renderReview = function(details) {
+    this.renderReview = function() {
         if(this.view == 'review') {
             alert("called review on review");
             return;
@@ -366,17 +422,17 @@ function ShoppingCart() {
         if(this.section != 'cart') {
             this.switchToCart();
         }
-        for(var i in details) {
+        for(var i in controller.details) {
             var list = controller.attendeeLists[i];
-            list.renderDetails(details[i]);
+            list.renderDetails(controller.details[i]);
         }
         
         this.setTitle(params.titles.review);
         this.view = 'review';
         
-        // Change the buttons
-        $("#review").hide();
-        $("#billing").show();
+        $(controller.bindings.edit).show();
+        $(controller.bindings.addProfile).hide();
+        $(controller.bindings.back).show();
     };
     
     this.renderBilling = function() {
@@ -404,9 +460,7 @@ function ShoppingCart() {
         
         this.view = 'billing';
         this.setTitle(params.titles.billing);
-        $("#billing").hide();
-        $("#display").show();
-        $("#finish").show();
+        $(controller.bindings.back).show();
     };
     
     this.renderFinish = function(message) {
@@ -416,23 +470,22 @@ function ShoppingCart() {
         }
         
         $('#credit_card_box').html(message);
-        $("#finish").hide();
-        $("#display").hide();
-        $("#print").show();
+        $(controller.bindings.back).hide();
+        $(controller.bindings.forward).hide();
+        $(controller.bindings.print).show();
         this.setTitle(params.titles.finish);
         this.view = 'finish';
     };
     
     this.switchToCart = function() {
-        $(controller.bindings.billContainer).fadeOut();
-        $(controller.bindings.container).fadeIn();
+        $(controller.bindings.billContainer).hide();
+        $(controller.bindings.container).show();
         this.section = 'cart';
     };
     
     this.switchToBilling = function() {
-        $(controller.bindings.container).fadeOut();
-        $(controller.bindings.billContainer).fadeIn();
-        $('#review').hide();
+        $(controller.bindings.container).hide();
+        $(controller.bindings.billContainer).show();
         this.section = 'billing';
     };
 }

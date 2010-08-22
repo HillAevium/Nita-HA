@@ -33,9 +33,9 @@ JS;
             <div style="position:relative;width:100%;height:80px;">
                 <h1 style="position:absolute;" class="page_title"><?php echo $titles['cart']; ?></h1>
                 <?php if($this->mod_auth->isAuthenticated()): ?>
-                <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Signed in as <?php echo $this->mod_auth->credentials->user['name']; ?><br /><a href="/account/logout">Sign Out</a></span>
+                <span class="auth-text">Logged in as <?php echo $this->mod_auth->credentials->user['name']; ?><br /><a href="/account/logout">Sign Out</a></span>
                 <?php else: ?>
-                <span style="position:absolute;right:0px;bottom:0px;font-size:13px;">Have an account?<br /><a href="/MyAccount">Login</a></span>
+                <span class="auth-text">Have an account?<br /><a href="/MyAccount">Login</a></span>
                 <?php endif; ?>
             </div>
             <div class="gray_line"></div>
@@ -48,19 +48,24 @@ JS;
             
             <div class="gray_line"></div>
             <?php if($display == 'multi'): ?>
-            <div id="add_profile" style="float:left;margin:10px 0;" onclick="controller.addProfile();">Add New Profile +</div>
+            <a id="add_profile" href="" style="float:left;margin:20px 0;"></a>
             <?php endif; ?>
             
             <!-- TODO - Fix buttons -->
             <?php if($button == 'login'): ?>
-            <div id="login" class="button_generic" style="margin-left:5px;">Login</div>
-            <div id="register" class="button_generic">Register</div>
+            <a class="nav_button button_sign_in" href="/MyAccount"></a>
             <?php else: ?>
-            <div id="review" class="button_generic">Review</div>
+            <a id="back" class="nav_button button_continue" href="" style="display:none; float:left; margin-left:0px;"></a>
+            <a id="continue" class="nav_button button_continue" href=""></a>
+            <a id="print" class="nav_button button_continue" href="" style="display:none;"></a>
+            <!--
+            <a id="review" class="nav_button button_continue" href="#review"></a>
+            <a id="billing" class="nav_button button_continue" href="#billing" style="display:none;"></a>
             <div id="billing" class="button_generic" style="display:none;">Billing</div>
             <div id="finish" class="button_generic" style="display:none; margin-left:5px;">Finish</div>
             <div id="display" class="button_generic" style="display:none;">Cart</div>
             <div id="print" class="button_generic" style="display:none;">Print</div>
+             -->
             <?php endif; ?>
             <div class="clear"></div>
         </div>

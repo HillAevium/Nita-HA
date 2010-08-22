@@ -7,12 +7,12 @@
             <div class="cart_row" id="<?php echo $item['id']; ?>">
                 <table>
                     <tr>
-                        <td style="width:30%">
+                        <td style="width:40%">
                             <div id="item_details">
                                 <?php echo $item['name']; ?>
                             </div>
                         </td>
-                        <td style="width:30%">
+                        <td style="width:20%">
                             <div id="item_status">
                                 <?php //TODO echo $item['status']; ?>
                                 <?php echo $spaces[0] . " Spaces Available"; ?>
@@ -21,7 +21,7 @@
                         <td style="width:30%;">
                             <?php if($display == 'single'): ?>
                             <div id="item_price">
-                                <?php echo $item['price']; ?>
+                                <?php echo '$'.$item['price']; ?>
                             </div>
                             <?php else: ?>
                             <div id="attendees">
@@ -30,9 +30,8 @@
                             <?php endif; ?>
                         </td>
                         <td style="width:10%;">
-                            <div class="item_remove" id="<?php echo $item['rowid']; ?>">
-                                Remove
-                            </div>
+                            <a class="item_remove" href="" id="<?php echo $item['rowid']; ?>"></a>
+                            <a class="item_edit" href="" style="display:none;"></a>
                         </td>
                     </tr>
                 </table>

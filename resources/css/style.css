@@ -104,13 +104,20 @@ input.small                   { font-size:11pt; width:207px; height:33px; paddin
 input.large                   { font-size:11pt; width:449px; height:33px; padding:0 4px; margin-bottom:3px; border:none; background:url(../images/form_input_large.png); }
 
 /* Buttons */
+a#add_profile,
 div.button_add_account        { width:145px; height:35px; background:url(../images/button_add_account.png); }
-div.button_continue           { width:94px; height:35px; background:url(../images/button_continue.png); }
+a.button_continue,
+div.button_continue           { display:block; width:94px; height:35px; background:url(../images/button_continue.png); }
 div.button_browse             { width:63px; height:33px; background:url(../images/button_browse.png); }
-div.button_sign_in            { width:112px; height:35px; background:url(../images/button_sign_in.png); }
+a.button_sign_in,
+div.button_sign_in            { display:block; width:112px; height:35px; background:url(../images/button_sign_in.png); }
 div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
+a.item_remove                 { float:left; display:block; width:40px; height:24px; background:url(../images/button_remove.png); }
+a.item_edit                   { float:right; display:block; width:40px; height:24px; background:url(../images/button_edit.png); }
+a.button_generic,
 div.button_generic            { float:right; margin:20px 0; width:100px; height:40px; line-height:40px; font-size:16px;
-                                background:#ccc; color:#fff; text-align:center; }
+                                background:#ccc; color:#fff; text-align:center; text-decoration:none; }
+a.nav_button { float:right; margin:20px 0px 0px 10px; }
 div.button_membership_discounts     { cursor:pointer; width:136px; height:122px; background:url(../images/button_membership_discounts.png); } 
 div.button_download_registration    { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_registration.png); } 
 div.button_download_scholarship_app { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_scholarship_app.png); } 
@@ -245,11 +252,16 @@ div#search_body input         { }
 div#add_attendee_button      { width:200px; height:50px; }
 div#cart_container select    { width:200px; }
 
-div#cart_container           { position:relative; top:0px; }
-div#cart_container > div     { margin:5px; padding:5px; background:#fff; }
+div#cart_container           { position:relative; top:0px; border-top:2px solid #5b6be3; border-right:2px solid #5b6be3; border-left:2px solid #5b6be3; }
+.cart_row                    { padding:20px 10px; background:#e4f0ef; border-bottom:2px solid #5b6be3; font-size: 15px; }
+
 
 td#company_info { padding:10px; 0px; 10px; 10px; }
 tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
+
+.auth-text { position:absolute;right:0px;top:10px;font-size:13px;line-height:18px;text-align:right; }
+.auth-text a { color:#121212; text-decoration:none; }
+.auth-text a:hover { color: #F00; }
 
 /* Overlay */
 #profile_box { background: #fff; display:none; width:941px; border:10px solid #666; }
