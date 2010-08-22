@@ -1,21 +1,42 @@
 <div id="debug_box" style="position:absolute;top:0;left:0;"></div>
-<div style="position:relative;height:400px;">
+<div style="position:relative;height:400px;left:-30px;">
     <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:10;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
     <img id="normal" style="position:absolute; top:-50px; left:130px; z-index:9;" src="/resources/images/homepage_nav_normal.png" />
+    
     <img id="about_inactive" class="inactive" style="position:absolute;top:58px;left:130px;z-index:1;" src="/resources/images/homepage_nav_about_inactive.png" />
     <img id="about_active" class="active" style="position:absolute;top:58px;left:130px;z-index:2;display:none;" src="/resources/images/homepage_nav_about_active.png" />
+    <img id="about_bubble" class="active" style="position:absolute;top:222px;left:44px;z-index:11;display:none;" src="/resources/images/homepage_bubble_about.png" />
+    
     <img id="contact_inactive" class="inactive" style="position:absolute;top:120px;left:626px;z-index:1;" src="/resources/images/homepage_nav_contact_inactive.png" />
     <img id="contact_active" class="active" style="position:absolute;top:120px;left:626px;z-index:2;display:none;" src="/resources/images/homepage_nav_contact_active.png" />
+    <img id="contact_bubble" class="active" style="position:absolute;top:261px;left:405px;z-index:11;display:none;" src="/resources/images/homepage_bubble_contact.png" />
+    
     <img id="publications_inactive" class="inactive" style="position:absolute;top:99px;left:230px;z-index:3;" src="/resources/images/homepage_nav_publications_inactive.png" />
     <img id="publications_active" class="active" style="position:absolute;top:99px;left:230px;z-index:4;display:none;" src="/resources/images/homepage_nav_publications_active.png" />
+    <img id="publications_bubble" class="active" style="position:absolute;top:260px;left:403px;z-index:11;display:none;" src="/resources/images/homepage_bubble_publications.png" />
+    
     <img id="donate_inactive" class="inactive" style="position:absolute;top:91px;left:531px;z-index:3;" src="/resources/images/homepage_nav_donate_inactive.png" />
     <img id="donate_active" class="active" style="position:absolute;top:92px;left:531px;z-index:4;display:none;" src="/resources/images/homepage_nav_donate_active.png" />
+    <img id="donate_bubble" class="active" style="position:absolute;top:242px;left:392px;z-index:11;display:none;" src="/resources/images/homepage_bubble_donate.png" />
+
     <img id="custom_inactive" class="inactive" style="position:absolute;top:-50px;left:223px;z-index:5;" src="/resources/images/homepage_nav_custom_inactive.png" />
     <img id="custom_active" class="active" style="position:absolute;top:-50px;left:223px;z-index:6;display:none;" src="/resources/images/homepage_nav_custom_active.png" />
+    <img id="custom_bubble" class="active" style="position:absolute;top:-140px;left:365px;z-index:11;display:none;" src="/resources/images/homepage_bubble_custom.png" />
+
     <img id="lawschools_inactive" class="inactive" style="position:absolute;top:-43px;left:552px;z-index:5;" src="/resources/images/homepage_nav_lawschools_inactive.png" />
     <img id="lawschools_active" class="active" style="position:absolute;top:-43px;left:552px;z-index:6;display:none;" src="/resources/images/homepage_nav_lawschools_active.png" />
+    <img id="lawschools_bubble" class="active" style="position:absolute;top:-88px;left:675px;z-index:11;display:none;" src="/resources/images/homepage_bubble_lawschools.png" />
+
     <img id="programs_inactive" class="inactive" style="position:absolute;top:41px;left:381px;z-index:7;" src="/resources/images/homepage_nav_programs_inactive.png" />
     <img id="programs_active" class="active" style="position:absolute;top:41px;left:381px;z-index:8;display:none;" src="/resources/images/homepage_nav_programs_active.png" />
+    <img id="programs_bubble" class="active" style="position:absolute;top:240px;left:415px;z-index:11;display:none;" src="/resources/images/homepage_bubble_programs.png" />
+</div>
+
+<img style="position:absolute; z-index:0; bottom:0; right:-115px;" src="/resources/images/portraits/ernesto.png" />
+
+<div id="slogan" style="position:absolute;left:0;bottom:40px;line-height:30px;color:#004b85;">
+    NITA is the premier provider<br />
+    of learning-by-doing education for the legal profession.
 </div>
 <map name="homemap" id="map">
     <area id="about"        shape="poly"   coords="17,139, 111,112, 118,167, 128,179, 117,244, 34,273, 2,166, 17,139" />
@@ -42,6 +63,7 @@ $(document).ready(function() {
         $(this).hover(
             function(event) {
                 $("#" + event.target.id + "_active").fadeIn();
+                $("#" + event.target.id + "_bubble").fadeIn();
             },
             function(event) {
                 
