@@ -50,8 +50,7 @@ class Shop extends AbstractController {
         
         // No id was supplied?
         if($id === false) {
-            // FIXME Redirect to /Shop
-            show_404('/Program/');
+            $this->output->set_header('Location: /Shop');
         }
         
         // Load the selected model
@@ -101,14 +100,12 @@ class Shop extends AbstractController {
         
         // Setup the tab panel
         $tabs = array(
-            array('name' => 'Overview',    'id' => 'overview',  'content' => $content[0]),
-            array('name' => 'Schedule',    'id' => 'schedule',  'content' => $content[1]),
-            array('name' => 'Logistics',   'id' => 'logistics', 'content' => $content[2]),
-            array('name' => 'Materials',   'id' => 'materials', 'content' => $content[3]),
-            array('name' => 'Faculty',     'id' => 'faculty',   'content' => $content[4]),
-            array('name' => 'CLE Credits', 'id' => 'credits',   'content' => $content[5]),
-            // Forum is not in current spec, so comment out for now
-            //array('name' => 'Forum',       'id' => 'forum',     'content' => $content[6])
+            array('name' => 'Overview',    'id' => 'overview',  'href' => 'Overview', 'content' => $content[0]),
+            array('name' => 'Schedule',    'id' => 'schedule',  'href' => 'Schedule', 'content' => $content[1]),
+            array('name' => 'Logistics',   'id' => 'logistics', 'href' => 'Logistics', 'content' => $content[2]),
+            array('name' => 'Materials',   'id' => 'materials', 'href' => 'Materials', 'content' => $content[3]),
+            array('name' => 'Faculty',     'id' => 'faculty',   'href' => 'Faculty', 'content' => $content[4]),
+            array('name' => 'CLE Credits', 'id' => 'credits',   'href' => 'CLE', 'content' => $content[5])
         );
         
         // And the tabs classes

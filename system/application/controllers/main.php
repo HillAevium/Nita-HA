@@ -47,9 +47,9 @@ class Main extends AbstractController {
         
         // Setup the tab panel
         $tabs = array(
-            array('name' => 'Careers',    'id' => 'careers',  'content' => $content[0]),
-            array('name' => 'Something Else?',    'id' => 'careers2', 'content' => $content[1]),
-            array('name' => 'Something Else?',   'id' => 'careers3', 'content' => $content[2])
+            array('name' => 'Careers',    'id' => 'careers', 'href' => 'Careers', 'content' => $content[0]),
+            array('name' => 'Something Else?',    'id' => 'careers2', 'href' => '1', 'content' => $content[1]),
+            array('name' => 'Something Else?',   'id' => 'careers3', 'href' => '2', 'content' => $content[2])
         );
         
         // And the tabs classes
@@ -100,9 +100,9 @@ class Main extends AbstractController {
         
         // Setup the tab panel
         $tabs = array(
-            array('name' => 'E-Newsletter',    'id' => 'enewsletter',  'content' => $content[0]),
-            array('name' => 'Something Else?',    'id' => 'enewsletter2', 'content' => $content[1]),
-            array('name' => 'Something Else?',   'id' => 'enewsletter3', 'content' => $content[2])
+            array('name' => 'E-Newsletter',    'id' => 'enewsletter', 'href' => '#NewsLetter', 'content' => $content[0]),
+            array('name' => 'Something Else?',    'id' => 'enewsletter2','href' => '1', 'content' => $content[1]),
+            array('name' => 'Something Else?',   'id' => 'enewsletter3', 'href' => '2', 'content' => $content[2])
         );
         
         // And the tabs classes
@@ -150,12 +150,11 @@ class Main extends AbstractController {
         $content[] = $this->load->view('webpage/tab_content_container',  null, true);
         $content[] = $this->load->view('webpage/tab_content_container',  null, true);
         $content[] = $this->load->view('webpage/tab_content_container', null, true);
-        
         // Setup the tab panel
         $tabs = array(
-            array('name' => 'Press Releases',    'id' => 'press_releases',  'content' => $content[0]),
-            array('name' => 'Media Kit',    'id' => 'media_kit', 'content' => $content[1]),
-            array('name' => 'Archives',   'id' => 'archives','content' => $content[2])
+            array('name' => 'Press Releases',    'id' => 'press_releases', 'href' => '#PressReleases', 'content' => $content[0]),
+            array('name' => 'Media Kit',    'id' => 'media_kit', 'href' => '#MediaKit', 'content' => $content[1]),
+            array('name' => 'Archives',   'id' => 'archives', 'href' => '#Archives', 'content' => $content[2])
         );
         
         // And the tabs classes
