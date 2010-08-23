@@ -5,7 +5,7 @@
     </div>
     <h3>Product ID<div></div></h3>
     <div class="content_block">
-        <?php echo $model->id; ?>
+        <?php echo $model->code; ?>
     </div>
     <h3>Location<div></div></h3>
     <div class="content_block">

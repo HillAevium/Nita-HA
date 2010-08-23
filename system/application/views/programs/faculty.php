@@ -4,7 +4,7 @@
     <ul>
     <?php
     $aFaculty = explode("|",$model->faculty);  
-    if(is_array($aFaculty) && count($aFaculty) > 0) {
+    if(is_array($aFaculty) && count($aFaculty) > 0 && $aFaculty[0] != "") {
         foreach($aFaculty as $faculty) {
             echo "<li>$faculty</li>";
         }

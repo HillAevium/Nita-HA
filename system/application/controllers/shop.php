@@ -67,10 +67,11 @@ class Shop extends AbstractController {
         }
         
         // Setup the topbox content
+        $topboxContent = $this->load->view('programs/content_top_detail', array('model'=>$model), true);
         $topbox = array(
             'image'   => 'topbox_test.jpg',
             'title'   => $model->title,
-            'content' => $this->getRandomText(1)
+            'content' => $topboxContent
         );
         
         // Setup the breadcrumb
@@ -91,10 +92,10 @@ class Shop extends AbstractController {
         // Load our content panels
         $content[] = $this->load->view('programs/overview',  $model, true);
         $content[] = $this->load->view('programs/schedule',  $model, true);
-        $content[] = $this->load->view('programs/logistics', $model, true);
-        $content[] = $this->load->view('programs/materials', $model, true);
         $content[] = $this->load->view('programs/faculty',   $model, true);
         $content[] = $this->load->view('programs/credits',   $model, true);
+        $content[] = $this->load->view('programs/logistics', $model, true);
+        $content[] = $this->load->view('programs/materials', $model, true);
         // Forum is not in current spec, so comment out for now
         //$content[] = $this->load->view('programs/forum',     $model, true);
         
@@ -102,10 +103,10 @@ class Shop extends AbstractController {
         $tabs = array(
             array('name' => 'Overview',    'id' => 'overview',  'href' => 'Overview', 'content' => $content[0]),
             array('name' => 'Schedule',    'id' => 'schedule',  'href' => 'Schedule', 'content' => $content[1]),
-            array('name' => 'Logistics',   'id' => 'logistics', 'href' => 'Logistics', 'content' => $content[2]),
-            array('name' => 'Materials',   'id' => 'materials', 'href' => 'Materials', 'content' => $content[3]),
-            array('name' => 'Faculty',     'id' => 'faculty',   'href' => 'Faculty', 'content' => $content[4]),
-            array('name' => 'CLE Credits', 'id' => 'credits',   'href' => 'CLE', 'content' => $content[5])
+            array('name' => 'Faculty',     'id' => 'faculty',   'href' => 'Faculty', 'content' => $content[2]),
+            array('name' => 'CLE Credits', 'id' => 'credits',   'href' => 'CLE', 'content' => $content[3]),
+            array('name' => 'Travel',   'id' => 'logistics', 'href' => 'Logistics', 'content' => $content[4]),
+            array('name' => 'Books',   'id' => 'materials', 'href' => 'Materials', 'content' => $content[5])
         );
         
         // And the tabs classes
@@ -145,6 +146,9 @@ class Shop extends AbstractController {
         // Grab some models
         $models = $this->program->getAll();
         
+        // Sort if neccessary
+        usort()
+        
         // Setup the data for the view
         $views = array(
             array('name' => 'programs/list', 'args' => array('models' => $models))
@@ -174,6 +178,10 @@ class Shop extends AbstractController {
         
         // ... and go
         $this->loadViews();
+    }
+    
+    private function sort() {
+        
     }
 }
 

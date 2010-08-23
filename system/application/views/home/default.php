@@ -8,7 +8,7 @@ if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
         }
     }
     shuffle($images); 
-    echo "<img style=\"position:absolute; z-index:0; bottom:0; right:-65px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
+    echo "<img style=\"position:absolute; z-index:0; bottom:0; right:-55px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
 }
 ?>
 

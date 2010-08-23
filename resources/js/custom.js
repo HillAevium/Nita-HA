@@ -15,6 +15,31 @@ function doContainerSwap(url, container, callback) {
     });
 }
 
+function bindNavHover() {
+    $("#main_nav li a").each(function() {
+        // preload hover states
+        var img = new Image();
+        img.src = "/resources/" + $(this).attr('img') + '_over.png';
+        if($(this).hasClass('current')) {
+            $(this).addClass($(this).attr('img') + '_over');
+        }
+    }); 
+    $("#main_nav li a").hover(
+        function() {
+            if(!$(this).hasClass('current')) {
+                $(this).addClass($(this).attr('img') + '_over');
+                $(this).removeClass($(this).attr('img'));
+            }
+        },
+        function() {
+            if(!$(this).hasClass('current')) {
+                $(this).removeClass($(this).attr('img') + '_over');
+                $(this).addClass($(this).attr('img'));
+            }
+        }
+    );
+}
+
 function doPageLoad(uri, secure, useHistory) {
     var protocol = (secure ? 'https://' : 'http://');
     var host     = window.location.host;
@@ -130,6 +155,10 @@ function addBreadcrumbHandler() {
 }
 
 function addTooltipHandler() {
+    $("#search_bar a").each(function() {
+        var img = new Image();
+        img.src = "/resources/images/" + $(this).attr('img') + "_over.png";
+    });
     $("#search_bar a").tooltip();
 }
 
@@ -142,6 +171,7 @@ function init() {
     addTabHandler();
     addBreadcrumbHandler();
     addTooltipHandler();
+    bindNavHover();
 }
 
 $(init);

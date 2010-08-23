@@ -1,8 +1,5 @@
-    <div class="image"></div>
-    <div class="content_top_content">
-        <div class="program_add_to_cart"></div>
-        <h1><?php echo $model->name; ?></h1>
-        <?php echo $model->description; ?>
-        <?php echo $model->dates; ?>
-        <?php echo $model->location . '<br />' . $program->city . ', ' . $program->state; ?>
-    </div>
+<div class="program">
+<?php echo $model->description; ?><br /><br />
+<?php echo date("n/j/Y",strtotime($model->startDate)) . " - " . date("n/j/Y",strtotime($model->endDate)); ?><br /><br />
+<?php echo $model->facilityName . '<br />' . $model->city . ', ' . $model->state; ?>
+</div>

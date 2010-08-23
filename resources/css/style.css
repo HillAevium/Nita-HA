@@ -1,10 +1,10 @@
-html, body                    { margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
+html, body                    { position:relative; margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
 #main_container               { position:relative; width:977px; margin:0 auto; padding-bottom:120px; text-align:left; }
 .clear                        { clear:both; }
-.tooltip                      { display:none;}
+.tooltip                      { display:none; }
 
 /* Header */
-#header                       { width:100%; height:210px; }
+#header                       { width:977px; height:210px; margin:0 auto; text-align:left; }
 #header_inner                 { position:relative; width:50%; height:164px; }  
 #logo                         { position:absolute; top:33px; left:0; width:158px; height:36px; background:url(../images/logo.png); }
 #title                        { position:absolute; top:88px; left:0; }
@@ -23,18 +23,26 @@ a.search_bar_account:hover    { background-image:url(../images/search_bar_accoun
 a.search_bar_print:hover      { background-image:url(../images/search_bar_print_over.png); }
 
 /* Main Nav */
-#main_nav                     { position:absolute; z-index:1; top:150px; height:134px; }
+#main_nav                     { position:absolute; z-index:1; top:-65px; height:134px; }
 #main_nav ul.menu             { position:relative; list-style:none; }
 #main_nav ul.menu li          { display:inline; }
 #main_nav ul.menu li a        { display:block; line-height:123px; float:left; text-align:center; text-decoration:none; vertical-align:bottom; }
-#main_nav ul.menu li a:hover  { opacity:0.85; }
+
 #main_nav a.programs          { position:absolute; top:5px; left:5px; width:114px; height:117px; background:url(../images/nav_programs.png); }
-#main_nav a.publications      { position:absolute; top:0; left:138px; width:128px; height:127px; background:url(../images/nav_publications_over.png); }
+#main_nav a.publications      { position:absolute; top:0; left:138px; width:128px; height:127px; background:url(../images/nav_publications.png); }
 #main_nav a.custom_programs   { position:absolute; top:0; left:284px; width:123px; height:122px; background:url(../images/nav_custom_programs.png); }
 #main_nav a.law_schools       { position:absolute; top:0; left:421px; width:113px; height:117px; background:url(../images/nav_law_schools.png); }
 #main_nav a.donate            { position:absolute; top:0; left:557px; width:121px; height:121px; background:url(../images/nav_donate.png); }
 #main_nav a.about             { position:absolute; top:0; left:704px; width:119px; height:124px; background:url(../images/nav_about.png); }
 #main_nav a.contact           { position:absolute; top:0; left:855px;width:116px; height:118px; background:url(../images/nav_contact.png); }
+
+#main_nav a.programs_over          { position:absolute; top:5px; left:5px; width:114px; height:117px; background:url(../images/nav_programs_over.png); }
+#main_nav a.publications_over      { position:absolute; top:0; left:138px; width:128px; height:127px; background:url(../images/nav_publications_over.png); }
+#main_nav a.custom_programs_over   { position:absolute; top:0; left:284px; width:123px; height:122px; background:url(../images/nav_custom_programs_over.png); }
+#main_nav a.law_schools_over       { position:absolute; top:0; left:421px; width:113px; height:117px; background:url(../images/nav_law_schools_over.png); }
+#main_nav a.donate_over            { position:absolute; top:0; left:557px; width:121px; height:121px; background:url(../images/nav_donate_over.png) no-repeat; }
+#main_nav a.about_over             { position:absolute; top:0; left:704px; width:119px; height:124px; background:url(../images/nav_about_over.png); }
+#main_nav a.contact_over           { position:absolute; top:0; left:855px;width:116px; height:118px; background:url(../images/nav_contact_over.png); }
 
 /* Content Area */
 #body                         { width:100%; }
@@ -43,9 +51,10 @@ body.blue_short #content_top  { position:relative; width:100%; height:100px; col
 body.blue_short #content_main_inner { padding-top:100px; }
 #content_top div.summary      { position:absolute; top:87px; left:300px; width:634px; height:220px; overflow:hidden; vertical-align:top; }
 #content_top div.image        { position:absolute; top:87px; left:20px; width:260px; height:190px; border:1px solid #fff; }
-#content_top h1               { font-size:20px; line-height:26px; font-weight:normal; padding:0 300px 14px 0; margin:0 0 20px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
+#content_top h1               { font-size:20px; line-height:26px; font-weight:normal; padding:0 300px 14px 0; margin:0 0 15px 0; border-bottom:1px solid #fff; text-transform:uppercase; letter-spacing:0.05em; }
 #content_top p,
-#content_top .content         { font-size:14px; line-height:20px; }
+#content_top .content         { font-size:12pt; line-height:23pt; font-weight:100; }
+#content_top .program         { font-size:13px; line-height:16px;}
 #content_top_short            { width:100%; height:170px; }
 #content_main                 { width:945px; margin:0 auto; }
 #content_main_inner           { position:relative; width:100%; padding-top:0px; }
@@ -148,6 +157,8 @@ table.program_list td             { padding:18px 8px; border-bottom:1px solid #d
 table.program_list tbody tr:hover { background:#ededed url(../images/list_item_bg.png) top repeat-x; cursor:pointer; }
 div.program_details_sidebar       { float:right; padding:50px 15px 0 0; }  
 div.program_details_sidebar div   { margin-bottom:12px; }  
+div.program_add_to_cart           { position:relative; float:right; width:207px; height:39px; background:url(../images/program_add_to_cart.png) no-repeat; }
+div.program_price                 { float:right; color:#333; font-size:12px; line-height:39px; padding-right:8px; }
 
 /* Tabbed content boxes */
 .tab_content_container                { color:#575757; }
