@@ -19,7 +19,7 @@
                     <label class="light">Password:</label>&nbsp;&nbsp;<input name="password" type="password" class="extra_small" />
                 </td>
                 <td align="right" style="padding:22px 0;">
-                    <div id="submit_form" class="button_sign_in" onclick="$('#login_form').submit();"></div>
+                    <a id="login_submit" class="button_sign_in" href="" ></a>
                 </td>
             </tr>
         </table>
@@ -27,19 +27,9 @@
         <div class="gray_line"></div>
         <h1 class="page_title">Create an Account</h1>
         <div class="gray_line"></div>
-        <table class="reg_funnel">
-            <tr>
-                <td align="left">
-                    <div id="group">
-                        <img src="/resources/images/reg_funnel_button_group.png" alt="Group" title="Group" />
-                    </div>
-                </td>
-                <td align="right">
-                    <div id="individual">
-                        <img src="/resources/images/reg_funnel_button_individual.png" alt="Individual" title="Individual" />
-                    </div>
-                </td>
-            </tr>
-        </table>
+        <div class="reg_funnel">
+            <a id="group" class="button_group" href=""></a>
+            <a id="individual" class="button_individual" href=""></a>
+        </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->

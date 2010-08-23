@@ -3,13 +3,11 @@ $(document).ready(function() {
     $("form").submit(function() { return false; });
     $('#group').click(selectRegType);
     $('#individual').click(selectRegType);
-    bindForm('#login_form');
-    $("#login_form").ajaxComplete(handleLoginComplete);
+    renderLogin();
 });
 </script>
     <div id="content_reg_form" style="display:none;">
         <h1 class="page_title" id="page_title"></h1>
-        <div id="sign_in" class="small">Already have an account? <a href="/MyAccount">Sign in!</a></div>
         <div class="gray_line"></div>
         <div id="forms_container">
             <div id="error_container"></div>
@@ -24,11 +22,8 @@ $(document).ready(function() {
         </div>
         <div class="gray_line"></div>
         <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
-            <label style="position:absolute; top:16px; left:3px;">Attach a NITA Application</label>
-            <input id="" type="file" name="" style="position:absolute; top:36px; left:3px;" />
-            <div id="browse" class="button_browse" style="position:absolute; top:36px; left:223px;"></div>
-            
-            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;" onclick="$('#submit_form').click();"></div>
+            <a id="back" class="button_continue" style="position:absolute; top:34px; left:13px;" href=""></a>
+            <a id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" href=""></a>
         </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->

@@ -49,12 +49,12 @@ $(document).ready(function() {
 <?php else: ?>
 #button_bar div#orders  { position:absolute; top:5px; bottom:5px; left:130px; width:150px; }
 <?php endif; ?>
-#button_bar div { background:#eee; color:#000; text-align:center; padding-top:2px; }
-#button_bar div:hover { background:#222; color:#fff; cursor:pointer; }
-#button_bar div.current { background:#ddd; color:#000; cursor:default; }
+#button_bar div { background:#e4f0ef; color:#000; text-align:center; padding-top:2px; }
+#button_bar div.current { background:#5b6be3; color:#fff; cursor:default; }
 #panels { min-height:400px; }
 #panels h2 { height:35px; font-size:20px; padding-top:5px; }
-div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
+div.info_box { padding:15px; background:#e4f0ef; border:2px solid #5b6be3; margin-bottom:5px; }
+div.info_box:hover { background:#d3ebe9; cursor:pointer; }
 
 </style>
 <div id="content_main_inner">
@@ -89,22 +89,33 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
             ?>
         </div>
         <?php if($display == 'single'): ?>
+<style>
+#cle_pane { padding:0px; margin:0px; }
+.cle_row  { padding:0px; margin:20px 0px; width:100%; height:125px; }
+.cle_cell { padding:0px; margin:0px 10px 0px 0px; width:175px; height:115px; float:left; }
+#cle_pane p { padding:15px 0px 25px 20px; margin:0px; }
+.cle_cell { background:#d3ebe9; border:2px solid #5b6be3; }
+</style>
         <div id="cle_pane">
             <h2>CLE Credits</h2>
+            <?php $rows = count($profile->bar) / 6; ?>
+            <?php for($i = 0; $i < 2; $i++): ?>
+            <div class="cle_row">
             <?php foreach($profile->bar as $bar): ?>
-            <div class="info_box">
-                <p>
-                <?php
-                $br = "<br />";
-                echo $bar['state'] . $br;
-                echo "Bar ID: " . $bar['barId'] . $br;
-                echo "Date: " . $bar['month'] . " " . $bar['year'] . $br;
-                echo "Credits: " . $bar['cle'] . $br;
-                ?>
-                </p>
-            </div>
-            <div class="gray_line"></div>
+                <div class="cle_cell">
+                    <p>
+                    <?php
+                    $br = "<br />";
+                    echo $bar['state'] . $br;
+                    echo "Bar ID: " . $bar['barId'] . $br;
+                    echo "Date: " . $bar['month'] . " " . $bar['year'] . $br;
+                    echo "Credits: " . $bar['cle'] . $br;
+                    ?>
+                    </p>
+                </div>
             <?php endforeach; ?>
+            </div>
+            <?php endfor; ?>
         </div>
         <?php endif; ?>
         <div id="order_pane">
@@ -126,7 +137,8 @@ div.info_box { padding:15px; background:#ddd; margin-bottom: 5px; }
         </form>
         <div class="gray_line"></div>
         <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
-            <div id="submit_form" class="button_continue" style="position:absolute; top:34px; right:13px;"></div>
+            <a id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" href=""></a>
+            <a id="back" class="button_continue" style="position:absolute; top:34px; left:13px;" href=""></a>
         </div>
         <div class="gray_line"></div>
     </div>
