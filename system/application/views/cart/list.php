@@ -4,6 +4,7 @@
             </div>
             <?php endif; ?>
             <?php foreach($this->cart->contents() as $item): ?>
+            <?php // TODO Add column headers ?>
             <div class="cart_row" id="<?php echo $item['id']; ?>">
                 <table>
                     <tr>

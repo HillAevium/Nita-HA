@@ -130,7 +130,10 @@ div.button_generic            { float:right; margin:20px 0; width:100px; height:
 a.nav_button { float:right; margin:20px 0px 0px 10px; }
 div.button_membership_discounts     { cursor:pointer; width:136px; height:122px; background:url(../images/button_membership_discounts.png); } 
 div.button_download_registration    { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_registration.png); } 
-div.button_download_scholarship_app { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_scholarship_app.png); } 
+div.button_download_scholarship_app { cursor:pointer; width:136px; height:122px; background:url(../images/button_download_scholarship_app.png); }
+div.reg_funnel     { position:relative; width:945px; height:292px; }
+.button_group      { position:absolute; top:20px; left:0px; display:block; float:left; width:449px; height:252px; background:url('/resources/images/reg_funnel_button_group.png') no-repeat; }
+.button_individual { position:absolute; top:20px; right:0px; display:block; float:right; width:449px; height:252px; background:url('/resources/images/reg_funnel_button_individual.png') no-repeat; }
 
 /* Color bar backgrounds */
 body.blue_short               { background:url(../images/color_bar_blue_short.png) center 210px repeat-x; }
@@ -150,7 +153,6 @@ div.header_bar_blue_full      { width:941px; height:28px; margin-bottom:3px; bac
 /* Page-specific styling */
 div#sign_in                       { margin:-10px 0 10px 0; }
 div.pagination                    { padding:40px 0 0 10px; }
-table.reg_funnel                  { width:100%; margin-top:44px; }
 table.program_list                { width:100%; margin-top:30px; font-size:9pt; }
 table.program_list thead td       { padding:10px; font-size:11pt; }
 table.program_list td             { padding:18px 8px; border-bottom:1px solid #ddd; vertical-align:top; }
@@ -274,9 +276,6 @@ tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
 .auth-text { position:absolute;right:0px;top:10px;font-size:13px;line-height:18px;text-align:right; }
 .auth-text a { color:#121212; text-decoration:none; }
 .auth-text a:hover { color: #F00; }
-
-/* Overlay */
-#profile_box { background: #fff; display:none; width:941px; border:10px solid #666; }
 
 /* Tabbed panels */
 div#tab_panel {

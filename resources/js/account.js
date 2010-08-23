@@ -69,27 +69,63 @@ function toggleIsAttendingDependentFields() {
     $(".isAttendingDependent").slideToggle();
 }
 
-function bindForm(form) {
+function tearDown() {
+    $("#back").unbind('click');
+    $("#continue").unbind('click');
+    $("#login_submit").unbind('click');
+    $(document).unbind('ajaxComplete');
+    $("#content_reg_funnel").hide();
+    $("#content_reg_form").hide();
+    $("#firm_form").hide();
+    $("#profile_form").hide();
     $('#error_container').html('');
     $('#response_message').html('');
-    $("#submit_form").unbind('click');
-    $("#submit_form").click(
-        function(event) {
-            $(form).ajaxSubmit();
-        }
-    );
-    $(form).fadeIn();
+}
+
+function renderLogin() {
+    tearDown();
+    $(document).ajaxComplete(handleLoginComplete);
+    $("#login_submit").click(function() {
+        $("#login_form").ajaxSubmit();
+        return false;
+    });
+    $("#content_reg_funnel").show();
+}
+
+function renderFirmForm() {
+    tearDown();
+    $(document).ajaxComplete(handleFormComplete);
+    $("#back").click(function() {
+        renderLogin();
+        return false;
+    });
+    $("#continue").click(function() {
+        $("#firm_form").ajaxSubmit();
+        return false;
+    });
+    $("#firm_form").show();
+    $("#content_reg_form").show();
+}
+
+function renderProfileForm() {
+    tearDown();
+    $(document).ajaxComplete(handleFormComplete);
+    $("#back").click(function() {
+        renderFirmForm();
+        return false;
+    });
+    $("#continue").click(function() {
+        $("#profile_form").ajaxSubmit();
+        return false;
+    });
+    $("#profile_form").show();
+    $("#content_reg_form").show();
 }
 
 function selectRegType(event) {
     // FIXME
     // Remove for production
     addTestValues();
-    
-    $('#content_reg_funnel').fadeOut();
-    $('#login_form').unbind('ajaxComplete');
-    $(document).ajaxComplete(handleFormComplete);
-    bindForm('#firm_form');
     
     var type = event.currentTarget.id;
     switch(type) {
@@ -102,7 +138,9 @@ function selectRegType(event) {
         break;
     }
     $('input[name="userType"]').val(type);
-    $('#content_reg_form').fadeIn();
+
+    renderFirmForm();
+    return false;
 }
 
 // Ajax Handlers
@@ -133,13 +171,15 @@ function handleLoginComplete(e, xhr, setting) {
 function handleFormComplete(e, xhr, setting) {
     switch(xhr.status) {
         case HTTP_ACCEPTED :
-            // FIXME
             $("#response_message").html(xhr.responseText);
-            $('#firm_form').fadeOut();
-            bindForm('#profile_form', null);
+            renderProfileForm();
             break;
         case HTTP_CREATED :
-            window.location.reload();
+            if(xhr.responseText == "/MyCart") {
+                doPageLoad('/MyCart', false, true);
+            } else {
+                window.location.reload();
+            }
             break;
         case HTTP_BAD_REQUEST :
             $('#error_container').html(xhr.responseText);

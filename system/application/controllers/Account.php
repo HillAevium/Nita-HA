@@ -191,7 +191,7 @@ class Account extends AbstractController {
                 $this->load->model('accountProvider');
                 try {
                     $profile['accountId'] = $this->accountProvider->storeAccount($firm);
-                    $this->accountProvider->storeProfile($profile);
+                    $id = $this->accountProvider->storeProfile($profile);
                 } catch(Exception $e) {
                     $this->output->set_status_header(HTTP_INTERAL_ERROR);
                     // FIXME
@@ -200,12 +200,24 @@ class Account extends AbstractController {
                     return;
                 }
                 
+                // If successful set the user to authenticated
+                $creds['type'] = $profile['userType'];
+                $creds['accountId'] = $profile['accountId'];
+                $creds['name'] = $profile['firstName'].' '.$profile['lastName'];
+                $this->mod_auth->grant($id, $creds);
+                
+                $uri = $this->session->userdata('login.href');
+                if($uri !== false) {
+                    echo "/MyCart";
+                }
+                
                 // Client side will load the login page when
                 // recieving this code
                 $this->output->set_status_header(HTTP_CREATED);
                 
                 // Cleanup the session
                 $this->session->unset_userdata('registration_firm_info');
+                $this->session->unset_userdata('login.href');
             return;
         }
     }

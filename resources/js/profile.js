@@ -24,8 +24,8 @@ function ProfileController(bindings) {
         this.view.currentPane = pane;
     };
     
-    this.onAdd = function() {
-        $("#profile_form").clearForm();
+    this.onAddProfile = function() {
+        $("#profile_form").resetForm();
         $("#profile_form").attr("action", "/account/profile_add");
         this.onEdit("#profile_form");
     };
@@ -43,11 +43,6 @@ function ProfileController(bindings) {
                         callback();
                     }
                     window.location.reload();
-//                    $(form).hide();
-//                    $("#forms_container").hide();
-//                    $(bindings.container).show();
-//                    $(document).unbind('ajaxComplete');
-//                    $("#submit_form").unbind('click');
                     break;
                 case 400 : // BAD_REQUEST
                     $("#error_container").html(xhr.responseText);
@@ -55,8 +50,14 @@ function ProfileController(bindings) {
             }
         });
         
-        $("#submit_form").click(function() {
+        $("#continue").click(function() {
             $(form).ajaxSubmit();
+            return false;
+        });
+        $("#back").click(function() {
+            controller.tearDown();
+            $(bindings.container).show();
+            return false;
         });
     };
     
@@ -74,6 +75,18 @@ function ProfileController(bindings) {
     this.onEditAccount = function() {
         this.onEdit("#firm_form");
     };
+    
+    this.tearDown = function() {
+        $("#firm_form").hide();
+        $("#profile_form").hide();
+        $("#forms_container").hide();
+        $(bindings.container).hide();
+        $("#back").unbind('click');
+        $("#continue").unbind('click');
+        $(document).unbind('ajaxComplete');
+        $("#error_container").html('');
+        $("#response_message").html('');
+    };
 }
 
 function View() {
@@ -82,6 +95,10 @@ function View() {
     this.currentButton = null;
     
     this.bind = function() {
+        $("#add_profile").click(function() {
+            controller.onAddProfile();
+            return false;
+        });
         this.dom.buttonBar = $(controller.bindings.buttonBar);
         this.dom.container = $(controller.bindings.controller);
         var trigger = controller.bindings.trigger;
@@ -103,8 +120,6 @@ function View() {
                 });
             }
         }
-        
-        
     };
     
     this.togglePane = function(button, pane) {

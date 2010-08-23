@@ -58,14 +58,6 @@ JS;
             <a id="back" class="nav_button button_continue" href="" style="display:none; float:left; margin-left:0px;"></a>
             <a id="continue" class="nav_button button_continue" href=""></a>
             <a id="print" class="nav_button button_continue" href="" style="display:none;"></a>
-            <!--
-            <a id="review" class="nav_button button_continue" href="#review"></a>
-            <a id="billing" class="nav_button button_continue" href="#billing" style="display:none;"></a>
-            <div id="billing" class="button_generic" style="display:none;">Billing</div>
-            <div id="finish" class="button_generic" style="display:none; margin-left:5px;">Finish</div>
-            <div id="display" class="button_generic" style="display:none;">Cart</div>
-            <div id="print" class="button_generic" style="display:none;">Print</div>
-             -->
             <?php endif; ?>
             <div class="clear"></div>
         </div>
