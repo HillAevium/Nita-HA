@@ -147,7 +147,7 @@ class Shop extends AbstractController {
         $models = $this->program->getAll();
         
         // Sort if neccessary
-        usort()
+        // usort()
         
         // Setup the data for the view
         $views = array(
