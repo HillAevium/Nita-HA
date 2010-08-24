@@ -176,7 +176,7 @@ div.panes div.border                  { border-width:9px; border-style:solid; pa
 div.panes div.border .tab_content_container { padding:12px 9px; }
 .grandchild_tabs                      { position:relative; width:977px; height:49px; width:100%; }
 
-body.green .grandchild_tabs             { background:#44685b; }
+body.green .grandchild_tabs             { background:#36574b; }
 body.purple .grandchild_tabs             { background:#57536c; }
 
 body.orange .tab_content_container h3      { background-position: 0px -297px; }
@@ -284,7 +284,7 @@ div#tab_panel {
 
 div.tab_panel {
     width:765px;
-        padding-top:50px;
+    padding-top:50px;
 }
 
 ul.tabs,
@@ -304,7 +304,15 @@ ul.grandchild_tabs li {
         list-style-image:none !important;
 }
 
-ul.tabs li,
+ul.tabs li {
+        color:#575757;
+        padding-right:6px;
+        font-size:10pt;
+        cursor:pointer;
+        position:relative;
+        top:-2000px;
+}
+
 ul.grandchild_tabs li {
         color:#575757;
         padding-right:6px;
@@ -318,7 +326,7 @@ li:hover span {
 }
 
 ul.tabs li div,
-ul.grandchild_tabs li div {
+ul.grandchild_tabs li a {
         float:left;
         position:relative;
         margin-right:8px;
@@ -326,7 +334,7 @@ ul.grandchild_tabs li div {
 }
 
 ul.tabs li div,
-ul.grandchild_tabs li div {
+ul.grandchild_tabs li a {
     background-position: 0 0;
     height:32px;
     width:auto;
@@ -334,25 +342,47 @@ ul.grandchild_tabs li div {
     text-align:center;
 }
 
-ul.tabs li div span,
-ul.grandchild_tabs li div span {
-    padding:0 8px 0 10px;
-}
+ul.grandchild_tabs li a {
+    height:28px;
+    line-height:28px;
+    background-position:-799px -165px;
+    margin-right:12px;
+}   
+
 
 ul.tabs li div span a,
-ul.grandchild_tabs li div span a {
+ul.grandchild_tabs li a {
 	color:#555;
 	text-decoration:none;
+	line-height:32px;
+	display:block;
+	height:32px;
+	padding:0 8px 0 10px;
+}
+
+ul.grandchild_tabs li a {
+    color:#fff;
+    height:28px;
+    line-height:28px;
+    padding:0 4px 0 10px;
+    float:left;
 }
 
 ul.tabs li div div,
-ul.grandchild_tabs li div div {
+ul.grandchild_tabs li a div {
     position:absolute;
     right:-8px;
     top:0;
     background-position: -295px 0;
     width:4px;
     height:30px;
+}
+
+ul.grandchild_tabs li a div {
+    background-image:url(../images/sprite.png);
+    right:-4px;
+    height:28px;
+    background-position: -1048px -165px;
 }
 
 ul.tabs li div span a.current,
@@ -362,7 +392,7 @@ ul.grandchild_tabs li:hover div span a {
     color:#fff;
 }
 
-ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden;}
+ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden; }
 
 body.blue div#tab_panel ul.tabs li.current div,
 body.blue div#tab_panel ul.tabs li:hover div        { background-position: 0 -198px; }
@@ -378,6 +408,10 @@ body.green div#tab_panel ul.tabs li.current div,
 body.green div#tab_panel ul.tabs li:hover div        { background-position: 0 -165px; }
 body.green div#tab_panel ul.tabs li.current div div,
 body.green div#tab_panel ul.tabs li:hover div div    { background-position: -295px -165px; }
+body.green div#tab_panel ul.grandchild_tabs li a.current,
+body.green div#tab_panel ul.grandchild_tabs li a:hover           { background-position: -1053px -165px; }
+body.green div#tab_panel ul.grandchild_tabs li a.current div,
+body.green div#tab_panel ul.grandchild_tabs li a:hover div          { background-position: -1312px -165px; }
 
 body.grayblue div#tab_panel ul.tabs li.current div,
 body.grayblue div#tab_panel ul.tabs li:hover div        { background-position: 0 -99px; }
