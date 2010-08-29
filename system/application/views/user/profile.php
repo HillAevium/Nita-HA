@@ -11,6 +11,7 @@ if($display == 'multi') {
 ?>
             <h2><?php echo $top['title']; ?></h2>
             <div class="info_box" onclick="<?php echo $top['event']; ?>">
+                <div style="float:right;"><a class="button_edit"></a></div>
                 <p>
                 <?php
                 $br = "<br />";
@@ -32,17 +33,21 @@ if($display == 'multi') {
                 ?>
                 </p>
             </div>
+            <div class="gray_line" style="margin-bottom:0;"></div>
             <div style="position:relative;height:55px;">
-                <h2 style="position:absolute;left:0px;bottom:0px;"><?php echo $bottom['title']; ?></h2>
                 <?php if($display == 'multi'): ?>
-                <a id="add_profile" style="position:absolute; right:0px; bottom:5px;" href=""></a>
+                <div style="position:absolute;right:15px;"><a class="button_add_profile" style="height:55px;line-height:55px;" id="add_profile" href="">Add Profile</a></div>
                 <?php endif; ?>
+                <h2 style="padding:0 0 0 15px;margin:0;line-height:55px;"><?php echo $bottom['title']; ?></h2>
             </div>
+            <div class="gray_line" style="margin-bottom:0;"></div>
             <?php if($display == 'multi'): ?>
             <?php for($i = 0; $i < count($userProfiles); $i++):?>
             <?php $user = $userProfiles[$i]?>
             <?php $event = 'controller.onEditProfile('.$i.')'; ?>
             <div class="info_box" onclick="<?php echo $event; ?>">
+                <div style="float:right;"><a class="button_remove" href=""></a></div>
+                <div style="float:right;padding:0 6px 0 0;"><a class="button_edit" href=""></a></div>
                 <p>
                 <?php echo $user->salutation.' '.$user->firstName.' '.$user->middleInitial.' '.$user->lastName.' '.$user->suffix; ?><br />
                 <?php echo $user->userType; ?>

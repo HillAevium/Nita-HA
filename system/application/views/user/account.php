@@ -40,21 +40,14 @@ $(document).ready(function() {
 #panels { border:1px solid #00f; }
 #panels div { border:1px solid #f00; }
 */
-#button_bar { position:relative; height:35px; }
+#button_bar { position:relative; height:35px; font-size:13px; font-weight:bold;}
 
-#button_bar div#account { position:absolute; top:5px; bottom:5px; left:5px; width:120px; }
-<?php if($display == 'single'): ?>
-#button_bar div#cle     { position:absolute; top:5px; bottom:5px; left:130px; width:100px; }
-#button_bar div#orders  { position:absolute; top:5px; bottom:5px; left:235px; width:150px; }
-<?php else: ?>
-#button_bar div#orders  { position:absolute; top:5px; bottom:5px; left:130px; width:150px; }
-<?php endif; ?>
-#button_bar div { background:#e4f0ef; color:#000; text-align:center; padding-top:2px; }
-#button_bar div.current { background:#5b6be3; color:#fff; cursor:default; }
+#button_bar span { color:#0b73bc; text-align:center; padding-top:2px; cursor:pointer; }
+#button_bar span.current { color:#545454; cursor:default; }
 #panels { min-height:400px; }
-#panels h2 { height:35px; font-size:20px; padding-top:5px; }
-div.info_box { padding:15px; background:#e4f0ef; border:2px solid #5b6be3; margin-bottom:5px; }
-div.info_box:hover { background:#d3ebe9; cursor:pointer; }
+#panels h2 { height:25px; font-size:16px; padding:15px 0 0 15px; color:#0f4964; }
+div.info_box { padding:0px 15px 15px 15px; margin-bottom:5px;}
+div.info_box p { font-size:12px; line-height:16px; }
 
 </style>
 <div id="content_main_inner">
@@ -67,11 +60,12 @@ div.info_box:hover { background:#d3ebe9; cursor:pointer; }
         <?php endif; ?>
     </div>
     <div id="button_bar">
-        <div id="account">Account</div>
+        
+        <span id="account">Home</span> |
         <?php if($display == 'single'): ?>
-        <div id="cle">CLE</div>
+        <span id="cle">View CLE Credits</span> |
         <?php endif; ?>
-        <div id="orders">Order History</div>
+        <span id="orders">Previous Orders</span>
     </div>
     <div class="gray_line"></div>
     <div id="panels">
@@ -93,7 +87,7 @@ div.info_box:hover { background:#d3ebe9; cursor:pointer; }
 #cle_pane { padding:0px; margin:0px; }
 .cle_row  { padding:0px; margin:20px 0px; width:100%; height:125px; }
 .cle_cell { padding:0px; margin:0px 10px 0px 0px; width:175px; height:115px; float:left; }
-#cle_pane p { padding:15px 0px 25px 20px; margin:0px; }
+#cle_pane p { font-size:12px; padding:15px 0px 25px 20px; margin:0px; }
 .cle_cell { background:#d3ebe9; border:2px solid #5b6be3; }
 </style>
         <div id="cle_pane">

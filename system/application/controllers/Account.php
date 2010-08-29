@@ -25,6 +25,8 @@ define('AUTH_BAD_PASS',   2);
 
 class Account extends AbstractController {
     
+    private $breadcrumbs;
+    
     public function Account() {
         parent::AbstractController();
     }
@@ -339,7 +341,20 @@ class Account extends AbstractController {
             array('name' => 'user/account', 'args' => $args)
         );
         
+        // Create the breadcrumbs
+        $this->breadcrumbs = array(
+            'home'           => array('name' => 'Home', 'id' => '/Home'),
+            'my_account'     => array('name' => 'My Account',     'id' => '/MyAccount')
+        );
+        
+        // Setup the breadcrumb
+        $breadcrumb = array(
+            $this->breadcrumbs['home'],
+            $this->breadcrumbs['my_account']
+        );
+        
         // Set the view options
+        $this->setViewOption('breadcrumb', $breadcrumb);
         $this->setViewOption('color', 'blue_short');
         $this->setViewOption('pageTitle', 'My Account');
         $this->setViewOption('mainNav', true);

@@ -13,7 +13,6 @@
  */
 ?>
 <?php $size = sizeof($breadcrumb) - 1; ?>
-
 <div id="breadcrumb">
     <?php for($i = 0; $i < $size - 1; $i++): ?>
     <div class="parent" id="<?php echo $breadcrumb[$i]['id']; ?>">
