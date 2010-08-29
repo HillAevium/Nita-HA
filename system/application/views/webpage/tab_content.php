@@ -1,5 +1,5 @@
 <?php if(isset($model->childPages)): ?>
-    <div id="grandchild_tab_panel">
+    <div class="grandchild_tab_panel">
         <ul class="grandchild_tabs">
         <?php foreach($model->childPages as $tab): ?>
             <li><a href="#<?php echo $tab->nita_nav_name; ?>"><?php echo $tab->nita_page_name; ?><div></div></a></li>

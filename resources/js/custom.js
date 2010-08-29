@@ -147,7 +147,7 @@ function addTabHandler() {
         }
     };
     $("ul.tabs").tabs("div.panes > div", options);
-    $("#grandchild_tab_panel").tabs("div");
+    $(".grandchild_tab_panel").tabs("div");
 }
 
 function addBreadcrumbHandler() {
