@@ -36,9 +36,9 @@ if($display == 'multi') {
             <div class="gray_line" style="margin-bottom:0;"></div>
             <div style="position:relative;height:55px;">
                 <?php if($display == 'multi'): ?>
-                <div style="position:absolute;right:15px;"><a class="button_add_profile" style="height:55px;line-height:55px;" id="add_profile" href="">Add Profile</a></div>
+                <div style="position:absolute;right:6px;"><a class="button_add_profile" style="height:55px;line-height:55px;" id="add_profile" href="">Add Profile</a></div>
                 <?php endif; ?>
-                <h2 style="padding:0 0 0 15px;margin:0;line-height:55px;"><?php echo $bottom['title']; ?></h2>
+                <h2 style="padding:0 0 0 12px;margin:0;line-height:55px;"><?php echo $bottom['title']; ?></h2>
             </div>
             <div class="gray_line" style="margin-bottom:0;"></div>
             <?php if($display == 'multi'): ?>

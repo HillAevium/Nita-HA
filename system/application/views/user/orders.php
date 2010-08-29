@@ -1,27 +1,13 @@
-    <h2>Order History</h2>
-    Not Complete
-    <div>
-        <table>
-            <thead>
-                <tr>
-                    <th align="left">Date</th>
-                    <th align="left">Programs</th>
-                    <th align="left">Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach($orders as $order): ?>
-                <tr>
-                    <td><?php echo $order['date']; ?></td>
-                    <td><?php echo join("<br />", $order['programs']); ?></td>
-                    <td><?php echo $order['price']; ?></td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <div class="gray_line"></div>
-                    </td>
-                </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+    <h2 style="margin-bottom:10px;">Order History</h2>
+
+    
+        <?php foreach($orders as $order): ?>
+        <div class="info_box">
+        <div style="float:left;width:300px;"><?php echo $order['date']; ?></div>
+        <div style="float:left;width:300px;"><?php echo join("<br />", $order['programs']); ?></div>
+        <div style="float:right;width:300px;padding-right:6px;text-align:right;">$<?php echo $order['price']; ?></div>
+        <div class="clear"></div>
+        </div>
+        <div class="gray_line" style="margin:15px 0;"></div>
+        <?php endforeach; ?>
+    

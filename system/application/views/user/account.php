@@ -20,7 +20,7 @@ $(document).ready(function() {
         buttonBar: "#button_bar",
         container: "#panels",
         speed: '350',
-        trigger: 'mouseenter',
+        trigger: 'click',
         panels: [
             {button: "#account", pane: "#account_pane"},
             <?php if($display == 'single'): ?>
@@ -43,10 +43,10 @@ $(document).ready(function() {
 #button_bar { position:relative; height:35px; font-size:13px; font-weight:bold;}
 
 #button_bar span { color:#0b73bc; text-align:center; padding-top:2px; cursor:pointer; }
-#button_bar span.current { color:#545454; cursor:default; }
+#button_bar span.current { color:#545454; cursor:pointer; }
 #panels { min-height:400px; }
-#panels h2 { height:25px; font-size:16px; padding:15px 0 0 15px; color:#0f4964; }
-div.info_box { padding:0px 15px 15px 15px; margin-bottom:5px;}
+#panels h2 { height:25px; font-size:16px; padding:15px 0 0 12px; color:#0f4964; }
+div.info_box { padding:0px 6px 15px 12px; margin-bottom:5px; font-size:12px; line-height:16px;}
 div.info_box p { font-size:12px; line-height:16px; }
 
 </style>
