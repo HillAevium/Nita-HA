@@ -45,8 +45,7 @@ JS;
             <div id="cart_container">
                 <?php echo $this->load->view('cart/list', array('spaces' => $spaces, 'display' => $display), true); ?>
             </div>
-            
-            <div class="gray_line"></div>
+
             <?php if($display == 'multi'): ?>
             <a id="add_profile" href="" style="float:left;margin:20px 0;"></a>
             <?php endif; ?>

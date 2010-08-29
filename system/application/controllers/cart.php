@@ -229,7 +229,7 @@ class Cart extends AbstractController {
                 }
                 $info  = $this->accountProvider->getAccount($accountId);
                 $display = 'multi';
-                $titles['cart'] = 'Enroll Profiles In Programs';
+                $titles['cart'] = 'Shopping Cart';
             break;
             case USER_NORMAL :
                 $info = $this->accountProvider->getProfileById($profileId);

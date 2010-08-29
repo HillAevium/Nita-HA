@@ -19,7 +19,7 @@
                     <td width="18%"><?php echo $model->dates; ?></td>
                     <td width="19%"><?php echo $model->facilityName . '<br/>' . $model->city . ', ' . $model->state; ?></td>
                     <td width="15%">$<?php echo $model->price; ?></td>
-                    <td width="5%" valign="middle"><div class="add_to_cart" id="cart_item"></div></td>
+                    <td width="5%" valign="middle"><a class="add_to_cart" id="cart_item"></a></td>
                 </tr>
                 <?php endforeach; ?>
             </tbody>

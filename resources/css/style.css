@@ -120,7 +120,7 @@ div.button_browse             { width:63px; height:33px; background:url(../image
 a.button_sign_in,
 div.button_sign_in            { display:block; width:112px; height:35px; background:url(../images/button_sign_in.png); }
 div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
-a.item_remove                 { float:left; display:block; width:40px; height:24px; background:url(../images/button_remove.png); }
+a.item_remove                 { float:right; display:block; width:16px; height:16px; background:url(../images/button_remove_item.png) no-repeat; }
 a.item_edit                   { float:right; display:block; width:40px; height:24px; background:url(../images/button_edit.png); }
 a.button_generic,
 div.button_generic            { float:right; margin:20px 0; width:100px; height:40px; line-height:40px; font-size:16px;
@@ -163,7 +163,8 @@ table.program_list td             { padding:18px 8px; border-bottom:1px solid #d
 table.program_list tbody tr:hover { background:#ededed url(../images/list_item_bg.png) top repeat-x; cursor:pointer; }
 div.program_details_sidebar       { float:right; padding:50px 15px 0 0; }  
 div.program_details_sidebar div   { margin-bottom:12px; }  
-div.program_add_to_cart           { position:relative; float:right; width:207px; height:39px; background:url(../images/program_add_to_cart.png) no-repeat; }
+a.program_add_to_cart           { position:relative; float:right; display:block; width:207px; height:39px; background:url(../images/program_add_to_cart.png) no-repeat; }
+a.program_add_to_cart:hover           { background:url(../images/program_add_to_cart_over.png) no-repeat; }
 div.program_price                 { float:right; color:#333; font-size:12px; line-height:39px; padding-right:8px; }
 
 /* Tabbed content boxes */
@@ -203,7 +204,7 @@ li.current div.orange_tabs div      { background-position:-295px -33px; }
 
 /* Breadcrumbs */
 div#breadcrumb                { width:944px; height:25px; background:url(../images/breadcrumb_bg.png); }
-body.blue_short div#breadcrumb { position:relative; top:100px; }
+body.blue_short div#breadcrumb { position:relative; top:100px; z-index:10;}
 div#breadcrumb div            { position:relative; float:left; height:23px; font-size:11px; line-height:22px; padding:0 5px 0 9px; margin:0 5px 0 2px; cursor:pointer; background:url(../images/sprite.png) -300px 0; }
 div#breadcrumb div div        { position:absolute; float:none; top:0; right:-4px; width:4px; line-height:0; padding:0; margin:0; height:23px; background-position:-794px 0; overflow:hidden; }
 div#breadcrumb .parent        { color:#d2d2d2; }
@@ -250,9 +251,9 @@ body.yellowgreen div#breadcrumb div:hover { background-position: -300px -132px; 
 body.yellowgreen div#breadcrumb .current div,
 body.yellowgreen div#breadcrumb div:hover div { background-position: -794px -132px; }
 
- 
 .ordered_desc                 { display:block; float:right; width:21px; height:18px; margin-right:0px; background:url(../images/arrow_down.png); }
-.add_to_cart                  { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+a.add_to_cart                 { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart.png); }
+a.add_to_cart:hover           { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart_over.png); }
 
 /* Search Box */
 div#search_box                { position:relative; top:25px; width:944px; height:200px; background:#eee; }
@@ -271,11 +272,11 @@ div#search_body input         { }
 div#add_attendee_button      { width:200px; height:50px; }
 div#cart_container select    { width:200px; }
 
-div#cart_container           { position:relative; top:0px; border-top:2px solid #5b6be3; border-right:2px solid #5b6be3; border-left:2px solid #5b6be3; }
-.cart_row                    { padding:20px 10px; background:#e4f0ef; border-bottom:2px solid #5b6be3; font-size: 15px; }
+div#cart_container           { position:relative; top:0px; font-size: 13px; line-height:17px;}
+.cart_row                    { padding:20px 0 0 0; font-size: 13px; }
 
 
-td#company_info { padding:10px; 0px; 10px; 10px; }
+td#company_info { padding:10px 0px 10px 10px; }
 tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
 
 .auth-text { position:absolute;right:0px;top:10px;font-size:13px;line-height:18px;text-align:right;color:#a5a5a5;font-weight:bold; }
