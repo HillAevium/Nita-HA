@@ -181,7 +181,7 @@ div.program_price                 { float:right; color:#333; font-size:12px; lin
 .tab_content_container .content_block { position:relative; padding:16px 7px; font-size:9pt; line-height:12pt; }
 div.panes div.border                  { border-width:9px; border-style:solid; padding:0px 0px; }
 div.panes div.border .tab_content_container { padding:12px 9px; }
-.grandchild_tabs                      { position:relative; width:977px; height:49px; width:100%; }
+.grandchild_tabs                      { position:relative; width:977px; height:49px; width:100%; z-index:10;}
 
 body.green .grandchild_tabs             { background:#36574b; }
 body.purple .grandchild_tabs             { background:#57536c; }
@@ -290,6 +290,7 @@ tbody#billing_totals .program_title { padding:15px 0px 10px 10px; }
 /* Tabbed panels */
 div#tab_panel {
     padding-top:20px;
+    z-index:100;
 }
 
 div.tab_panel {
@@ -320,7 +321,7 @@ ul.tabs li {
         font-size:10pt;
         cursor:pointer;
         position:relative;
-        top:-2000px;
+        z-index:100;
 }
 
 ul.grandchild_tabs li {
@@ -339,6 +340,7 @@ ul.tabs li div,
 ul.grandchild_tabs li a {
         float:left;
         position:relative;
+        z-index:100;
         margin-right:8px;
         background-image:url(../images/sprite.png);
 }
@@ -381,6 +383,7 @@ ul.grandchild_tabs li a {
 ul.tabs li div div,
 ul.grandchild_tabs li a div {
     position:absolute;
+    z-index:100;
     right:-8px;
     top:0;
     background-position: -295px 0;

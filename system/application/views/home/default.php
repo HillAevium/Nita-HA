@@ -2,7 +2,7 @@
 
 <div style="position:relative;height:400px;left:-30px;">
     <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:12;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
-    <img id="normal" style="position:absolute; top:-50px; left:130px; z-index:9;" src="/resources/images/homepage_nav_normal.png" />
+    <img id="normal" style="position:absolute;top:-50px;left:130px;z-index:9;" src="/resources/images/homepage_nav_normal.png" />
     
     <img id="about_inactive" class="inactive" style="position:absolute;top:58px;left:130px;z-index:1;" src="/resources/images/homepage_nav_about_inactive.png" />
     <img id="about_active" class="active" style="position:absolute;top:58px;left:130px;z-index:2;display:none;" src="/resources/images/homepage_nav_about_active.png" />
@@ -33,12 +33,7 @@
     <img id="programs_bubble" class="active" style="position:absolute;top:240px;left:415px;z-index:11;display:none;" src="/resources/images/homepage_bubble_programs.png" />
 </div>
 
-<div id="slogan" style="position:absolute;left:0;bottom:40px;line-height:30px;color:#004b85;">
-    NITA is the premier provider<br />
-    of learning-by-doing education for the legal profession.
-</div>
-
-<map name="homemap" id="map" >
+<map name="homemap" id="map">
     <area id="about"        shape="poly"   coords="17,139, 111,112, 118,167, 128,179, 117,244, 34,273, 2,166, 17,139" />
     <area id="custom"       shape="poly"   coords="94,27, 261,1, 275,92, 254,91, 252,172, 160,189, 118,169, 97,27" />
     <area id="programs"     shape="poly"   coords="253,90, 439,92, 439,262, 409,277, 253,282, 253,90" />

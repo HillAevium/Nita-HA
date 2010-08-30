@@ -60,7 +60,12 @@ if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
     echo "<img style=\"position:absolute; z-index:0; bottom:90px; right:-55px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
 }
 ?>
+<div id="slogan" style="position:absolute;left:17px;bottom:130px;line-height:30px;color:#004b85;text-align:left;">
+    NITA is the premier provider<br />
+    of learning-by-doing education for the legal profession.
 </div>
+</div>
+
 <?php endif; ?>
 <div> <!-- Auth debug -->
     <?php //echo $this->mod_auth; ?>
