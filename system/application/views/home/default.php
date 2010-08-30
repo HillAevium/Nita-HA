@@ -1,19 +1,7 @@
 <div id="debug_box" style="position:absolute;top:0;left:0;"></div>
 
-<?php
-if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
-    while (false !== ($file = readdir($handle))) {
-        if($file != "." && $file != "..") {
-            $images[] = $file;
-        }
-    }
-    shuffle($images); 
-    echo "<img style=\"position:absolute; z-index:0; bottom:0; right:-55px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
-}
-?>
-
 <div style="position:relative;height:400px;left:-30px;">
-    <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:10;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
+    <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:12;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
     <img id="normal" style="position:absolute; top:-50px; left:130px; z-index:9;" src="/resources/images/homepage_nav_normal.png" />
     
     <img id="about_inactive" class="inactive" style="position:absolute;top:58px;left:130px;z-index:1;" src="/resources/images/homepage_nav_about_inactive.png" />
@@ -50,7 +38,7 @@ if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
     of learning-by-doing education for the legal profession.
 </div>
 
-<map name="homemap" id="map">
+<map name="homemap" id="map" >
     <area id="about"        shape="poly"   coords="17,139, 111,112, 118,167, 128,179, 117,244, 34,273, 2,166, 17,139" />
     <area id="custom"       shape="poly"   coords="94,27, 261,1, 275,92, 254,91, 252,172, 160,189, 118,169, 97,27" />
     <area id="programs"     shape="poly"   coords="253,90, 439,92, 439,262, 409,277, 253,282, 253,90" />

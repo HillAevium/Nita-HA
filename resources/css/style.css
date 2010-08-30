@@ -68,16 +68,18 @@ body.blue_short #content_main_inner { padding-top:100px; }
 #footer_menu1 ul.menu         { list-style:none; }
 #footer_menu1 ul.menu li      { display:inline; letter-spacing:1pt; }
 #footer_menu1 ul.menu li a    { text-decoration:none; padding:0 5px; }
+#footer_menu1 ul.menu li a:hover { text-decoration:underline; } 
 #footer_menu2                 { position:absolute; top:35px; left:3px; font-size:8pt; }
 #footer_menu2 ul.menu         { list-style:none; }
 #footer_menu2 ul.menu li      { display:inline; letter-spacing:0.5pt; }
 #footer_menu2 ul.menu li a    { color:#707070; text-decoration:none; padding:0 3px; }
+#footer_menu2 ul.menu li a:hover { text-decoration:underline; }
 #copyright                    { position:absolute; bottom:0; left:0; width:432px; height:28px; line-height:28px; font-size:8pt; padding-left:8px; background:#fdfdfd; }
 #copyright_inner              { position:relative; }
 #copyright #facebook          { position:absolute; right:32px; top:4px; display:block; width:21px; height:21px; background:url(../images/icon_facebook.png); }
 #copyright #twitter           { position:absolute; right:5px; top:4px; display:block; width:21px; height:21px; background:url(../images/icon_twitter.png); }
 #design_credit                { position:absolute; right:0px; bottom:0; height:25px; padding:3px 7px 0 6px; font-size:7pt; color:#999; background:#fdfdfd; }
-#design_credit_inner          { width:auto; margin:0 auto; }
+#design_credit_inner          { width:72px; margin:0 auto; }
 #design_credit .ha            { color:#117dc5; }
 #design_credit .blue_square   { width:7px; height:7px; background:#117dc5; }
 
