@@ -131,6 +131,7 @@ the definition.
  -->
 <input type="hidden" name="shippingCountry" value="USA" />
 <input type="hidden" name="billingCountry" value="USA" />
+<input type="hidden" name="isAttendingClasses" value="1" />
 
 <div class="header_bar_blue_full">
     <table class="header">
@@ -195,15 +196,6 @@ the definition.
         <div class="cell-med second-pass">
             <label>Secondary Phone</label>
             <input name="phone2" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="cell-med first">
-            <label>Will you be attending Nita programs?</label>
-            <select id="isAttendingClasses" name="isAttendingClasses" onchange="toggleIsAttendingDependentFields();">
-                <option value="0">No</option>
-                <option value="1" selected="selected">Yes</option>
-            </select>
         </div>
     </div>
     <div class="isAttendingDependent">

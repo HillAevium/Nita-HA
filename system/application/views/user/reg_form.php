@@ -1,8 +1,32 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("form").submit(function() { return false; });
-    $('#group').click(selectRegType);
-    $('#individual').click(selectRegType);
+    $("#register").click(function() {
+        // FIXME
+        // Remove for production
+        addTestValues();
+        renderPreFirmForm();
+        return false;
+    });
+
+    $("#isAttendingClasses").change(function(event) {
+        switch($(event.target).val()) {
+        case '1':
+            $("#instructions").text("Firm info optional");
+            $(".isAttendingDependant").hide();
+            $('input[name="userType"]').val('individual');
+            $("#page_title").html('Create A New Individual Account');
+            break;
+        case '0':
+            $("#instructions").text("Firm info required");
+            $(".isAttendingDependant").show();
+            $('input[name="userType"]').val('group');
+            $("#page_title").html('Create A New Group Account');
+            break;
+        }
+        renderFirmForm();
+    });
+
     renderLogin();
 });
 </script>
@@ -13,6 +37,24 @@ $(document).ready(function() {
             <div id="error_container"></div>
             <div id="response_message"></div>
             <div id="instructions"></div>
+            <div id="user_type_box">
+                <div class="header_bar_blue_full">
+                    <table class="header">
+                        <tr>
+                            <td style="width:484px;" class="pad">Your Account Type</td>
+                            <td>&nbsp;</td>
+                        </tr>
+                    </table>
+                </div>
+                <div id="user_type" style="padding:25px; 0px;">
+                    <label style="margin:25px 0px;">Will you be attending Nita programs?</label>
+                    <select id="isAttendingClasses" name="isAttendingClasses">
+                        <option>Choose...</option>
+                        <option value="0">No</option>
+                        <option value="1">Yes</option>
+                    </select>
+                </div>
+            </div>
             <form id="firm_form" name="firm_form" action="/account/register/form/firm" method="POST">
                 <?php echo $firmForm; ?>
             </form>

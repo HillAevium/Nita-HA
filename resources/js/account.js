@@ -48,7 +48,7 @@ function addTestValues() {
     $('#profile_form input[name="password2"]').val('abc123');
     $('#profile_form input[name="phone"]').val('+1(303)413-0551');
     $('#profile_form input[name="phone2"]').val('7075556666');
-    $('#profile_form input[name="isAttendingClasses"]').val('Yes');
+    //$('#profile_form input[name="isAttendingClasses"]').val('Yes');
     $('#profile_form input[name="role"]').val('Doe');
     $('#profile_form input[name="badgeName"]').val('Doe');
     $('#profile_form input[name="requireAccessibility"]').val("0");
@@ -78,6 +78,7 @@ function tearDown() {
     $("#content_reg_form").hide();
     $("#firm_form").hide();
     $("#profile_form").hide();
+    $("#user_type_box").hide();
     $('#error_container').html('');
     $('#response_message').html('');
 }
@@ -92,13 +93,25 @@ function renderLogin() {
     $("#content_reg_funnel").show();
 }
 
-function renderFirmForm() {
+function renderPreFirmForm() {
     tearDown();
-    $(document).ajaxComplete(handleFormComplete);
+    $("#user_type_box").show();
+    $("#content_reg_form").show();
+    $("#continue").hide();
     $("#back").click(function() {
         renderLogin();
         return false;
     });
+}
+
+function renderFirmForm() {
+    tearDown();
+    $(document).ajaxComplete(handleFormComplete);
+    $("#back").click(function() {
+        renderPreFirmForm();
+        return false;
+    });
+    $("#continue").show();
     $("#continue").click(function() {
         $("#firm_form").ajaxSubmit();
         return false;
@@ -118,29 +131,18 @@ function renderProfileForm() {
         $("#profile_form").ajaxSubmit();
         return false;
     });
-    $("#profile_form").show();
-    $("#content_reg_form").show();
-}
-
-function selectRegType(event) {
-    // FIXME
-    // Remove for production
-    addTestValues();
-    
-    var type = event.currentTarget.id;
-    switch(type) {
-        case 'group' :
-            $("#page_title").html('Create A New Group Account');
-            $("#instructions").html("<p>To enroll others, you'll need to create an account. You can then create profiles for each attendee.</p>");
+    var userType = $('input[name="userType"]').val();
+    switch(userType) {
+    case 'group':
+        $(".isAttendingDependent").hide();
+        $('input[name="isAttendingClasses"]').val('0');
         break;
-        case 'individual' :
-            $("#page_title").html('Create A New Individual Account');
+    case 'individual':
+        $(".isAttendingDependent").show();
         break;
     }
-    $('input[name="userType"]').val(type);
-
-    renderFirmForm();
-    return false;
+    $("#profile_form").show();
+    $("#content_reg_form").show();
 }
 
 // Ajax Handlers
