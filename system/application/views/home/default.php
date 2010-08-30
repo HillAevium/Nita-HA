@@ -2,7 +2,7 @@
 
 <div style="position:relative;height:400px;left:-30px;">
     <img src="/resources/images/transparent.png" width="664" height="363" style="z-index:12;position:absolute;top:-50px;left:130px;cursor:pointer;" usemap="#homemap" />
-    <img id="normal" style="position:absolute;dtop:-50px;left:130px;z-index:9;" src="/resources/images/homepage_nav_normal.png" />
+    <img id="normal" style="position:absolute;top:-50px;left:130px;z-index:9;" src="/resources/images/homepage_nav_normal.png" />
     
     <img id="about_inactive" class="inactive" style="position:absolute;top:58px;left:130px;z-index:1;" src="/resources/images/homepage_nav_about_inactive.png" />
     <img id="about_active" class="active" style="position:absolute;top:58px;left:130px;z-index:2;display:none;" src="/resources/images/homepage_nav_about_active.png" />
