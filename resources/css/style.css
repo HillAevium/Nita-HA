@@ -1,5 +1,5 @@
 html, body                    { position:relative; margin:0; padding:0; text-align:center; font-family:Lucida Sans Unicode, Lucida Grande, sans-serif; font-size:12pt; color:#676767; }
-#main_container               { position:relative; width:977px; margin:0 auto; padding-bottom:120px; text-align:left; }
+#main_container               { position:relative; z-index:1100; width:977px; margin:0 auto; padding-bottom:120px; text-align:left; }
 .clear                        { clear:both; }
 .tooltip                      { display:none; }
 

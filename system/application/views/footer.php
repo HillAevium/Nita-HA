@@ -48,7 +48,7 @@
     </div> <!-- #footer_inner -->
 </div> <!-- #footer -->
 <?php if($_SERVER['REQUEST_URI'] == '/'): ?>
-<div style="width:1000px;margin:0 auto;position:relative;">
+<div style="width:1000px;margin:0 auto;position:relative;z-index:1;">
 <?php
 if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
     while (false !== ($file = readdir($handle))) {
@@ -57,7 +57,7 @@ if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
         }
     }
     shuffle($images); 
-    echo "<img style=\"position:absolute; z-index:0; bottom:90px; right:-55px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
+    echo "<img style=\"position:absolute; bottom:90px; right:-55px;\" src=\"/resources/images/portraits/" . $images[0] . "\" />";
 }
 ?>
 <div id="slogan" style="position:absolute;left:17px;bottom:130px;line-height:30px;color:#004b85;text-align:left;">
@@ -65,12 +65,12 @@ if ($handle = opendir(BASEPATH.'../resources/images/portraits')) {
     of learning-by-doing education for the legal profession.
 </div>
 </div>
-
 <?php endif; ?>
 <div> <!-- Auth debug -->
     <?php //echo $this->mod_auth; ?>
 </div>
-<div class="ajax_loading" style="display:none;width:100%;height:100%;position:absolute;top:0;left:0;opacity:0.5;z-index:999;background:#000;"></div>
-<div class="ajax_loading" style="display:none;width:100%;height:100%;position:fixed;top:0;left:0;z-index:1000;background:url(/resources/images/ajax-loader.gif) center center no-repeat;"></div>
+
+<div class="ajax_loading" style="display:none;width:100%;height:100%;position:fixed;_position:absolute;top:0;_top:expression(eval(document.body.scrollTop));left:0;opacity:0.5;filter:alpha(opacity=50);z-index:9999;background:#000;"></div>
+<div class="ajax_loading" style="display:none;width:100%;height:100%;position:fixed;_position:absolute;top:0;_top:expression(eval(document.body.scrollTop));left:0;z-index:10000;background:url(/resources/images/ajax-loader.gif) center center no-repeat;"></div>
 </body>
 </html>

@@ -35,7 +35,7 @@
 
 <map name="homemap" id="map">
     <area id="about"        shape="poly"   coords="17,139, 111,112, 118,167, 128,179, 117,244, 34,273, 2,166, 17,139" />
-    <area id="custom"       shape="poly"   coords="94,27, 261,1, 275,92, 254,91, 252,172, 160,189, 118,169, 97,27" />
+    <area id="custom"       shape="poly"   coords="94,27, 261,1, 275,92, 254,91, 252,172, 160,189, 118,173, 97,27" />
     <area id="programs"     shape="poly"   coords="253,90, 439,92, 439,262, 409,277, 253,282, 253,90" />
     <area id="contact"      shape="poly"   coords="548,188, 600,169, 621,182, 660,278, 542,324, 529,287, 548,287, 548,188" />
     <area id="donate"       shape="poly"   coords="439,153, 538,174, 549,167, 549,288, 406,282, 407,275, 438,255, 439,153" />
@@ -46,26 +46,54 @@
 <script type="text/javascript">
 
 $(document).ready(function() {
-    $('#normal').fadeIn();
-    $('#map').hover(
-        function() {
-            $("#normal").fadeOut();
-        },
-        function() {
-            $("#normal").fadeIn();
-        }
-    );
-    $('#map > area').each(function() {
-        $(this).hover(
-            function(event) {
-                $("#" + event.target.id + "_active").fadeIn();
-                $("#" + event.target.id + "_bubble").fadeIn();
+    if($.support.opacity) {
+        $('#normal').fadeIn(200);
+    } else {
+        $('#normal').show();
+    }
+    
+    if($.support.opacity) {
+        $('#map').hover(
+            function() {
+                $("#normal").fadeOut(200);
             },
-            function(event) {
-                
-                $(".active").fadeOut();
+            function() {
+                $("#normal").fadeIn(200);
             }
         );
+    } else {
+        $('#map').hover(
+            function() {
+                $("#normal").hide();
+            },
+            function() {
+                $("#normal").fadeIn(1);
+            }
+        );
+    }
+    
+    $('#map > area').each(function() {
+        if($.support.opacity) {
+            $(this).hover(
+                function(event) {
+                    $("#" + event.target.id + "_active").fadeIn(200);
+                    $("#" + event.target.id + "_bubble").fadeIn(200);
+                },
+                function(event) {
+                    $(".active").fadeOut(200);
+                }
+            );
+        } else {
+            $(this).hover(
+                function(event) {
+                    $("#" + event.target.id + "_active").show();
+                    $("#" + event.target.id + "_bubble").show();
+                },
+                function(event) {
+                    $(".active").hide();
+                }
+            );
+        }
 
         $(this).click(function(event) {
             switch(event.target.id) {
