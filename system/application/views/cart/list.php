@@ -28,9 +28,9 @@
                     </div>
                     <?php endif; ?>
                 </div>
-                <div style="float:right; width:30px;padding-right:12px;">
-                    <a class="item_remove" href="" id="<?php echo $item['rowid']; ?>"></a>
-                    <a class="item_edit" href="" style="display:none;"></a>
+                <div style="float:right; width:80px;padding-right:12px;">
+                    <a class="item_remove" style="float:right;" href="" id="<?php echo $item['rowid']; ?>"></a>
+                    <a class="item_edit" style="float:right;padding-right:15px;display:none;" href="" ></a>
                 </div>
                 <div class="clear"></div>
                 <div class="gray_line" style="margin-top:20px;"></div>

@@ -52,7 +52,11 @@ JS;
             
             <!-- TODO - Fix buttons -->
             <?php if($button == 'login'): ?>
+            <div style="float:right;font-size:11px;padding-top:10px;">
+            To checkout, you must be signed in.<br />
             <a class="nav_button button_sign_in" href="/MyAccount"></a>
+            </div>
+            
             <?php else: ?>
             <a id="back" class="nav_button button_continue" href="" style="display:none; float:left; margin-left:0px;"></a>
             <a id="continue" class="nav_button button_continue" href=""></a>

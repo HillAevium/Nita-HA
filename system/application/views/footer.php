@@ -50,5 +50,8 @@
 <div> <!-- Auth debug -->
     <?php echo $this->mod_auth; ?>
 </div>
+<div class="ajax_loading" style="display:none;width:100%;height:100%;position:absolute;top:0;left:0;opacity:0.5;z-index:999;background:#000;"></div>
+<div class="ajax_loading" style="display:none;width:100%;height:100%;position:fixed;top:0;left:0;z-index:1000;background:url(/resources/images/ajax-loader.gif) center center no-repeat;"></div>
+
 </body>
 </html>

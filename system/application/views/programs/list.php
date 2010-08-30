@@ -25,3 +25,10 @@
             </tbody>
         </table>
     </div> <!-- #content_main_inner -->
+ 
+<div id="dialog" style="display:none;text-align:center;">
+<p>The program<br />
+<span style="font-weight:bold;" id="dialog_program"></span><br />
+has been added to your cart.
+</p>
+</div>

@@ -573,7 +573,7 @@ function AttendeeList(selectionModel, element) {
             if(profiles[i].msg != undefined) {
                 container.html("<h4>" + profiles[i].msg + "</h4>");
             } else {
-                container.append("<h4>" + profiles[i].name + "</h4>");
+                container.append("<h4 style='text-decoration:underline;'>" + profiles[i].name + "</h4>");
                 container.append("<p class='cart_review'>");
                 container.append([
                     profiles[i].address,

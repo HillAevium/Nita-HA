@@ -75,17 +75,19 @@ function clearFormElements(el) {
 function handleCartItemClick(id) {
     var item = $("#" + id + " #cart_item");
     var html = item.html();
-    item.html("Loading...");
+    //item.html("Loading...");
+    $(".ajax_loading").show();
     $.post('/cart/add', {id: id}, function(data, status, xhr) {
         item.html(html);
+        $(".ajax_loading").hide();
         switch(xhr.status) {
             case 202 : // ACCEPTED
-                alert("Item Added");
                 break;
             default :
-                alert("Error");
+                alert("Error adding item to cart.");
                 break;
         }
+        
     });
 }
 
