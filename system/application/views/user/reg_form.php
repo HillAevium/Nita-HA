@@ -1,6 +1,7 @@
 <script type="text/javascript">
 $(document).ready(function() {
     $("form").submit(function() { return false; });
+    
     $("#register").click(function() {
         // FIXME
         // Remove for production
@@ -8,7 +9,7 @@ $(document).ready(function() {
         renderPreFirmForm();
         return false;
     });
-
+    
     $("#isAttendingClasses").change(function(event) {
         switch($(event.target).val()) {
         case '1':
@@ -26,7 +27,6 @@ $(document).ready(function() {
         }
         renderFirmForm();
     });
-
     renderLogin();
 });
 </script>
