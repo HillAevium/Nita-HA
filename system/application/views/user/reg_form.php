@@ -31,7 +31,7 @@ $(document).ready(function() {
 });
 </script>
     <div id="content_reg_form" style="display:none;">
-        <h1 class="page_title" id="page_title"></h1>
+        <h1 class="page_title" id="page_title" style="padding:45px 0px 25px 0px;"></h1>
         <div class="gray_line"></div>
         <div id="forms_container">
             <div id="error_container"></div>
@@ -64,8 +64,8 @@ $(document).ready(function() {
         </div>
         <div class="gray_line"></div>
         <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
-            <a id="back" class="button_continue" style="position:absolute; top:34px; left:13px;" href=""></a>
-            <a id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" href=""></a>
+            <a id="back" class="button_back" style="position:absolute; top:23px; left:13px;" href=""></a>
+            <a id="continue" class="button_continue" style="position:absolute; top:23px; right:13px;" href=""></a>
         </div>
         <div class="gray_line"></div>
     </div> <!-- #content_main_inner -->

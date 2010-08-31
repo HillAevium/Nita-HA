@@ -99,8 +99,8 @@ function animateMasks(event) {
 
 .current-row { background:#e4f0ef; border:2px solid #5b6be3; }
 .current-field { background:#d3ebe9; border-left:2px solid #5b6be3; border-right:2px solid #5b6be3; }
-.cell-mask { position:absolute; top:0px; left:0px; width:100px; height:65px; background:#d3ebe9; border:2px solid #5b6be3; display:none; z-index:2; }
-.row-mask  { position:absolute; top:0px; left:0px; width:100%; height:65px; background:#e4f0ef; border:2px solid #5b6be3; display:none; z-index:1; }
+.cell-mask { position:absolute; top:0px; left:0px; width:100px; height:65px; background:#ccdbe7; border:1px solid #427aa5; display:none; z-index:2; }
+.row-mask  { position:absolute; top:0px; left:0px; width:100%; height:65px; background:#e5edf3; border:1px solid #7fa5c2; display:none; z-index:1; }
 
 .first { left:5px; }
 .second { left:330px; }
@@ -118,7 +118,7 @@ function animateMasks(event) {
 .third-bar   { left:595px; }
 .fourth-bar  { left:730px; }
 
-#form_container label    { position:absolute; top:7px; left:5px; font-size:12px; z-index:3; }
+#form_container label    { position:absolute; top:5px; left:0px; font-size:12px; z-index:3; line-height:15px; }
 #form_container input    { position:absolute; top:35px; left:0px; width:95%; font-size:15px; z-index:3; }
 #form_container select   { position:absolute; top:35px; left:0px; width:95%; font-size:15px; z-index:3; }
 #form_container textarea { position:absolute; top:35px; left:0px; width:95%; font-size:15px; height:220px; z-index:3; }

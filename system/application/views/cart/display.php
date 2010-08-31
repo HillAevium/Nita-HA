@@ -58,7 +58,7 @@ JS;
             </div>
             
             <?php else: ?>
-            <a id="back" class="nav_button button_continue" href="" style="display:none; float:left; margin-left:0px;"></a>
+            <a id="back" class="nav_button button_back" href="" style="display:none; float:left; margin-left:0px;"></a>
             <a id="continue" class="nav_button button_continue" href=""></a>
             <a id="print" class="nav_button button_continue" href="" style="display:none;"></a>
             <?php endif; ?>

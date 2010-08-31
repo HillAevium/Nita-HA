@@ -84,7 +84,7 @@ body.blue_short #content_main_inner { padding-top:100px; }
 #design_credit .blue_square   { width:7px; height:7px; background:#117dc5; }
 
 /* Typography */
-h1.page_title                 { padding:30px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
+h1.page_title                 { padding:35px 0px 25px 0px; color:#0f4964; font-size:18pt; line-height:18pt; text-transform:uppercase; letter-spacing:0.5pt; }
 p                             { font-size:11pt; line-height:14pt; margin:15px 0;}
 h6                            { margin:15px 0; }
 .small                        { font-size:8pt; }  
@@ -118,6 +118,8 @@ input.large                   { font-size:11pt; width:449px; height:33px; paddin
 /* Buttons */
 a.button_continue,
 div.button_continue           { display:block; width:94px; height:35px; background:url(../images/button_continue.png); }
+a.button_back,
+div.button_back           { display:block; width:94px; height:35px; background:url(../images/button_back.png); }
 div.button_browse             { width:63px; height:33px; background:url(../images/button_browse.png); }
 a.button_sign_in,
 div.button_sign_in            { display:block; width:112px; height:35px; background:url(../images/button_sign_in.png); }
@@ -260,13 +262,14 @@ a.add_to_cart                 { display:block; width:33px; height:33px; border:n
 a.add_to_cart:hover           { display:block; width:33px; height:33px; border:none; background:url(../images/add_to_cart_over.png); }
 
 /* Search Box */
-div#search_box                { position:relative; top:25px; width:944px; height:200px; background:#eee; }
-div#search_header             { position:relative; top:0px; height:26px; background:#ddd; }
-div#search_header .title      { float:left; position:relative; left:5px; padding:5px 5px; background:#ccc; }
-div#search_header .close      { float:right; position:relative; right:5px; padding: 5px 5px; background: #ccc; }
+div#search_box                { position:relative; top:25px; width:944px; height:75px; background:#eee; }
+div#search_header             { position:relative; top:0px; height:26px; background:#ccc; }
+div#search_header .title      { float:left; position:relative; left:5px; padding:5px 5px; }
+div#search_header .close      { float:right; position:relative; right:5px; top:2px; cursor: pointer; }
 div#search_header .close:hover { background:#bbb; cursor:pointer; }
 div#search_body label         { }
-div#search_body input         { }
+div#search_body input         { margin-right: 10px; }
+div#search_body { padding: 10px 0 0 12px; }
 
 .ac_results { border:1px solid #000; background: #FFF; text-align:left; }
 .ac_results li:hover { background:#eee; }
@@ -407,7 +410,7 @@ ul.grandchild_tabs li:hover div span a {
     color:#fff;
 }
 
-ul.grandchild_tabs { height:39px; width:916px; padding:10px 0 0 10px; overflow:hidden; }
+ul.grandchild_tabs { height:39px; width:917px; padding:10px 0 0 10px; overflow:hidden; }
 
 body.blue div#tab_panel ul.tabs li.current div,
 body.blue div#tab_panel ul.tabs li:hover div        { background-position: 0 -198px; }
@@ -452,3 +455,11 @@ body.yellowgreen div#tab_panel ul.tabs li.current div,
 body.yellowgreen div#tab_panel ul.tabs li:hover div        { background-position: 0 -132px; }
 body.yellowgreen div#tab_panel ul.tabs li.current div div,
 body.yellowgreen div#tab_panel ul.tabs li:hover div div    { background-position: -295px -132px; }
+
+
+/* add by TJ - possibly not the best implimentation, done for speed  */
+#firm_form { margin-bottom:5px; }
+#instructions { margin:5px 0px; }
+#forms_container { margin-bottom:5px; }
+
+

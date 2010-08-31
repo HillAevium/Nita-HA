@@ -1,8 +1,8 @@
 <div class="hide" id="search_box">
     <!-- header bar -->
     <div id="search_header">
-        <div class="title">Search Box</div>
-        <div class="close" id="search_close">Close</div>
+        <div class="title">Search Programs</div>
+        <div class="close" id="search_close"><img src="/resources/images/button_remove.png" /></div>
     </div>
     <div id="search_body">
         <label>Search by Title:</label>

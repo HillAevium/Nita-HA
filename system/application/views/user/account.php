@@ -132,7 +132,7 @@ div.info_box p { font-size:12px; line-height:16px; }
         <div class="gray_line"></div>
         <div style="position:relative; width:100%; height:82px; background:#f8f8f8; margin:1px 0;">
             <a id="continue" class="button_continue" style="position:absolute; top:34px; right:13px;" href=""></a>
-            <a id="back" class="button_continue" style="position:absolute; top:34px; left:13px;" href=""></a>
+            <a id="back" class="button_back" style="position:absolute; top:34px; left:13px;" href=""></a>
         </div>
         <div class="gray_line"></div>
     </div>

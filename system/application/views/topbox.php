@@ -1,5 +1,5 @@
     <div id="content_top">
-        <div class="image" style="background:url(/resources/images/<?php echo $topbox['image']; ?>)"></div>
+        <div class="image" style="background:url(/resources/images/<?php if ($topbox['image']!=null){echo $topbox['image'];} else {echo'topbox_default.jpg';}?>)"></div>
         <div class="summary">
             <?php if(isset($model->price)): ?>
             <a id="<?php echo $model->id; ?>" class="program_add_to_cart">
