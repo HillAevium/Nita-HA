@@ -107,6 +107,7 @@ class Cart extends AbstractController {
         $profileMap = array();
         foreach($programs as $program) {
             $profileMap[$program->programId] = $program->profiles;
+            $waitlistMap[$program->programId] = $program->waitlist;
         }
         
         $this->load->model('accountProvider');
@@ -130,17 +131,17 @@ class Cart extends AbstractController {
                     $msg = new stdClass();
                     $msg->msg = "No Attendees Selected";
                     $details[] = array($msg);
+                    $wdetails[] = array();
                     continue;
                 }
                 $profiles = $profileMap[$item['id']];
+                $waitlist = $waitlistMap[$item['id']];
                 
                 // Persist the choices in the cart options
-                $this->cart->update(
-                    array(
-                        'rowid' => $item['rowid'],
-                        'qty' => count($profiles),
-                        'options' => $profiles
-                    )
+                $this->cart->update(array('rowid' => $item['rowid'], 'qty' => count($profiles)));
+                $this->cart->update_options(
+                    $item['rowid'],
+                    array('profile' => $profiles, 'waitlist' => $waitlist)
                 );
                 // Reload the item
                 $cart = $this->cart->contents();
@@ -148,6 +149,7 @@ class Cart extends AbstractController {
                 
                 // Loop through the profiles to send back details
                 // for the review widget
+                $users = array();
                 foreach($profiles as $profile) {
                     //$user = $this->accountProvider->getProfile($profile->id);
                     //FIXME
@@ -161,12 +163,15 @@ class Cart extends AbstractController {
                     $user->country = "Canada";
                     $users[] = $user;
                 }
+                $wusers = array();
+                foreach($waitlist as $profile) {
+                    $user = new stdClass();
+                    $user->name = $profile->name;
+                    $wusers[] = $user;
+                }
                 $details[] = $users;
-                unset($users);
+                $wdetails[] = $wusers;
                 
-                // FIXME For some reason the cart info is stale that
-                // we have. The cart update above works but it doesn't
-                // show up in $item
                 $billing[] = array(
                     'programTitle' => $item['name'],
                     'numAttendees' => $item['qty'] . ' Attendees',
@@ -176,12 +181,16 @@ class Cart extends AbstractController {
             }
         }
         
-        // FIXME - Try using $this->output->set_output();
         $this->output->set_status_header(202);
-        echo json_encode(array('details' => $details, 'billing' => $billing));
+        echo json_encode(array('details' => $details, 'waitlist' => $wdetails, 'billing' => $billing));
     }
     
     public function doFinish() {
+        log_message('error', print_r($this->cart->contents(), true));
+        foreach($this->cart->contents() as $item) {
+            log_message('error', print_r($this->cart->product_options($item['rowid']), true));
+        }
+        //$this->cart->destroy();
         // TODO - Tie into order processing
         // TODO - Protect this against multiple-submissions
         echo "Order Completed.";

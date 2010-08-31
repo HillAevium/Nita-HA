@@ -12,11 +12,6 @@ var controller;
 // causing the rest of the programs to go to edit mode
 // Add history support
 
-// FIXME
-// Removing an item from the cart on the review page does
-// not remove it from the billing list, need to refresh
-// the cart.
-
 if(window.location.pathname == '/MyCart') {
     $(document).ready(
         function() {
@@ -68,15 +63,15 @@ function Controller(bindings) {
         $("#profile_form").clearForm();
         $("#profile_form").show();
         $(document).ajaxComplete(function(e, xhr, setting) {
+            $(document).unbind('ajaxComplete');
             switch(xhr.status) {
                 case 201 : // CREATED
-                    alert(xhr.responseText);
                     var data = JSON.parse(xhr.responseText);
                     controller.onAddProfile(data.id, data.name);
                     $("#forms_container").hide();
                     $("#cart_pane").show();
                     break;
-                case HTTP_BAD_REQUEST :
+                case 400 :
                     $('#error_container').html(xhr.responseText);
                     break;
             }
@@ -196,8 +191,9 @@ function Controller(bindings) {
             for(i in this.programs) {
                 var programId = this.programs[i];
                 var profiles = this.selectionModels[i].selectedList;
+                var waitlist = this.selectionModels[i].waitList;
                 if(profiles.length > 0) {
-                    items.push({ programId: programId , profiles: profiles});
+                    items.push({ programId: programId , profiles: profiles, waitlist: waitlist});
                 }
             }
         }
@@ -208,6 +204,7 @@ function Controller(bindings) {
                     var json = JSON.parse(data);
                     controller.billing = json.billing;
                     controller.details = json.details;
+                    controller.waitlist = json.waitlist;
                     if(params.display == 'single') {
                         controller.cart.renderBilling();
                     } else {
@@ -252,38 +249,25 @@ function Controller(bindings) {
     this.onAddAttendee = function(list, selectionModel, id) {
         var selectCount = selectionModel.selectedList.length;
         var maxCount = selectionModel.max;
+        var wait = selectCount >= maxCount;
         
-        selectionModel.select(id);
-        if(selectCount < (maxCount - 1)) {
-            list.add();
-        } else {
-            list.render();
-        }
+        selectionModel.select(id, wait);
+        list.add();
     };
     
-    this.onChangeAttendee = function(list, selectionModel, id, oldId) {
-        selectionModel.unselect(oldId);
-        selectionModel.select(id);
+    this.onChangeAttendee = function(list, selectionModel, newId, oldId) {
+        selectionModel.change(oldId, newId);
         list.render();
     };
 
     this.onRemoveAttendee = function(list, selectionModel, id) {
-        var selectCount = selectionModel.selectedList.length;
-        var maxCount = selectionModel.max;
-        
-        selectionModel.unselect(id);
-        if(selectCount < maxCount) {
-            list.remove();
-        } else {
-            list.render();
-        }
+        selectionModel.unselect({id: id});
+        list.remove();
     };
     
     this.onSelectAttendee = function(list, selectionModel, event) {
         var val = $(event.target).val();
         var lastVal = $(event.target).children(':nth-child(2)').val();
-        var selectCount = selectionModel.selectedList.length;
-        var maxCount = selectionModel.max;
         
         if(val == 'Remove') {
             this.onRemoveAttendee(list, selectionModel, lastVal);
@@ -424,7 +408,7 @@ function ShoppingCart() {
         }
         for(var i in controller.details) {
             var list = controller.attendeeLists[i];
-            list.renderDetails(controller.details[i]);
+            list.renderDetails(controller.details[i], controller.waitlist[i]);
         }
         
         this.setTitle(params.titles.review);
@@ -527,24 +511,47 @@ function AttendeeList(selectionModel, element) {
         var j;
         var selectedList = this.selectionModel.selectedList;
         var unselectedList = this.selectionModel.unselectedList;
+        var waitList = this.selectionModel.waitList;
+        var maxCount = this.selectionModel.max;
         var items;
+        var wait;
+        
         for(i = 0; i < this.length; i++) {
+            // Display
+            if(i == maxCount) {
+                $(element).append("<br /><h3>Wait List Attendees</h3><br />");
+            }
             
-            items = $('<select></select>');
+            if(i < maxCount) {
+                items = $('<select style="float:left;"></select>');
+            } else {
+                items= $('<select style="float:left;"></select>');
+            }
+            
             var needRemove = false;
             // Select either an attendee from the selection model
             // or put up the default message option
+//            alert(i + ":" + selectedList.length);
             if(i < selectedList.length) {
                 items.append('<option id="' + selectedList[i].id + '" value="Remove">Remove</option>');
                 items.append('<option value="' + selectedList[i].id + '" selected="selected">' + selectedList[i].name + '</option>');
                 needRemove = true;
+                wait = false;
             } else {
-                items.append('<option value="" selected="selected">Add Attendee</option>');
+                if(i < selectedList.length + waitList.length) {
+                    var j = i - selectedList.length;
+                    items.append('<option id="' + waitList[j].id + '" value="Remove">Remove</option>');
+                    items.append('<option value="' + waitList[j].id + '" selected="selected">' + waitList[j].name + '</option>');
+                    needRemove = true;
+                    wait = true;
+                } else {
+                    items.append('<option value="" selected="selected">Add Attendee</option>');
+                }
             }
             
             // Then fill out the list of unselected
-            for(j in unselectedList) {
-                items.append('<option value="' + unselectedList[j].id + '">' + unselectedList[j].name + '</option>');
+            for(k in unselectedList) {
+                items.append('<option value="' + unselectedList[k].id + '">' + unselectedList[k].name + '</option>');
             }
 
             // Add the items to the container
@@ -553,16 +560,17 @@ function AttendeeList(selectionModel, element) {
             // If this box has an attendee provide a remove button
             if(needRemove) {
                 var list = this;
-                var remove = $('<div style="float:right; margin-right:30px;" id="' + selectedList[i].id + '">X</div>');
+                var remove = $('<a id="' + (wait ? waitList[j].id : selectedList[i].id) + '" class="user_remove" href=""></a>');
                 $(element).append(remove);
                 remove.click(function(event) {
                     controller.onRemoveAttendee(list, list.selectionModel, event.target.id);
+                    return false;
                 });
             }
         }
     };
     
-    this.renderDetails = function(profiles) {
+    this.renderDetails = function(profiles, waitlist) {
         // Render the selection model as text for review
         $(element).empty();
         for(var i in profiles) {
@@ -584,6 +592,14 @@ function AttendeeList(selectionModel, element) {
             }
             $(element).append(container);
         }
+        if(waitlist.length > 0) {
+            var container = $("<div></div>");
+            container.append("<h1>Wait List</h1>");
+            for(var i in waitlist) {
+                container.append("<br /><span>" + waitlist[i].name + "</span>");
+            }
+            $(element).append(container);
+        }
     };
 }
 
@@ -593,28 +609,60 @@ function SelectionModel(profiles, spaces) {
     this.masterList = profiles;
     this.selectedList = new Array();
     this.unselectedList = profiles.slice();
+    this.waitList = new Array();
     this.max = Math.min(profiles.length, spaces);
     
-    this.select = function(id) {
+    this.find = function(id) {
+        for(i in this.selectedList) {
+            if(id == this.selectedList[i].id) {
+                return {wait: false, i: i};
+            }
+        }
+        for(i in this.waitList) {
+            if(id == this.waitList[i].id) {
+                return {wait: true, i: i};
+            }
+        }
+    };
+    
+    this.change = function(oldId, newId) {
+        var i;
+        var info = this.find(oldId);
+        this.unselect(info);
+        this.select(newId, info.wait);
+    };
+    
+    this.select = function(id, wait) {
         var i;
         for(i in this.unselectedList) {
             if(id == this.unselectedList[i].id) {
                 var user = this.unselectedList.splice(i, 1);
-                this.selectedList.push(user[0]);
+                if(wait) {
+                    this.waitList.push(user[0]);
+                } else {
+                    this.selectedList.push(user[0]);
+                }
                 break;
             }
         }
     };
     
-    this.unselect = function(id) {
-        var i;
-        for(i in this.selectedList) {
-            if(id == this.selectedList[i].id) {
-                var user = this.selectedList.splice(i, 1);
-                this.unselectedList.push(user[0]);
-                break;
+    this.unselect = function(info) {
+        if(info.wait == undefined) {
+            var info = this.find(info.id);
+        }
+        
+        var user;
+        if(info.wait) {
+            user = this.waitList.splice(info.i, 1);
+        } else {
+            user = this.selectedList.splice(info.i, 1);
+            if(this.waitList.length > 0) {
+                this.selectedList.push(this.waitList.splice(0, 1)[0]); 
             }
         }
+        
+        this.unselectedList.push(user[0]);
     };
     
     this.add = function(id, name) {

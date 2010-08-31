@@ -123,6 +123,7 @@ a.button_sign_in,
 div.button_sign_in            { display:block; width:112px; height:35px; background:url(../images/button_sign_in.png); }
 a.button_create_account,
 div.button_create_account     { width:140px; height:35px; background:url(../images/button_create_account.png); }
+a.user_remove,
 a.item_remove                 { float:right; display:block; width:16px; height:16px; background:url(../images/button_remove_item.png) no-repeat; }
 a.item_edit                   { float:right; display:block; width:18px; height:18px; background:url(../images/button_edit.png) no-repeat; }
 a.button_generic,

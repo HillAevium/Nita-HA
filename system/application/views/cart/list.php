@@ -17,7 +17,7 @@
                         <?php echo $spaces[0] . " Spaces Available"; ?>
                     </div>
                 </div>
-                <div style="float:left; width:150px;">
+                <div style="float:left; width:230px;">
                     <?php if($display == 'single'): ?>
                     <div id="item_price">
                         <?php echo '$'.$item['price']; ?>

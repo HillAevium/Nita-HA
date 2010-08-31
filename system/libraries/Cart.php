@@ -39,9 +39,9 @@ class CI_Cart {
 	 * Shopping Class Constructor
 	 *
 	 * The constructor loads the Session class, used to store the shopping cart contents.
-	 */		
+	 */
 	function CI_Cart($params = array())
-	{	
+	{
 		// Set the super object to a local variable for use later
 		$this->CI =& get_instance();
 		
@@ -66,8 +66,8 @@ class CI_Cart {
 		else
 		{
 			// No cart exists so we'll set some base values
-			$this->_cart_contents['cart_total'] = 0;		
-			$this->_cart_contents['total_items'] = 0;		
+			$this->_cart_contents['cart_total'] = 0;
+			$this->_cart_contents['total_items'] = 0;
 		}
 	
 		log_message('debug', "Cart Class Initialized");
@@ -91,14 +91,14 @@ class CI_Cart {
 			return FALSE;
 		}
 				
-		// You can either insert a single product using a one-dimensional array, 
+		// You can either insert a single product using a one-dimensional array,
 		// or multiple products using a multi-dimensional one. The way we
 		// determine the array type is by looking for a required array key named "id"
 		// at the top level. If it's not found, we will assume it's a multi-dimensional array.
 	
-		$save_cart = FALSE;		
+		$save_cart = FALSE;
 		if (isset($items['id']))
-		{			
+		{
 			if ($this->_insert($items) == TRUE)
 			{
 				$save_cart = TRUE;
@@ -114,7 +114,7 @@ class CI_Cart {
 					{
 						$save_cart = TRUE;
 					}
-				}			
+				}
 			}
 		}
 
@@ -206,11 +206,11 @@ class CI_Cart {
 		// --------------------------------------------------------------------
 		
 		// We now need to create a unique identifier for the item being inserted into the cart.
-		// Every time something is added to the cart it is stored in the master cart array.  
-		// Each row in the cart array, however, must have a unique index that identifies not only 
-		// a particular product, but makes it possible to store identical products with different options.  
-		// For example, what if someone buys two identical t-shirts (same product ID), but in 
-		// different sizes?  The product ID (and other attributes, like the name) will be identical for 
+		// Every time something is added to the cart it is stored in the master cart array.
+		// Each row in the cart array, however, must have a unique index that identifies not only
+		// a particular product, but makes it possible to store identical products with different options.
+		// For example, what if someone buys two identical t-shirts (same product ID), but in
+		// different sizes?  The product ID (and other attributes, like the name) will be identical for
 		// both sizes because it's the same shirt. The only difference will be the size.
 		// Internally, we need to treat identical submissions, but with different options, as a unique product.
 		// Our solution is to convert the options array to a string and MD5 it along with the product ID.
@@ -225,19 +225,19 @@ class CI_Cart {
 			// Technically, we don't need to MD5 the ID in this case, but it makes
 			// sense to standardize the format of array indexes for both conditions
 			$rowid = md5($items['id']);
-		}		
+		}
 
 		// --------------------------------------------------------------------
 
 		// Now that we have our unique "row ID", we'll add our cart items to the master array
 		
 		// let's unset this first, just to make sure our index contains only the data from this submission
-		unset($this->_cart_contents[$rowid]);		
+		unset($this->_cart_contents[$rowid]);
 		
 		// Create a new index with our new row ID
 		$this->_cart_contents[$rowid]['rowid'] = $rowid;
 	
-		// And add the new items to the cart array			
+		// And add the new items to the cart array
 		foreach ($items as $key => $val)
 		{
 			$this->_cart_contents[$rowid][$key] = $val;
@@ -252,7 +252,7 @@ class CI_Cart {
 	/**
 	 * Update the cart
 	 *
-	 * This function permits the quantity of a given item to be changed. 
+	 * This function permits the quantity of a given item to be changed.
 	 * Typically it is called from the "view cart" page if a user makes
 	 * changes to the quantity before checkout. That array must contain the
 	 * product ID and quantity for each item.
@@ -270,7 +270,7 @@ class CI_Cart {
 			return FALSE;
 		}
 			
-		// You can either update a single product using a one-dimensional array, 
+		// You can either update a single product using a one-dimensional array,
 		// or multiple products using a multi-dimensional one.  The way we
 		// determine the array type is by looking for a required array key named "id".
 		// If it's not found we assume it's a multi-dimensional array
@@ -292,7 +292,7 @@ class CI_Cart {
 					{
 						$save_cart = TRUE;
 					}
-				}			
+				}
 			}
 		}
 
@@ -311,7 +311,7 @@ class CI_Cart {
 	/**
 	 * Update the cart
 	 *
-	 * This function permits the quantity of a given item to be changed. 
+	 * This function permits the quantity of a given item to be changed.
 	 * Typically it is called from the "view cart" page if a user makes
 	 * changes to the quantity before checkout. That array must contain the
 	 * product ID and quantity for each item.
@@ -319,7 +319,7 @@ class CI_Cart {
 	 * @access	private
 	 * @param	array
 	 * @return	bool
-	 */	
+	 */
 	function _update($items = array())
 	{
 		// Without these array indexes there is nothing we can do
@@ -348,7 +348,7 @@ class CI_Cart {
 		// If the quantity is greater than zero we are updating
 		if ($items['qty'] == 0)
 		{
-			unset($this->_cart_contents[$items['rowid']]);		
+			unset($this->_cart_contents[$items['rowid']]);
 		}
 		else
 		{
@@ -389,7 +389,7 @@ class CI_Cart {
 		}
 
 		// Set the cart total and total items.
-		$this->_cart_contents['total_items'] = count($this->_cart_contents);			
+		$this->_cart_contents['total_items'] = count($this->_cart_contents);
 		$this->_cart_contents['cart_total'] = $total;
 	
 		// Is our cart empty?  If so we delete it from the session
@@ -406,7 +406,7 @@ class CI_Cart {
 		$this->CI->session->set_userdata(array('cart_contents' => $this->_cart_contents));
 
 		// Woot!
-		return TRUE;	
+		return TRUE;
 	}
 
 	// --------------------------------------------------------------------
@@ -501,6 +501,20 @@ class CI_Cart {
 
 	// --------------------------------------------------------------------
 	
+	function update_options($rowid = '', $options)
+	{
+	    log_message('error', 'Update Options: Enter');
+	    if ( ! isset($this->_cart_contents[$rowid]))
+	    {
+	        return;
+	    }
+	    log_message('error', 'Update Options: Set');
+	    log_message('error', print_r($options, true));
+	    $this->_cart_contents[$rowid]['options'] = $options;
+	}
+	
+	// --------------------------------------------------------------------
+	
 	/**
 	 * Format Number
 	 *
@@ -536,8 +550,8 @@ class CI_Cart {
 	{
 		unset($this->_cart_contents);
 	
-		$this->_cart_contents['cart_total'] = 0;		
-		$this->_cart_contents['total_items'] = 0;		
+		$this->_cart_contents['cart_total'] = 0;
+		$this->_cart_contents['total_items'] = 0;
 
 		$this->CI->session->unset_userdata('cart_contents');
 	}

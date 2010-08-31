@@ -47,7 +47,7 @@ JS;
             </div>
 
             <?php if($display == 'multi'): ?>
-            <a id="add_profile" href="" style="float:left;margin:20px 0;"></a>
+            <a class="button_add_profile" id="add_profile" href="" style="float:left;margin:20px 0;height:55px;line-height:55px;">Add Profile</a>
             <?php endif; ?>
             
             <!-- TODO - Fix buttons -->
